@@ -1,0 +1,13 @@
+<div class="tabs">
+  <div class="menu-tab">
+      <div class="tab-heading">
+        <button><</button>
+        <p>{{menu()?.menuName}}</p>
+      </div>
+      <div class="tab-links">
+        @for (tab of menu()?.menuTabNames; track $index) {
+            <a>{{tab}}</a>
+        }
+      </div>
+  </div>
+</div>
