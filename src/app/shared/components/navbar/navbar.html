@@ -1,1 +1,16 @@
-<p>navbar works!</p>
+<nav>
+  <div class="logo">
+    <h1>Proman</h1>
+    <button><<</button>
+  </div>
+  <div class="tabs-wrapper">
+    @for(menu of menuTabs; track $index){
+    <app-menu-tab [menu]="menu" ></app-menu-tab>
+    }
+  </div>
+  <div class="log-out">
+    <img src="" alt="">
+    <button>Log out</button>
+    <button>Settings</button>
+  </div>
+</nav>
