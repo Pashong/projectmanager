@@ -8,13 +8,13 @@ const saltRounds = 10;
 
 router.post('/', async (req, res) => {
   try {
-    const { firstName, lastName, email, password, password_repeated } = req.body;
+    const { firstName, lastName, email, password, passwordRepeat } = req.body;
 
     if (!firstName || !lastName || !email || !password){
         res.status(400).json({message: "All fields are required"});
     }
 
-    if(password !== password_repeated){
+    if(password !== passwordRepeat){
         res.status(400).json({message: "Password do not match!"});
     }
 
@@ -24,9 +24,9 @@ router.post('/', async (req, res) => {
     }
 
 
-    const hashed_password = bcrypt.hash(password, saltRounds);
-
-    const response = await pool.query(
+    const hashed_password = await bcrypt.hash(password, saltRounds);
+    console.log(hashed_password);
+     await pool.query(
       `insert into users(first_name, last_name, email, password) values ($1,$2,$3,$4)`,
       [firstName, lastName, email, hashed_password],
     );

@@ -12,7 +12,7 @@ export class AuthService {
       const response = await fetch('http://localhost:3030/login/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(form.value),
       });
       if (!response.ok) {
         console.error('Login failed');
@@ -29,12 +29,14 @@ export class AuthService {
       const reponse = await fetch('http://localhost:3030/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(form.value),
       });
 
       if(!reponse.ok){
         console.error("Couldnt register");
+        return;
       }
+      console.log("Registration successful");
     } catch (error) {
       console.error('Something went wrong while registering', error);
     }
