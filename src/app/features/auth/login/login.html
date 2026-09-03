@@ -1,5 +1,5 @@
 <div class="login-wrapper">
-    <form #logInForm="ngForm" (onSubmit)="login(logInForm)">
+    <form #logInForm="ngForm" (ngSubmit)="login(logInForm)">
         <label for="email">Email:</label>
         <input required id ="email" type="email" name="email" ngModel>
         <label for="password">Password:</label>
