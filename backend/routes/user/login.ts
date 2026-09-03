@@ -35,7 +35,13 @@ router.post('/', async (req, res) => {
       },
     );
 
-    res.json({ token });
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+    });
+
+    res.json({message: 'Login successful'});
   } catch (error) {}
 });
 
