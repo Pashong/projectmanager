@@ -1,13 +1,18 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { Navbar } from './shared/components/navbar/navbar';
+import { AuthService } from './features/auth/services/auth.service';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar],
+  imports: [Navbar, RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
+  private authService = inject(AuthService);
+
+  loggedIn = this.authService.isLoggedIn();
+
   protected title = 'projectmanager';
 }
