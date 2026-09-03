@@ -1,0 +1,16 @@
+<div class="register-wrapper">
+    <form #registerForm="ngForm" (onSubmit)="register(registerForm)">
+        <label for="firstName">First name:</label>
+        <input required type="text" name="firstName" ngModel>
+        <label for="lastName">Last name:</label>
+        <input required="" type="text" name="lastName" ngModel>
+        <label for="email">Email:</label>
+        <input required id="email" type="email" name="email" ngModel>
+        <label for="password">Password:</label>
+        <input id="password" required type="password" name="password" ngModel>
+        <label for="password">Repeat your password:</label>
+        <input required type="password" name="password" ngModel>
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a [routerLink]="['/login']">Log in</a></p>
+</div>
