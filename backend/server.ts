@@ -8,7 +8,7 @@ import loginRoute from "./routes/user/login";
 const app = express();
 
 app.use(cors());
-
+app.use(express.json());
 
 app.use("/login", loginRoute);
 app.use("/register", registerRoute);
