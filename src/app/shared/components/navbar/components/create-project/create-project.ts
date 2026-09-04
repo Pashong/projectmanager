@@ -9,13 +9,17 @@ import { ProjectsService } from '../../../../../features/projects/service/projec
   styleUrl: './create-project.scss',
 })
 export class CreateProject {
-  private projectService = inject(ProjectsService);
+  private projectsService = inject(ProjectsService);
+
+  projects = this.projectsService.projects;
 
   async createProject(form: NgForm) {
     try {
-      const result = await this.projectService.createProject(form.value);
-      this.projectService.newProject.set(false);
-      this.projectService.projectId = result.projectId;
+      const newProject = await this.projectsService.createProject(form.value);
+
+      this.projects.update(projects => [newProject, ...projects]);
+
+      this.projectsService.newProject.set(false);
     } catch (error) {
       console.log('Something went wrong during the creation', error);
     }

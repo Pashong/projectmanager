@@ -9,7 +9,7 @@ router.get('/', authenticateToken, async (req, res) => {
     const userId = req.user?.id;
 
     const result = await pool.query(
-      `SELECT project.id project.title, project.description, project.status, project.deadline, members.user_id
+      `SELECT project.id, project.title, project.description, project.status, project.deadline, members.user_id
         FROM public.project_users members 
         join public.projects project on members.project_id = project.id
         where members.user_id = $1
@@ -38,7 +38,7 @@ router.post('/create-project', authenticateToken, async (req, res) => {
     } = req.body;
 
     const result = await pool.query(
-      `insert into projects (title, description, status, deadline) values ($1,$2,$3,$4) returning id`,
+      `insert into projects (title, description, status, deadline) values ($1,$2,$3,$4) returning id, title, description, status, deadline`,
       [projectName, description, status, deadline],
     );
 
@@ -59,7 +59,7 @@ router.post('/create-project', authenticateToken, async (req, res) => {
       }
     }
 
-    return res.status(200).json({message: "Project was created", projectId: projectId});
+    return res.status(200).json({message: "Project was created", project: result.rows[0]});
 
   } catch (error) {
     console.log('Creating a project failed', error);
@@ -90,7 +90,7 @@ router.post('/update-status', authenticateToken, async (req, res) => {
   }
 });
 
-router.get('/delete-project/:projectId', async (req, res) => {
+router.delete('/delete-project/:projectId', async (req, res) => {
   try {
     const projectId = req.params.projectId;
 
@@ -100,7 +100,7 @@ router.get('/delete-project/:projectId', async (req, res) => {
         return res.status(404).json({message: "Project not found"});
     }
 
-    res.status(200).json({message: "Project deleted", projectId: result.rows[0].id})
+    res.status(200).json({message: "Project deleted"});
 
   } catch (error) {
     console.error(error);
