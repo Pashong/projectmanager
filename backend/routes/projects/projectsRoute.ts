@@ -30,7 +30,7 @@ router.post('/create-project', authenticateToken, async (req, res) => {
   try {
     const userId = req.user?.id;
     const {
-      title,
+      projectName,
       description,
       status = 'active',
       deadline,
@@ -39,7 +39,7 @@ router.post('/create-project', authenticateToken, async (req, res) => {
 
     const result = await pool.query(
       `insert into projects (title, description, status, deadline) values ($1,$2,$3,$4) returning id`,
-      [title, description, status, deadline],
+      [projectName, description, status, deadline],
     );
 
     const projectId = result.rows[0].id;
@@ -59,7 +59,7 @@ router.post('/create-project', authenticateToken, async (req, res) => {
       }
     }
 
-    res.status(200).json({message: "Project was created", projectId: projectId});
+    return res.status(200).json({message: "Project was created", projectId: projectId});
 
   } catch (error) {
     console.log('Creating a project failed', error);
