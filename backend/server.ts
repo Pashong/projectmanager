@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import {pool} from "./database/database";
 import registerRoute from "./routes/user/registerRoute";
 import loginRoute from "./routes/user/loginRoute";
+import projectsRoute from "./routes/projects/projectsRoute";
 
 
 const app = express();
