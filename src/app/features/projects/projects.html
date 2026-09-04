@@ -4,6 +4,9 @@
     <button>></button>
     <h1>Projects Overview</h1>
   </div>
+  @if (projects().length > 0) {
+    <button (click)="startNewProject()">Start a new project now!</button>
+  }
   <p>Amount: 5</p>
   <p>Open Tasks:8</p>
   <div class="projects-table-wrapper">
@@ -17,13 +20,14 @@
         </tr>
       </thead>
       <tbody>
-        @if (projects.length > 0) {
-          @for (project of projects; track $index) {
+        @if (projects().length > 0) {
+          @for (project of projects(); track project.id) {
             <tr scope="row">
               <th>{{ project.name }}</th>
               <td>{{ project.description }}</td>
               <td>{{ project.status }}</td>
               <td>{{ project.deadline }}</td>
+              <td><button (click)="deleteProject(project)">Delete</button></td>
             </tr>
           }
         } @else {
@@ -34,9 +38,9 @@
               </button>
             </td>
           </tr>
-          @if (newProject()) {
-            <app-create-project></app-create-project>
-          }
+        }
+        @if (newProject()) {
+          <app-create-project></app-create-project>
         }
       </tbody>
     </table>
