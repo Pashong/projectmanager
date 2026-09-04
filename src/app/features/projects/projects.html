@@ -17,7 +17,7 @@
         </tr>
       </thead>
       <tbody>
-        @if (projects.length === 0) {
+        @if (projects.length > 0) {
           @for (project of projects; track $index) {
             <tr scope="row">
               <th>{{ project.name }}</th>
@@ -29,9 +29,14 @@
         } @else {
           <tr>
             <td colspan="4">
-              <button>Start a new project now!</button>
+              <button (click)="startNewProject()">
+                Start a new project now!
+              </button>
             </td>
           </tr>
+          @if (newProject()) {
+            <app-create-project></app-create-project>
+          }
         }
       </tbody>
     </table>
