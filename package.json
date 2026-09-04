@@ -41,6 +41,7 @@
     "@angular/cli": "^20.0.5",
     "@angular/compiler-cli": "^20.0.0",
     "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jasmine": "~5.1.0",
