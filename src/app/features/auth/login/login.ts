@@ -18,7 +18,7 @@ export class Login {
     try {
       await this.authService.logIn(form);
 
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/projects']);
     } catch (error) {
       console.error('Login failed', error);
     }
