@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import cookieParser from "cookie-parser";
+import cookieParser from 'cookie-parser';
 import {pool} from "./database/database";
 import registerRoute from "./routes/user/registerRoute";
 import loginRoute from "./routes/user/loginRoute";
