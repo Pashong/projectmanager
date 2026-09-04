@@ -1,0 +1,39 @@
+<div class="projects-wrapper">
+  <div class="project-navbar">
+    <button><</button>
+    <button>></button>
+    <h1>Projects Overview</h1>
+  </div>
+  <p>Amount: 5</p>
+  <p>Open Tasks:8</p>
+  <div class="projects-table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Projectname</th>
+          <th scope="col">Open Tasks</th>
+          <th scope="col">Status</th>
+          <th scope="col">Deadline</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (projects.length === 0) {
+          @for (project of projects; track $index) {
+            <tr scope="row">
+              <th>{{ project.name }}</th>
+              <td>{{ project.description }}</td>
+              <td>{{ project.status }}</td>
+              <td>{{ project.deadline }}</td>
+            </tr>
+          }
+        } @else {
+          <tr>
+            <td colspan="4">
+              <button>Start a new project now!</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
