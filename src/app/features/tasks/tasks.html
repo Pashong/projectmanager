@@ -1,7 +1,7 @@
 @for (status of taskStatus; track $index) {
   <div class="tasks-wrapper">
     <h2>Your tasks:</h2>
-    @for (task of tasks; track task.id) {
+    @for (task of tasks(); track task.id) {
       <div class="task">
         @if (task.status === status) {
           <div class="task-header">
