@@ -67,16 +67,15 @@ router.post('/create-project', authenticateToken, async (req, res) => {
   }
 });
 
-router.post('/update-status', authenticateToken, async (req, res) => {
+router.put('/update-status', authenticateToken, async (req, res) => {
   try {
-    const status = req.body.status;
-    const projectId = req.body.projectId;
+    const { projectId, name, description, status, deadline } = req.body;
 
     if (!status || !projectId) return;
 
     const result = await pool.query(
-      `update projects set status = $1 where id = $2;`,
-      [status, projectId],
+      `update projects set title = $1, description = $2, status = $3, deadline = $4 where id = $5;`,
+      [name, description,status, deadline,projectId],
     );
 
     if(result.rowCount === 0){
