@@ -1,0 +1,22 @@
+@for (status of taskStatus; track $index) {
+  <div class="tasks-wrapper">
+    <h2>{{status}}:</h2>
+    @for (task of tasks(); track task.id) {
+      <div class="task">
+        @if (task.status === status) {
+          <div class="task-header">
+            <h3>{{ task.name }}</h3>
+            <p>{{ task.deadline }}</p>
+            <p>{{ task.status }}</p>
+          </div>
+          <div class="task-body">
+            <p>{{ task.description }}</p>
+          </div>
+          <button (click)="deleteTask(task)">Delete Task</button>
+          <!-- Need to add the update "window"  -->
+          <!-- <button (click)="updateTask(task)">Change</button> -->
+        }
+      </div>
+    }
+  </div>
+}
