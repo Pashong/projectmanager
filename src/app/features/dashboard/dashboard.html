@@ -1,0 +1,55 @@
+<div class="dashboard">
+  <div class="heading">
+    <h1>Dashboard</h1>
+    <p>Projects:</p>
+    <p>Open tasks:</p>
+  </div>
+  <div class="overview">
+    <div class="project-overview">
+      @for (project of projects(); track project.id) {
+        <div class="project">
+          <h2>{{ project.title }}</h2>
+          <p>{{ project.deadline }}</p>
+          <div class="tasks">
+            @for (task of tasks(); track task.id) {
+              @if (task.project_id === project.id) {
+                <div class="task">
+                  <app-open-update-task [currentProject]="project" [currentTask]="task"></app-open-update-task>
+                  <h3>{{ task.title }}</h3>
+                  <p>{{ task.status }}</p>
+                  <p>{{ task.description }}</p>
+                  <p>{{ task.deadline }}</p>
+                  @for (member of task.members; track member.id) {
+                    <p>{{ member.firstName }} {{ member.lastName }}</p>
+                  }
+                </div>
+              }
+            }
+          </div>
+        </div>
+      }
+    </div>
+    <div class="deadline-overview">
+      <h3>Task Deadlines:</h3>
+      <div class="tasks">
+        @for (task of sortedTasks; track task.id) {
+          <div class="task">
+            <button (click)="openChangeTask(task)">Change Task</button>
+            @if (changeTask()?.id === task.id) {
+              <app-update-task></app-update-task>
+            }
+            <h3>{{task.project_id}}</h3>
+            <h3>{{ task.title }}</h3>
+            <p>{{ task.status }}</p>
+            <p>{{ task.description }}</p>
+            <p>{{ task.deadline }}</p>
+
+            @for (member of task.members; track member.id) {
+              <p>{{ member.firstName }} {{ member.lastName }}</p>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

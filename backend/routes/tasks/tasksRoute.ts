@@ -4,9 +4,53 @@ import { pool } from '../../database/database';
 
 const router = express.Router();
 
+
+
+router.get('/', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user?.id;
+
+    const result = await pool.query(
+      `select tasks.*, 
+      COALESCE(
+        json_agg(
+            json_build_object(
+                'id', users.id,
+                'firstName', users.first_name,
+                'lastName', users.last_name,
+                'email', users.email
+            )
+        ) FILTER (WHERE users.id IS NOT NULL),
+        '[]'
+    ) AS members
+      from tasks join task_users tu on tu.task_id = tasks.id 
+	  join users on tu.user_id = users.id
+    and 
+    EXISTS (SELECT 1 from task_users current_tu
+    where current_tu.task_id = tasks.id
+    AND current_tu.user_id = $1)
+	  GROUP BY tasks.id`,
+      [userId],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'No tasks found' });
+    }
+
+    // muss noch call in frontend machen und service für tasks und ein task model erstellen
+    return res
+      .status(200)
+      .json({ message: 'Tasks loaded', tasks: result.rows });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+
 router.get('/:projectId', authenticateToken, async (req, res) => {
   try {
     const projectId = req.params.projectId;
+    const userId = req.user?.id;
 
     const result = await pool.query(
       `select tasks.*, 
@@ -116,7 +160,7 @@ router.put('/update-task', authenticateToken, async (req, res) => {
       members,
     } = req.body;
 
-    if (!id || !title || !description) {
+    if (!id || !title || !description || !project_id) {
       return res.status(404).json({ message: 'Not a valid task' });
     }
 

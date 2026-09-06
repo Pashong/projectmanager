@@ -8,15 +8,37 @@ import { ProjectsService } from '../../projects/service/projects.service';
   providedIn: 'root',
 })
 export class TaskService {
-  taskStatus: string[] = ['in progress', 'open', 'in review', 'done', ];
+  taskStatus: string[] = ['in progress', 'open', 'in review', 'done'];
   private projectService = inject(ProjectsService);
   project = this.projectService.project;
   tasks = signal<TaskModel[]>([]);
   task = signal<TaskModel | null>(null);
+  changeTask = signal(false);
 
-  async getTasks(projectId?:string) {
+  async getTasks(projectId?: string) {
     try {
-      const tasksResult = await fetch(`${environment.apiUrl}/tasks/${projectId}`, {
+      const tasksResult = await fetch(
+        `${environment.apiUrl}/tasks/${projectId}`,
+        {
+          method: 'get',
+          credentials: 'include',
+        },
+      );
+
+      if (!tasksResult.ok) {
+        throw new Error('Error Status: ' + tasksResult.status);
+      }
+
+      const data = await tasksResult.json();
+      return data.tasks;
+    } catch (error) {
+      console.error('Error status', error);
+    }
+  }
+
+  async getProjectsTasks() {
+    try {
+      const tasksResult = await fetch(`${environment.apiUrl}/tasks`, {
         method: 'get',
         credentials: 'include',
       });
@@ -78,8 +100,6 @@ export class TaskService {
 
   async updateTask(task: TaskModel) {
     try {
-      console.log("Task:", task);
-
       const response = await fetch(`${environment.apiUrl}/tasks/update-task`, {
         method: 'put',
         credentials: 'include',
@@ -98,19 +118,21 @@ export class TaskService {
     }
   }
 
-  async removeUserFromTask(taskId: number, userId: number){
-    try{
-      const response = await fetch(`${environment.apiUrl}/tasks/remove-user/${taskId}/${userId}`, {
-        method: 'delete',
-        credentials: 'include'
-      });
+  async removeUserFromTask(taskId: number, userId: number) {
+    try {
+      const response = await fetch(
+        `${environment.apiUrl}/tasks/remove-user/${taskId}/${userId}`,
+        {
+          method: 'delete',
+          credentials: 'include',
+        },
+      );
 
-      if(!response.ok){
-        throw new Error("Something went wrong removing the user from the task");
+      if (!response.ok) {
+        throw new Error('Something went wrong removing the user from the task');
       }
-    }
-    catch(error){
-      console.error("Remove User reponse status: ",error)
+    } catch (error) {
+      console.error('Remove User reponse status: ', error);
     }
   }
 }

@@ -18,10 +18,7 @@
                 <p>{{ member.firstName }} {{ member.lastName }}</p>
                 <button (click)="removeUser(task.id, member.id)">- Remove Member</button>
               }
-              <button (click)="openChangeTask(task)">Change</button>
-              @if (changeTask()?.id === task.id) {
-                <app-update-task></app-update-task>
-              }
+              <app-open-update-task [currentProject]="project()!" [currentTask]="task"></app-open-update-task>
             </div>
             <div class="task-body">
               <p>{{ task.description }}</p>

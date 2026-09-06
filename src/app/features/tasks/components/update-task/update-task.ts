@@ -1,7 +1,9 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, signal, output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { TaskService } from '../../service/task.service';
 import { ProjectsService } from '../../../projects/service/projects.service';
+import { TaskModel } from '../../model/task.model';
+import { ProjectModel } from '../../../projects/model/project.model';
 
 @Component({
   selector: 'app-update-task',
@@ -18,14 +20,18 @@ export class UpdateTask {
   noChanges = signal<boolean>(false);
   project = this.projectService.project;
   selectedMemberIds: number[] = [];
+  currentTask = input<TaskModel | null>();
+  currentProject = input<ProjectModel | null>();
 
   async taskUpdating(form: NgForm, taskId?: number) {
     try {
       const currentTask = {
         ...form.value,
         id: taskId,
-        project_id: this.task?.project_id,
+        project_id: this.currentTask()?.project_id,
       };
+
+      console.log('Current task', currentTask);
 
       if (
         this.task?.title === currentTask.title &&
@@ -37,12 +43,13 @@ export class UpdateTask {
         this.noChanges.set(true);
         return;
       }
+
+      currentTask.status.replace('-', ' ');
+
       this.noChanges.set(false);
       const data = await this.tasksService.updateTask(currentTask);
 
-      console.log(data.task);
-
-      const projectMembers = this.project()?.members ?? [];
+      const projectMembers = this.currentProject()?.members ?? [];
 
       const members = projectMembers.filter((member) =>
         data.members.includes(member.id),
@@ -62,5 +69,4 @@ export class UpdateTask {
       console.error(error);
     }
   }
-
 }
