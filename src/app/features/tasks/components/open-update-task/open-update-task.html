@@ -1,0 +1,10 @@
+<button (click)="toggleChangeTask()">Change</button>
+@if (changeTask(); as selectedTask) {
+
+  @if (changeTask()) {
+    <app-update-task
+      [currentTask]="currentTask()"
+      [currentProject]="currentProject()">
+    </app-update-task>
+  }
+}

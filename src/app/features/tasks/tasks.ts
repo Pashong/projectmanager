@@ -16,17 +16,19 @@ import {
   CdkDragPlaceholder,
   CdkDropListGroup,
 } from '@angular/cdk/drag-drop';
+import { OpenUpdateTask } from "./components/open-update-task/open-update-task";
 
 @Component({
   selector: 'app-tasks',
-  imports: [
+  imports: [OpenUpdateTask,
     CreateTask,
     UpdateTask,
     CdkDropList,
     CdkDrag,
     CdkDragPlaceholder,
     CdkDropListGroup,
-  ],
+    OpenUpdateTask
+],
   templateUrl: './tasks.html',
   styleUrl: './tasks.scss',
 })
@@ -92,10 +94,11 @@ export class Tasks {
     const task = event.item.data as TaskModel;
     const newStatus = event.container.id.replace('-', ' ');
 
-    if (newStatus !== task.status) {
-      task.status = newStatus;
-      await this.tasksService.updateTask(task);
+    if(newStatus !== task.status){
+          task.status = newStatus;
+          await this.tasksService.updateTask(task);
     }
+
 
     this.tasks.update((tasks) =>
       tasks.map((currentTask) =>

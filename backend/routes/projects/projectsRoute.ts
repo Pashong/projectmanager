@@ -9,11 +9,27 @@ router.get('/', authenticateToken, async (req, res) => {
     const userId = req.user?.id;
 
     const result = await pool.query(
-      `SELECT project.id, project.title, project.description, project.status, project.deadline, members.user_id
+      `SELECT project.id, project.title, project.description, project.status, project.deadline,
+          COALESCE(
+        json_agg(
+            json_build_object(
+                'id', users.id,
+                'firstName', users.first_name,
+                'lastName', users.last_name,
+                'email', users.email
+            )
+        ) FILTER (WHERE users.id IS NOT NULL),
+        '[]'
+    ) AS members
         FROM public.project_users members 
         join public.projects project on members.project_id = project.id
-        where members.user_id = $1
-        ORDER BY project.deadline
+        join public.users users on users.id = members.user_id
+        and EXISTS
+		(SELECT 1
+        FROM public.project_users pu_current_user
+        WHERE pu_current_user.project_id = project.id
+          AND pu_current_user.user_id = $1)
+        group by project.id
         `,
       [userId],
     );
@@ -46,9 +62,13 @@ router.get('/:projectId', authenticateToken, async (req, res) => {
         join public.projects project on members.project_id = project.id
         join public.users users on users.id = members.user_id
         where project.id = $1
-        group by project.id
-        `,
-      [projectId],
+        and 
+        EXISTS (SELECT 1
+        FROM public.project_users pu_current_user
+        WHERE pu_current_user.project_id = project.id
+          AND pu_current_user.user_id = $2)
+        group by project.id`,
+      [projectId, userId],
     );
 
     return res.json({ project: result.rows[0] });
