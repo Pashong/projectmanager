@@ -23,11 +23,10 @@ export class UpdateTask {
     try {
       const currentTask = {
         ...form.value,
-        taskId: taskId,
+        id: taskId,
         project_id: this.task?.project_id,
       };
 
-      console.log('Current Task: ', this.selectedMemberIds);
       if (
         this.task?.title === currentTask.title &&
         this.task?.description === currentTask.description &&
