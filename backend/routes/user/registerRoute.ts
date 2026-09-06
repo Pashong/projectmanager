@@ -25,7 +25,6 @@ router.post('/', async (req, res) => {
 
 
     const hashed_password = await bcrypt.hash(password, saltRounds);
-    console.log(hashed_password);
      await pool.query(
       `insert into users(first_name, last_name, email, password) values ($1,$2,$3,$4)`,
       [firstName, lastName, email, hashed_password],
@@ -33,7 +32,7 @@ router.post('/', async (req, res) => {
 
     res.json({message: "Account successfully registered"});
   } catch (error) {
-    console.log("Register error", error);
+    console.error("Register error", error);
     res.status(500).json({message: "Something went wrong while registering", details: error});
   }
 });
