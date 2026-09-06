@@ -12,7 +12,11 @@ import { RouterOutlet } from '@angular/router';
 export class App {
   private authService = inject(AuthService);
 
-  loggedIn = this.authService.isLoggedIn();
+  loggedIn = this.authService.isLoggedIn;
 
   protected title = 'projectmanager';
+
+  ngOnInit() {
+    this.authService.checkAuth();
+  }
 }

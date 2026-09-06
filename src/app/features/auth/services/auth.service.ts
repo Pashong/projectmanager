@@ -16,10 +16,10 @@ export class AuthService {
         body: JSON.stringify(form.value),
       });
       if (!response.ok) {
-        console.error('Login failed');
-      } else {
-        this.isLoggedIn.set(true);
+        throw Error('Login failed!');
       }
+
+      this.isLoggedIn.set(true);
     } catch (error) {
       console.error('Something went wrong while signing in', error);
     }
@@ -33,13 +33,29 @@ export class AuthService {
         body: JSON.stringify(form.value),
       });
 
-      if(!reponse.ok){
-        console.error("Couldnt register");
+      if (!reponse.ok) {
+        console.error('Couldnt register');
+        return;
+      }
+    } catch (error) {
+      console.error('Something went wrong while registering', error);
+    }
+  }
+
+  async checkAuth() {
+    try {
+      const response = await fetch('http://localhost:3030/auth/me', {
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        this.isLoggedIn.set(false);
         return;
       }
 
+      this.isLoggedIn.set(true);
     } catch (error) {
-      console.error('Something went wrong while registering', error);
+      this.isLoggedIn.set(false);
     }
   }
 }
