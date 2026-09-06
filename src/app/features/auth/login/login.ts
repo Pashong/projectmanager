@@ -17,7 +17,7 @@ export class Login {
   async login(form: NgForm) {
     try {
       await this.authService.logIn(form);
-      this.router.navigate(['/projects']);
+      this.router.navigate(['/dashboard']);
     } catch (error) {
       console.error('Login failed', error);
     }
