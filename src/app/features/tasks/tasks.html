@@ -23,7 +23,7 @@
             <div class="task-body">
               <p>{{ task.description }}</p>
             </div>
-            <button (click)="deleteTask(task)">Delete Task</button>
+              <app-delete-task [task]="task"></app-delete-task>
             <!-- Need to add the update "window"  -->
              <div cdkDragPlaceholder></div>
           </div>
