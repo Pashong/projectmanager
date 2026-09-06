@@ -23,10 +23,8 @@ import { OpenUpdateTask } from "./components/open-update-task/open-update-task";
   selector: 'app-tasks',
   imports: [DeleteTask,OpenUpdateTask,
     CreateTask,
-    UpdateTask,
     CdkDropList,
     CdkDrag,
-    CdkDragPlaceholder,
     CdkDropListGroup,
     OpenUpdateTask
 ],
