@@ -1,11 +1,11 @@
-<form #updateTask="ngForm" (ngSubmit)="taskUpdating(updateTask, task?.id)">
+<form #updateTask="ngForm" (ngSubmit)="taskUpdating(updateTask, currentTask()?.id)">
   <label for="taskName">Task:</label>
   <input
     required
     type="text"
     name="title"
     id="taskName"
-    [ngModel]="task?.title"
+    [ngModel]="currentTask()?.title"
     ;
   />
   <label for="description">Description:</label>
@@ -14,22 +14,22 @@
     type="text"
     name="description"
     id="description"
-    [ngModel]="task?.description"
+    [ngModel]="currentTask()?.description"
     ;
   />
   <!-- replace with a dropdown with autocomplete  -->
   <label for="members">Add Members</label>
   <select name="members" multiple [(ngModel)]="selectedMemberIds">
-    @for (member of project()?.members ?? []; track member.id) {
+    @for (member of currentProject()?.members ?? []; track member.id) {
       <option [ngValue]="member">
         {{ member.firstName }} {{ member.lastName }}
       </option>
     }
   </select>
   <label for="status">Status</label>
-  <select name="status" [ngModel]="task?.status">
+  <select name="status" [ngModel]="currentTask()?.status">
     @for (status of tasksStatus; track status) {
-      @if (status === task?.status) {
+      @if (status === currentTask()?.status) {
         <option [value]="status" selected>{{ status.toUpperCase() }}</option>
       } @else {
         <option [value]="status">{{ status.toUpperCase() }}</option>
@@ -42,7 +42,7 @@
     type="date"
     name="deadline"
     id="deadline"
-    [ngModel]="task?.deadline"
+    [ngModel]="currentTask()?.deadline"
   />
   @if (noChanges()) {
     <p>No changes made to the task</p>
