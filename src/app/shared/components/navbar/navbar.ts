@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { MenuTab } from './components/menu-tab/menu-tab';
 import { Menu } from './models/menu';
 
@@ -10,6 +10,7 @@ import { Menu } from './models/menu';
 })
 export class Navbar {
 
+  navbar = signal<boolean>(true);
   menuTabs: Menu[] = [
     {
       menuName: 'main menu',
@@ -27,4 +28,8 @@ export class Navbar {
       menuTabNames: [],
     },
   ];
+
+  toggleNavbar(){
+    this.navbar.update(value => !value);
+  }
 }
