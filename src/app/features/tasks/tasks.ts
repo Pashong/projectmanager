@@ -7,6 +7,7 @@ import { UpdateTask } from './components/update-task/update-task';
 import { ProjectsService } from '../projects/service/projects.service';
 import { MemberModel } from '../../shared/models/member.model';
 import { ActivatedRoute } from '@angular/router';
+import { DeleteTask } from './components/delete-task/delete-task';
 import {
   CdkDrag,
   CdkDragDrop,
@@ -20,7 +21,7 @@ import { OpenUpdateTask } from "./components/open-update-task/open-update-task";
 
 @Component({
   selector: 'app-tasks',
-  imports: [OpenUpdateTask,
+  imports: [DeleteTask,OpenUpdateTask,
     CreateTask,
     UpdateTask,
     CdkDropList,
@@ -98,7 +99,6 @@ export class Tasks {
           task.status = newStatus;
           await this.tasksService.updateTask(task);
     }
-
 
     this.tasks.update((tasks) =>
       tasks.map((currentTask) =>
