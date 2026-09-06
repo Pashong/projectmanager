@@ -7,10 +7,26 @@ import { UpdateTask } from './components/update-task/update-task';
 import { ProjectsService } from '../projects/service/projects.service';
 import { MemberModel } from '../../shared/models/member.model';
 import { ActivatedRoute } from '@angular/router';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList,
+  moveItemInArray,
+  transferArrayItem,
+  CdkDragPlaceholder,
+  CdkDropListGroup,
+} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-tasks',
-  imports: [CreateTask, UpdateTask],
+  imports: [
+    CreateTask,
+    UpdateTask,
+    CdkDropList,
+    CdkDrag,
+    CdkDragPlaceholder,
+    CdkDropListGroup,
+  ],
   templateUrl: './tasks.html',
   styleUrl: './tasks.scss',
 })
@@ -54,14 +70,42 @@ export class Tasks {
     this.changeTask.set(task);
   }
 
-  async removeUser(taskId: number,userId: number) {
-    try{
-    await this.tasksService.removeUserFromTask(taskId, userId);
-    this.tasks.update( (tasks) => tasks.map((task) => taskId === task.id ? {...task, members: task.members.filter(member => member.id !== userId)} : task));
+  async removeUser(taskId: number, userId: number) {
+    try {
+      await this.tasksService.removeUserFromTask(taskId, userId);
+      this.tasks.update((tasks) =>
+        tasks.map((task) =>
+          taskId === task.id
+            ? {
+                ...task,
+                members: task.members.filter((member) => member.id !== userId),
+              }
+            : task,
+        ),
+      );
+    } catch (error) {
+      console.error('Removing user failed ', error);
     }
-    catch(error){
-      console.error("Removing user failed ",error);
+  }
+
+  async drop(event: CdkDragDrop<TaskModel[]>) {
+    const task = event.item.data as TaskModel;
+    const newStatus = event.container.id.replace('-', ' ');
+
+    if (newStatus !== task.status) {
+      task.status = newStatus;
+      await this.tasksService.updateTask(task);
     }
 
+    this.tasks.update((tasks) =>
+      tasks.map((currentTask) =>
+        currentTask.id === task.id
+          ? {
+              ...currentTask,
+              status: newStatus,
+            }
+          : currentTask,
+      ),
+    );
   }
 }

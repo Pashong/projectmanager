@@ -108,7 +108,7 @@ router.put('/update-task', authenticateToken, async (req, res) => {
   try {
     const {
       project_id,
-      taskId,
+      id,
       title,
       description,
       status,
@@ -116,24 +116,25 @@ router.put('/update-task', authenticateToken, async (req, res) => {
       members,
     } = req.body;
 
-    if (!taskId || !title || !description) {
+    if (!id || !title || !description) {
       return res.status(404).json({ message: 'Not a valid task' });
     }
 
     const result = await pool.query(
       `update tasks set title = $1,project_id = $2, description =$3, status = $4, deadline = $5 where id = $6 returning id, title, project_id, description, status, deadline`,
-      [title, project_id, description, status, deadline, taskId],
+      [title, project_id, description, status, deadline, id],
     );
 
     if (result.rowCount === 0) {
       return res.status(404).json({ message: 'Task wasnt updated' });
     }
 
+    
     if (members.length > 0) {
       for (let i = 0; i < members.length; i++) {
          await pool.query(
-          'insert into task_users (task_id, user_id) values ($1, $2)',
-          [taskId, members[i]],
+          'insert into task_users (task_id, user_id) values ($1, $2) ON CONFLICT (task_id, user_id) DO NOTHING',
+          [id, members[i].id],
         );
       }
     }
@@ -143,7 +144,7 @@ router.put('/update-task', authenticateToken, async (req, res) => {
       `SELECT user_id
    FROM task_users
    WHERE task_id = $1`,
-      [taskId],
+      [id],
     );
 
     const taskMembers = taskMembersResult.rows.map((row) => row.user_id);
