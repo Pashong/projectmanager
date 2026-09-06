@@ -20,7 +20,40 @@ router.get('/', authenticateToken, async (req, res) => {
 
     return res.json({ projects: result.rows });
   } catch (error) {
-    console.log('Error getting projects', error);
+    console.error('Error getting projects', error);
+  }
+});
+
+router.get('/:projectId', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user?.id;
+    const projectId = req.params.projectId;
+
+    const result = await pool.query(
+      `SELECT project.id, project.title, project.description, project.status, project.deadline,
+          COALESCE(
+        json_agg(
+            json_build_object(
+                'id', users.id,
+                'firstName', users.first_name,
+                'lastName', users.last_name,
+                'email', users.email
+            )
+        ) FILTER (WHERE users.id IS NOT NULL),
+        '[]'
+    ) AS members
+        FROM public.project_users members 
+        join public.projects project on members.project_id = project.id
+        join public.users users on users.id = members.user_id
+        where project.id = $1
+        group by project.id
+        `,
+      [projectId],
+    );
+
+    return res.json({ project: result.rows[0] });
+  } catch (error) {
+    console.error('Error getting projects', error);
   }
 });
 
@@ -59,10 +92,11 @@ router.post('/create-project', authenticateToken, async (req, res) => {
       }
     }
 
-    return res.status(200).json({message: "Project was created", project: result.rows[0]});
-
+    return res
+      .status(200)
+      .json({ message: 'Project was created', project: result.rows[0] });
   } catch (error) {
-    console.log('Creating a project failed', error);
+    console.error('Creating a project failed', error);
     res.status(500).json({ message: 'error creating the project' });
   }
 });
@@ -75,16 +109,18 @@ router.put('/update-status', authenticateToken, async (req, res) => {
 
     const result = await pool.query(
       `update projects set title = $1, description = $2, status = $3, deadline = $4 where id = $5;`,
-      [name, description,status, deadline,projectId],
+      [name, description, status, deadline, projectId],
     );
 
-    if(result.rowCount === 0){
-        return res.status(404).json({message: "Updating the project status failed"});
+    if (result.rowCount === 0) {
+      return res
+        .status(404)
+        .json({ message: 'Updating the project status failed' });
     }
 
     return res.json({ projects: result.rows });
   } catch (error) {
-    console.log('Failed to update the status', error);
+    console.error('Failed to update the status', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
@@ -93,14 +129,15 @@ router.delete('/delete-project/:projectId', async (req, res) => {
   try {
     const projectId = req.params.projectId;
 
-    const result = await pool.query(`delete from projects where id = $1`, [projectId]);
+    const result = await pool.query(`delete from projects where id = $1`, [
+      projectId,
+    ]);
 
-    if(result.rowCount === 0){
-        return res.status(404).json({message: "Project not found"});
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'Project not found' });
     }
 
-    res.status(200).json({message: "Project deleted"});
-
+    res.status(200).json({ message: 'Project deleted' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

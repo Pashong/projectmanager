@@ -1,0 +1,52 @@
+<form #updateTask="ngForm" (ngSubmit)="taskUpdating(updateTask, task?.id)">
+  <label for="taskName">Task:</label>
+  <input
+    required
+    type="text"
+    name="title"
+    id="taskName"
+    [ngModel]="task?.title"
+    ;
+  />
+  <label for="description">Description:</label>
+  <input
+    required
+    type="text"
+    name="description"
+    id="description"
+    [ngModel]="task?.description"
+    ;
+  />
+  <!-- replace with a dropdown with autocomplete  -->
+  <label for="members">Add Members</label>
+  <select name="members" multiple [(ngModel)]="selectedMemberIds">
+    @for (member of project()?.members ?? []; track member.id) {
+      <option [ngValue]="member.id">
+        {{ member.firstName }} {{ member.lastName }}
+      </option>
+    }
+  </select>
+  <label for="status">Status</label>
+  <select name="status" [ngModel]="task?.status">
+    @for (status of tasksStatus; track status) {
+      @if (status === task?.status) {
+        <option [value]="status" selected>{{ status.toUpperCase() }}</option>
+      } @else {
+        <option [value]="status">{{ status.toUpperCase() }}</option>
+      }
+    }
+  </select>
+  <label for="deadline">Deadline</label>
+  <input
+    required
+    type="date"
+    name="deadline"
+    id="deadline"
+    [ngModel]="task?.deadline"
+  />
+  @if (noChanges()) {
+    <p>No changes made to the task</p>
+  }
+
+  <button type="submit">Update Project</button>
+</form>

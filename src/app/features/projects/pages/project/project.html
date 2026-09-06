@@ -1,0 +1,26 @@
+<div class="project-wrapper">
+  <div class="project-stats">
+    @if (project(); as project) {
+      <h1>{{ project.title }}</h1>
+      <p>{{ project.status }}</p>
+      <p>{{ project.deadline }}</p>
+    }
+  </div>
+  <div class="project-others">
+    <button>Overview</button>
+    <button>Timeline</button>
+    <button>Files</button>
+    <button>Archive</button>
+    <div class="members">
+      @if (project(); as project) {
+        @for (member of project.members; track $index) {
+          <img src="" alt="" />
+          <p>{{ member.firstName }} {{ member.lastName }}</p>
+        }
+      }
+    </div>
+  </div>
+  <div class="tasks-wrapper">
+    <app-tasks ></app-tasks>
+  </div>
+</div>

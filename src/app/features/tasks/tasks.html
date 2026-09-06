@@ -1,22 +1,32 @@
-@for (status of taskStatus; track $index) {
-  <div class="tasks-wrapper">
-    <h2>{{status}}:</h2>
-    @for (task of tasks(); track task.id) {
-      <div class="task">
+<div class="tasks-wrapper">
+  @for (status of taskStatus; track status) {
+    <div class="task-wrapper">
+      <h2>{{ status }}:</h2>
+      <app-create-task [status]="status"></app-create-task>
+      @for (task of tasks(); track task.id) {
         @if (task.status === status) {
-          <div class="task-header">
-            <h3>{{ task.name }}</h3>
-            <p>{{ task.deadline }}</p>
-            <p>{{ task.status }}</p>
+          <div class="task">
+            <div class="task-header">
+              <h3>{{ task.title }}</h3>
+              <p>{{ task.deadline }}</p>
+              <p>{{ task.status }}</p>
+              @for (member of task.members; track member.id) {
+                <p>{{ member.firstName }} {{ member.lastName }}</p>
+                <button (click)="removeUser(task.id, member.id)">- Remove Member</button>
+              }
+              <button (click)="openChangeTask(task)">Change</button>
+              @if (changeTask()?.id === task.id) {
+                <app-update-task></app-update-task>
+              }
+            </div>
+            <div class="task-body">
+              <p>{{ task.description }}</p>
+            </div>
+            <button (click)="deleteTask(task)">Delete Task</button>
+            <!-- Need to add the update "window"  -->
           </div>
-          <div class="task-body">
-            <p>{{ task.description }}</p>
-          </div>
-          <button (click)="deleteTask(task)">Delete Task</button>
-          <!-- Need to add the update "window"  -->
-          <!-- <button (click)="updateTask(task)">Change</button> -->
         }
-      </div>
-    }
-  </div>
-}
+      }
+    </div>
+  }
+</div>

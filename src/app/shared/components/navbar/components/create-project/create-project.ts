@@ -21,7 +21,7 @@ export class CreateProject {
 
       this.projectsService.newProject.set(false);
     } catch (error) {
-      console.log('Something went wrong during the creation', error);
+      console.error('Something went wrong during the project creation', error);
     }
   }
 }

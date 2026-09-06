@@ -13,6 +13,7 @@ body{
     margin: 0;
     min-height: 100vh;
     color: var(--text);
+    background-color: black;
     p{
         color: var(--text_paragraph);
     }
@@ -24,3 +25,4 @@ body{
     padding: 1rem;
     background-color: var(--main);
 }
+

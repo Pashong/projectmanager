@@ -10,6 +10,7 @@ import { ProjectModel } from '../model/project.model';
 export class ProjectsService {
   newProject = signal<boolean>(false);
   projects = signal<ProjectModel[]>([]);
+  project = signal<ProjectModel | null>(null);
 
   async getProjects() {
     try {
@@ -25,13 +26,31 @@ export class ProjectsService {
 
       return data.projects;
     } catch (error) {
-      console.log('Fetching projects failed', error);
+      console.error('Fetching projects failed', error);
+    }
+  }
+
+  async getProject(projectId: string): Promise<ProjectModel> {
+    try {
+      const response = await fetch(`${environment.apiUrl}/projects/${projectId}`, {
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Reponse status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      return data.project;
+    } catch (error) {
+      console.error('Fetching projects failed', error);
+      throw error;
     }
   }
 
   async createProject(values: ProjectCreationModel) {
     try {
-      console.log(values);
       const response = await fetch(
         `${environment.apiUrl}/projects/create-project`,
         {
@@ -54,23 +73,21 @@ export class ProjectsService {
     }
   }
 
+  async deleteProject(projectId: number) {
+    try {
+      const response = await fetch(
+        `${environment.apiUrl}/projects/delete-project/${projectId}`,
+        {
+          method: 'delete',
+          credentials: 'include',
+        },
+      );
 
-  async deleteProject(projectId: number){
-
-    try{
-      const response = await fetch(`${environment.apiUrl}/projects/delete-project/${projectId}`, {
-        method: 'delete',
-        credentials: 'include'
-      });
-
-      if(!response.ok){
+      if (!response.ok) {
         throw new Error(`Reponse error ${response.status}`);
       }
-      
+    } catch (error) {
+      console.error('Something went wrong deleting your project', error);
     }
-    catch(error){
-      console.error("Something went wrong deleting your project", error);
-    }
-
   }
 }
