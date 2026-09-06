@@ -21,7 +21,7 @@
   <label for="members">Add Members</label>
   <select name="members" multiple [(ngModel)]="selectedMemberIds">
     @for (member of project()?.members ?? []; track member.id) {
-      <option [ngValue]="member.id">
+      <option [ngValue]="member">
         {{ member.firstName }} {{ member.lastName }}
       </option>
     }

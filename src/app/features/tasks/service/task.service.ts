@@ -78,6 +78,8 @@ export class TaskService {
 
   async updateTask(task: TaskModel) {
     try {
+      console.log("Task:", task);
+
       const response = await fetch(`${environment.apiUrl}/tasks/update-task`, {
         method: 'put',
         credentials: 'include',
