@@ -22,8 +22,8 @@
       <tbody>
         @if (projects().length > 0) {
           @for (project of projects(); track project.id) {
-            <tr scope="row">
-              <th>{{ project.name }}</th>
+            <tr scope="row" [routerLink]="['/projects', project.id]">
+              <th>{{ project.title }}</th>
               <td>{{ project.description }}</td>
               <td>{{ project.status }}</td>
               <td>{{ project.deadline }}</td>

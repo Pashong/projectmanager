@@ -1,17 +1,22 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environments';
 import { NgForm } from '@angular/forms';
 import { TaskModel } from '../model/task.model';
+import { ProjectsService } from '../../projects/service/projects.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
+  taskStatus: string[] = ['in progress', 'open', 'in review', 'done', ];
+  private projectService = inject(ProjectsService);
+  project = this.projectService.project;
   tasks = signal<TaskModel[]>([]);
+  task = signal<TaskModel | null>(null);
 
-  async getTasks() {
+  async getTasks(projectId?:string) {
     try {
-      const tasksResult = await fetch(`${environment.apiUrl}/tasks`, {
+      const tasksResult = await fetch(`${environment.apiUrl}/tasks/${projectId}`, {
         method: 'get',
         credentials: 'include',
       });
@@ -21,26 +26,31 @@ export class TaskService {
       }
 
       const data = await tasksResult.json();
-
       return data.tasks;
     } catch (error) {
       console.error('Error status', error);
     }
   }
 
-  async createTask(form: NgForm) {
+  async createTask(form: NgForm, status?: string) {
     try {
-      const result = await fetch(`${environment.apiUrl}/tasks/create-task`, {
+      const task = {
+        ...form.value,
+        projectId: this.project()?.id,
+        status: status ?? form.value.status,
+      };
+
+      const response = await fetch(`${environment.apiUrl}/tasks/create-task`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form.value),
+        body: JSON.stringify(task),
       });
 
-      if (!result.ok) {
-        throw new Error('Error Status: ' + result.status);
+      if (!response.ok) {
+        throw new Error('Error Status: ' + response.status);
       }
-      const data = await result.json();
+      const data = await response.json();
 
       return data;
     } catch (error) {
@@ -50,19 +60,17 @@ export class TaskService {
 
   async deleteTask(task: TaskModel) {
     try {
-      const result = await fetch(
-        `${environment.apiUrl}/tasks/create-task/${task.id}`,
+      const response = await fetch(
+        `${environment.apiUrl}/tasks/delete-task/${task.id}`,
         {
           method: 'delete',
           credentials: 'include',
         },
       );
 
-      if (!result.ok) {
-        throw new Error('Error Status: ' + result.status);
+      if (!response.ok) {
+        throw new Error('Error Status: ' + response.status);
       }
-
-
     } catch (error) {
       console.error('Error status', error);
     }
@@ -70,21 +78,37 @@ export class TaskService {
 
   async updateTask(task: TaskModel) {
     try {
-      const result = await fetch(`${environment.apiUrl}/tasks/update-task`, {
+      const response = await fetch(`${environment.apiUrl}/tasks/update-task`, {
         method: 'put',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(task),
       });
 
-      if (!result.ok) {
-        throw new Error('Error Status: ' + result.status);
+      if (!response.ok) {
+        throw new Error('Error Status: ' + response.status);
       }
-      const data = await result.json();
+      const data = await response.json();
 
-      return data.task;
+      return data;
     } catch (error) {
       console.error('Error status', error);
+    }
+  }
+
+  async removeUserFromTask(taskId: number, userId: number){
+    try{
+      const response = await fetch(`${environment.apiUrl}/tasks/remove-user/${taskId}/${userId}`, {
+        method: 'delete',
+        credentials: 'include'
+      });
+
+      if(!response.ok){
+        throw new Error("Something went wrong removing the user from the task");
+      }
+    }
+    catch(error){
+      console.error("Remove User reponse status: ",error)
     }
   }
 }

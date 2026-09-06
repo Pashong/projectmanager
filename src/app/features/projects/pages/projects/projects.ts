@@ -2,10 +2,11 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ProjectsService } from '../../service/projects.service';
 import { ProjectModel } from '../../model/project.model';
 import { CreateProject } from '../../../../shared/components/navbar/components/create-project/create-project';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-projects',
-  imports: [CreateProject],
+  imports: [CreateProject, RouterLink],
   templateUrl: './projects.html',
   styleUrl: './projects.scss',
 })

@@ -1,7 +1,10 @@
+import { MemberModel } from "../../../shared/models/member.model";
+
 export interface ProjectModel {
   id: number,
-  name: string,
+  title: string,
   description: string,
   status: string,
   deadline: Date,
+  members: MemberModel[],
 }
