@@ -1,8 +1,11 @@
+import { MemberModel } from "../../../shared/models/member.model"
+
 export interface TaskModel {
     id: number,
-    projectId: number,
-    name: string,
+    project_id: number,
+    title: string,
     description: string,
     status: string,
-    deadline: Date
+    deadline: string,
+    members: MemberModel[]
 }

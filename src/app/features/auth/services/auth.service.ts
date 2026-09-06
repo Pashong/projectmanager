@@ -37,7 +37,7 @@ export class AuthService {
         console.error("Couldnt register");
         return;
       }
-      console.log("Registration successful");
+
     } catch (error) {
       console.error('Something went wrong while registering', error);
     }
