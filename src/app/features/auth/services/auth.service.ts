@@ -50,12 +50,14 @@ export class AuthService {
 
       if (!response.ok) {
         this.isLoggedIn.set(false);
-        return;
+        return false;
       }
 
       this.isLoggedIn.set(true);
+      return true;
     } catch (error) {
       this.isLoggedIn.set(false);
+      return false;
     }
   }
 }
