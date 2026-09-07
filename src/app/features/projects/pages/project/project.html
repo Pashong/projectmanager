@@ -1,0 +1,35 @@
+<div class="project-page-wrapper">
+  <h1>Project</h1>
+  <div class="project-wrapper">
+    @if (project(); as project) {
+      <div class="project">
+        <h4>{{ project.title }}</h4>
+        <div class="stats-wrapper">
+          <div class="stats">
+            <div class="status">
+              <p>Status</p>
+              <p class="black">{{ project.status }}</p>
+            </div>
+            <div class="deadline">
+              <p>Deadline</p>
+              <p class="black">{{ project.deadline | date: "yyyy-MM-dd" }}</p>
+            </div>
+            <div class="members-wrapper">
+              <p>Members</p>
+              <div class="members">
+                @for (member of project.members; track member.id) {
+                  <div class="member">
+                    <p>{{ member.firstName[0] }}</p>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+    <div class="tasks-container">
+      <app-tasks></app-tasks>
+    </div>
+  </div>
+</div>

@@ -1,16 +1,27 @@
 <nav>
-  <div class="logo">
-    <h1>Proman</h1>
-    <button><<</button>
-  </div>
-  <div class="tabs-wrapper">
-    @for(menu of menuTabs; track $index){
-    <app-menu-tab [menu]="menu" ></app-menu-tab>
-    }
-  </div>
-  <div class="log-out">
-    <img src="" alt="">
-    <button>log out</button>
-    <button>Settings</button>
+  @if (navbar()) {
+    <div class="logo">
+      <h1>Proman</h1>
+      <button (click)="toggleNavbar()"><<</button>
+    </div>
+
+    <div class="nav-links" [class.open]="isOpen()">
+      <div class="tabs-wrapper">
+        @for (menu of menuTabs; track $index) {
+          <app-menu-tab [menu]="menu"></app-menu-tab>
+        }
+      </div>
+      <div class="log-out">
+        <img src="" alt="" />
+        <button (click)="logout()" class="btn-fill"><i class="fa-solid fa-right-from-bracket"></i>Log out</button>
+      </div>
+    </div>
+  } @else {
+    <button (click)="toggleNavbar()">>></button>
+  }
+  <div class="mobile-menu" (click)="toggleNavbar('mobile')" >
+    <span></span>
+    <span></span>
+    <span></span>
   </div>
 </nav>

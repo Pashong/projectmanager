@@ -1,19 +1,22 @@
 <div class="register-wrapper">
+    <h1>Register</h1>
     <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
-        <label for="firstName">First name:</label>
-        <input required type="text" name="firstName" ngModel>
-        <label for="lastName">Last name:</label>
-        <input required="" type="text" name="lastName" ngModel>
-        <label for="email">Email:</label>
-        <input required id="email" type="email" name="email" ngModel>
-        <label for="password">Password:</label>
-        <input id="password" required type="password" name="password" ngModel>
-        <label for="password">Repeat your password:</label>
-        <input required id="password-repeat" type="password" name="passwordRepeat" ngModel>
-        @if(passwordMismatch){
-            <h4 style="color: red;">The passwords do not match!</h4>
-        }
-        <button type="submit">Register</button>
+        <div class="form-content-wrapper">
+            <label for="firstName">First name:</label>
+            <input required type="text" name="firstName" ngModel>
+            <label for="lastName">Last name:</label>
+            <input required="" type="text" name="lastName" ngModel>
+            <label for="email">Email:</label>
+            <input required id="email" type="email" name="email" ngModel>
+            <label for="password">Password:</label>
+            <input id="password" required type="password" name="password" ngModel>
+            <label for="password">Repeat your password:</label>
+            <input required id="password-repeat" type="password" name="passwordRepeat" ngModel>
+            @if(passwordMismatch){
+                <h4 style="color: red;">The passwords do not match!</h4>
+            }
+        </div>
+        <button type="submit" class="btn-fill">Sign up</button>
     </form>
     <p>Already have an account? <a [routerLink]="['/login']">Log in</a></p>
 </div>

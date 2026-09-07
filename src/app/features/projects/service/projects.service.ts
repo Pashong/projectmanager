@@ -1,45 +1,122 @@
 import { Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environments';
 import { NgForm } from '@angular/forms';
+import { ProjectCreationModel } from '../../../shared/components/navbar/components/create-project/model/project-creation.model';
+import { ProjectModel } from '../model/project.model';
+import { MemberModel } from '../../../shared/models/member.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectsService {
   newProject = signal<boolean>(false);
-  projectId = signal<number>(0);
+  projects = signal<ProjectModel[]>([]);
+  project = signal<ProjectModel | null>(null);
 
   async getProjects() {
     try {
-      const response = await fetch(`${environment.apiUrl}/projects`);
+      const response = await fetch(`${environment.apiUrl}/projects`, {
+        credentials: 'include',
+      });
 
       if (!response.ok) {
         throw new Error(`Reponse status: ${response.status}`);
-      } else {
-        const data = await response.json();
-        return data;
       }
+
+      const data = await response.json();
+
+      return data.projects;
     } catch (error) {
-      console.log('Fetching projects failed', error);
+      console.error('Fetching projects failed', error);
     }
   }
 
-  async createProject(form: NgForm) {
+  async getProject(projectId: string): Promise<ProjectModel> {
     try {
-      const response = await fetch(`${environment.apiUrl}/projects/create-project`, {
-        credentials: 'include',
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form.value),
-      });
+      const response = await fetch(
+        `${environment.apiUrl}/projects/${projectId}`,
+        {
+          credentials: 'include',
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`Reponse status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      return data.project;
+    } catch (error) {
+      console.error('Fetching projects failed', error);
+      throw error;
+    }
+  }
+
+  async createProject(values: ProjectCreationModel) {
+    try {
+      const response = await fetch(
+        `${environment.apiUrl}/projects/create-project`,
+        {
+          credentials: 'include',
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(values),
+        },
+      );
 
       if (!response.ok) {
         throw new Error('Reponse status creation: ' + response.status);
       }
 
-      return await response.json();
+      const data = await response.json();
+
+      return data.project;
     } catch (error) {
       console.error('Something went wrong creating your project', error);
+    }
+  }
+
+  async deleteProject(projectId: number) {
+    try {
+      const response = await fetch(
+        `${environment.apiUrl}/projects/delete-project/${projectId}`,
+        {
+          method: 'delete',
+          credentials: 'include',
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`Reponse error ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Something went wrong deleting your project', error);
+    }
+  }
+
+  async getUsers() {
+    try {
+      const response = await fetch(`${environment.apiUrl}/users`, {
+        credentials: 'include',
+      });
+
+      if(!response.ok){
+        throw new Error("Something went wrong fetching users");
+      }
+
+      const data = await response.json();
+
+      
+      return data.users.map((user: any): MemberModel => ({
+        id: user.id,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        email: user.email
+      }));
+
+    } catch (error) {
+      console.error('fetching users failed', error);
     }
   }
 }

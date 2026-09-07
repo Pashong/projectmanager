@@ -1,0 +1,92 @@
+<div class="projects-wrapper">
+  <div class="project-navbar">
+    <button><</button>
+    <button>></button>
+  </div>
+
+  <div class="projects-title">
+    <h1>Projects</h1>
+  </div>
+  <div class="projects-list-wrapper">
+    @if (projects().length > 0) {
+      <button (click)="startNewProject()" class="btn-fill">+ Project</button>
+      @if (newProject()) {
+        <app-create-project></app-create-project>
+      }
+
+      @for (project of projects(); track project.id) {
+        <div class="project">
+          <div class="project-heading">
+            <h3 [routerLink]="['/projects', project.id]">
+              {{ project.title }}
+            </h3>
+            <div class="stats">
+              <div class="status">
+                <p>Status</p>
+                <p class="black">{{ project.status }}</p>
+              </div>
+              <div class="deadline">
+                <p>Deadline</p>
+                <p class="black">{{ project.deadline | date: "yyyy-MM-dd" }}</p>
+              </div>
+              <div class="members-wrapper">
+                <p>Members</p>
+                <div class="members">
+                  @for (member of project.members; track member.id) {
+                    <div class="member">
+                      <p>{{ member.firstName[0] }}</p>
+                    </div>
+                  }
+                </div>
+              </div>
+              <button (click)="deleteProject(project)" class="delete-btn">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    } @else {
+      <tr>
+        <td colspan="4">
+          <button (click)="startNewProject()">Start a new project now!</button>
+        </td>
+      </tr>
+    }
+
+    <!-- <table>
+        <thead>
+          <tr>
+            <th scope="col">Projectname</th>
+            <th scope="col">Open Tasks</th>
+            <th scope="col">Status</th>
+            <th scope="col">Deadline</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (projects().length > 0) {
+            @for (project of projects(); track project.id) {
+              <tr scope="row" [routerLink]="['/projects', project.id]">
+                <th>{{ project.title }}</th>
+                <td>{{ project.description }}</td>
+                <td>{{ project.status }}</td>
+                <td>{{ project.deadline }}</td>
+                <td><button (click)="deleteProject(project)">Delete</button></td>
+              </tr>
+            }
+          } @else {
+            <tr>
+              <td colspan="4">
+                <button (click)="startNewProject()">
+                  Start a new project now!
+                </button>
+              </td>
+            </tr>
+          }
+          @if (newProject()) {
+            <app-create-project></app-create-project>
+          }
+        </tbody>
+      </table> -->
+  </div>
+</div>

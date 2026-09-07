@@ -1,26 +1,256 @@
 /* You can add global styles to this file, and also import other style files */
-:root{
-    --main: rgb(79,79,212);
-    --secondary: rgb(79,146,212);
-    --accent: rgb(146,79,212);
+:root {
+    --main: rgb(79, 79, 212);
+    --secondary: rgb(79, 146, 212);
+    --accent: rgb(146, 79, 212);
 
-    --text: rgb(244,244,244);
-    --text_paragraph: rgb(230,230,230);
+    --text: rgb(244, 244, 244);
+    --text_paragraph: rgb(0, 0, 0);
+
+
+
+    --text2: rgb(244, 244, 244);
+    --text_paragraph2: rgb(175, 175, 175);
+
+    font-family: "Manrope", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
 
-body{
+body {
     box-sizing: border-box;
     margin: 0;
     min-height: 100vh;
     color: var(--text);
-    p{
+
+    p {
         color: var(--text_paragraph);
+        margin: 0.2rem 0;
+    }
+
+    a {
+        color: inherit;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        margin: 0.4rem 0;
+    }
+
+
+}
+
+.navbar {
+    padding: 1rem;
+    background-color: var(--main);
+}
+
+
+:host {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    // border: solid 3px yellow;
+    // /* for debugging purposes */
+}
+
+.main {
+    min-height: 100%;
+}
+
+
+.btn-fill {
+    background-color: var(--accent);
+    border: none;
+    border-radius: 24px;
+    height: 40px;
+    color: white;
+    font-size: 20px;
+    transition: all 2s;
+    min-width: 120px;
+
+    &:hover {
+        background-color: var(--secondary);
     }
 }
 
-.navbar{
-    width: 20%;
-    min-height: 100%;
+.chevron-down {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+
+    &.open {
+        rotate: 180deg;
+    }
+}
+
+
+// projects
+
+.project {
+    background-color: white;
+
     padding: 1rem;
-    background-color: var(--main);
+    border-radius: 24px;
+
+    .project-heading {
+        display: flex;
+        flex-direction: column;
+
+        h3 {
+            margin: 0.2rem 0;
+        }
+
+    }
+}
+
+
+.members {
+    display: flex;
+    min-width: fit-content;
+    .member {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--secondary);
+        color: white;
+        border-radius: 24px;
+        height: 20px;
+        width: 20px;
+        margin-left: -8px;
+        box-shadow: 1px 1px 2px var(--accent);
+
+        &:nth-child(odd) {
+            background-color: var(--accent);
+        }
+    }
+}
+
+.status,
+.deadline,
+.members-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+        margin: 0.2rem 0;
+        font-size: 12px;
+
+        &:first-of-type {
+            color: var(--text_paragraph2);
+        }
+    }
+}
+
+.members {
+    flex-direction: row-reverse;
+}
+
+.stats {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    align-items: end;
+}
+
+// task
+
+.task-heading {
+    gap: 24px;
+}
+
+.task-wrapper {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 24px;
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.project-overview {
+    order: 2;
+}
+
+.task-description {
+    display: none;
+
+    &.open {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.task-title {
+    display: flex;
+    min-width: fit-content;
+}
+
+.add-task-btn {
+    background: var(--accent);
+    color: white;
+    height: 30px;
+    width: 100px;
+    border-radius: 24px;
+    border: none;
+}
+
+.open-change-task-btn {
+    background: none;
+    border: none;
+    color: var(--text_paragraph2);
+}
+
+
+.delete-member {
+    display: none;
+
+    &.open {
+        display: block;
+        position: absolute;
+        height: 20px;
+        width: 20px;
+        background: var(--secondary);
+        border: none;
+        top: -28px;
+        color: white;
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid var(--secondary);
+        }
+    }
+}
+
+
+input {
+    height: 32px;
+    border-radius: 24px;
+    border: none;
+    padding: 0 1rem;
+    &:focus{
+        outline: 2px solid var(--accent);
+    }
 }
