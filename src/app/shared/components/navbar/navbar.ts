@@ -15,21 +15,14 @@ export class Navbar {
   private router = inject(Router);
 
   navbar = signal<boolean>(true);
+  isOpen = signal<boolean>(false);
   menuTabs: Menu[] = [
     {
-      menuName: 'main menu',
+      menuName: 'Main Menu',
       menuTabNames: [
         'Dashboard',
-        'Tasks',
         'Projects',
-        'Documents',
-        'Team',
-        'Calendar',
       ],
-    },
-    {
-      menuName: 'projects',
-      menuTabNames: [],
     },
   ];
 
@@ -43,7 +36,14 @@ export class Navbar {
     }
   }
 
-  toggleNavbar(){
+  toggleNavbar(el?: string){
+
+    if(el){
+      this.isOpen.update((value) => !value);
+      return;
+    }
+    
     this.navbar.update(value => !value);
   }
+
 }

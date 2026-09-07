@@ -1,8 +1,6 @@
-<div class="main">
-  @if (loggedIn()) {
-    <div class="navbar">
-      <app-navbar></app-navbar>
-    </div>
-  }
-  <router-outlet></router-outlet>
-</div>
+@if (loggedIn()) {
+  <div class="navbar">
+    <app-navbar></app-navbar>
+  </div>
+}
+<router-outlet></router-outlet>

@@ -3,10 +3,11 @@ import { ProjectsService } from '../../service/projects.service';
 import { ProjectModel } from '../../model/project.model';
 import { CreateProject } from '../../../../shared/components/navbar/components/create-project/create-project';
 import { RouterLink } from "@angular/router";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-projects',
-  imports: [CreateProject, RouterLink],
+  imports: [CreateProject, RouterLink, DatePipe],
   templateUrl: './projects.html',
   styleUrl: './projects.scss',
 })
@@ -17,7 +18,7 @@ newProject = this.projectsService.newProject;
 projects = this.projectsService.projects;
 
 startNewProject(){
- this.projectsService.newProject.set(true);
+ this.projectsService.newProject.update(value => !value);
 }
   
 ngOnInit(){

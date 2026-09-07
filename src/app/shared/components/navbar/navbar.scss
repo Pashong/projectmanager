@@ -1,0 +1,58 @@
+nav {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    .logo {
+
+        button {
+            display: none;
+        }
+
+    }
+
+    .nav-links {
+        display: none;
+        padding: 1rem;
+        transition: all 2s ease-in;
+
+        &.open{
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            border-top: 2px solid var(--secondary);
+            border-bottom: 2px solid var(--secondary);
+            background-color: var(--main);
+            top: 70px;
+            left: -17px;
+            width: 100%;
+            z-index: 2;
+            gap: 24px;
+        }
+
+    }
+
+}
+
+
+.btn-fill{
+    width: 100%;
+}
+
+.mobile-menu{
+    cursor: pointer;
+    span{
+        display: block;
+        height: 6px;
+        width: 30px;
+        margin-bottom: 0.4rem;
+        border-radius: 24px;
+        background-color: white;
+    }
+}
+
+button i{
+    margin-right: 12px;
+}
+
