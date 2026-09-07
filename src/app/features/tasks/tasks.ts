@@ -8,6 +8,7 @@ import { ProjectsService } from '../projects/service/projects.service';
 import { MemberModel } from '../../shared/models/member.model';
 import { ActivatedRoute } from '@angular/router';
 import { DeleteTask } from './components/delete-task/delete-task';
+import { DatePipe } from '@angular/common';
 import {
   CdkDrag,
   CdkDragDrop,
@@ -21,13 +22,15 @@ import { OpenUpdateTask } from "./components/open-update-task/open-update-task";
 
 @Component({
   selector: 'app-tasks',
-  imports: [DeleteTask,OpenUpdateTask,
+  imports: [DatePipe,
+    DeleteTask,
+    OpenUpdateTask,
     CreateTask,
     CdkDropList,
     CdkDrag,
     CdkDropListGroup,
-    OpenUpdateTask
-],
+    OpenUpdateTask,
+  ],
   templateUrl: './tasks.html',
   styleUrl: './tasks.scss',
 })
@@ -41,6 +44,9 @@ export class Tasks {
   task = this.tasksService.task;
   changeTask = signal<TaskModel | null>(null);
   project = this.projectService.project;
+
+  taskDetails = signal<number | null>(null);
+  deleteMember = signal<{taskId: number, userId: number }| null>(null);
 
   async deleteTask(currentTask: TaskModel) {
     try {
@@ -93,9 +99,9 @@ export class Tasks {
     const task = event.item.data as TaskModel;
     const newStatus = event.container.id.replace('-', ' ');
 
-    if(newStatus !== task.status){
-          task.status = newStatus;
-          await this.tasksService.updateTask(task);
+    if (newStatus !== task.status) {
+      task.status = newStatus;
+      await this.tasksService.updateTask(task);
     }
 
     this.tasks.update((tasks) =>
@@ -107,6 +113,16 @@ export class Tasks {
             }
           : currentTask,
       ),
+    );
+  }
+
+  openDeleteMember(id: number, taskId: number){
+    this.deleteMember.update((current) => current?.taskId === taskId && current.userId === id ? null : {taskId: taskId, userId: id});
+  }
+
+  openTaskDetails(task: TaskModel) {
+    this.taskDetails.update((currentId) =>
+      currentId === task.id ? null : task.id,
     );
   }
 }

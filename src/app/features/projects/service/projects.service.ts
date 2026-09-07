@@ -3,6 +3,7 @@ import { environment } from '../../../../environments/environments';
 import { NgForm } from '@angular/forms';
 import { ProjectCreationModel } from '../../../shared/components/navbar/components/create-project/model/project-creation.model';
 import { ProjectModel } from '../model/project.model';
+import { MemberModel } from '../../../shared/models/member.model';
 
 @Injectable({
   providedIn: 'root',
@@ -32,16 +33,19 @@ export class ProjectsService {
 
   async getProject(projectId: string): Promise<ProjectModel> {
     try {
-      const response = await fetch(`${environment.apiUrl}/projects/${projectId}`, {
-        credentials: 'include',
-      });
+      const response = await fetch(
+        `${environment.apiUrl}/projects/${projectId}`,
+        {
+          credentials: 'include',
+        },
+      );
 
       if (!response.ok) {
         throw new Error(`Reponse status: ${response.status}`);
       }
 
       const data = await response.json();
-      
+
       return data.project;
     } catch (error) {
       console.error('Fetching projects failed', error);
@@ -88,6 +92,31 @@ export class ProjectsService {
       }
     } catch (error) {
       console.error('Something went wrong deleting your project', error);
+    }
+  }
+
+  async getUsers() {
+    try {
+      const response = await fetch(`${environment.apiUrl}/users`, {
+        credentials: 'include',
+      });
+
+      if(!response.ok){
+        throw new Error("Something went wrong fetching users");
+      }
+
+      const data = await response.json();
+
+      
+      return data.users.map((user: any): MemberModel => ({
+        id: user.id,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        email: user.email
+      }));
+
+    } catch (error) {
+      console.error('fetching users failed', error);
     }
   }
 }

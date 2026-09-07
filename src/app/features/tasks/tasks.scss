@@ -1,11 +1,33 @@
-.tasks-wrapper{
+.task-wrapper {
     display: flex;
-    background-color: var(--secondary);
+    flex-direction: column;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 24px;
 }
-.task-wrapper{
-    width: 40%; 
+
+#status {
+    margin-bottom: 24px;
 }
 
 .task {
-    background-color: black;
+    border-bottom: 2px solid rgb(from var(--secondary) r g b / 30%);
+    margin-bottom: 1rem;
+}
+
+.task-title {
+    align-items: center;
+}
+
+.task-title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.task-status-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
 }

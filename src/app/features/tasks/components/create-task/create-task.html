@@ -1,30 +1,47 @@
-<button (click)="openCreateTask()">+ Task</button>
+<button (click)="openCreateTask()" class="add-task-btn">Add Task</button>
 
 @if (taskCreation()) {
-  <div class="task-creation overlay">
-    <div class="task-creation-wrapper">
-      <h2>Create a task</h2>
+  <div class="creation overlay">
+    <div class="creation-wrapper">
+      <h2>Create Task</h2>
       @if (status()) {
-        <p>{{ status() }}</p>
+        <p>Status: {{ status() }}</p>
         <form
           #taskCreation="ngForm"
-          (ngSubmit)="createTask(taskCreation,status()!)"
+          (ngSubmit)="createTask(taskCreation, status()!)"
         >
-          <label for="taskName">Task:</label>
-          <input required type="text" name="name" id="taskName" ngModel />
-          <label for="description">Description:</label>
-          <input
-            required
-            type="text"
-            name="description"
-            id="description"
-            ngModel
-          />
-          <label for="members">Add Members</label>
-          <input type="text" name="members" id="members" ngModel />
-          <label for="deadline">Deadline</label>
-          <input required type="date" name="deadline" id="deadline" ngModel />
-          <button type="submit">Create Task</button>
+          <div class="input-wrapper">
+            <label for="taskName">Task:</label>
+            <input required type="text" name="name" id="taskName" ngModel />
+          </div>
+          <div class="input-wrapper">
+            <label for="description">Description:</label>
+            <input
+              required
+              type="text"
+              name="description"
+              id="description"
+              ngModel
+            />
+          </div>
+          <div class="input-wrapper">
+            <label for="members">Add Members</label>
+            <select name="members" multiple [(ngModel)]="selectedMemberIds">
+              @for (
+                member of currentProject()?.members ?? [];
+                track member.id
+              ) {
+                <option [ngValue]="member">
+                  {{ member.firstName }} {{ member.lastName }}
+                </option>
+              }
+            </select>
+          </div>
+          <div class="input-wrapper">
+            <label for="deadline">Deadline</label>
+            <input required type="date" name="deadline" id="deadline" ngModel />
+          </div>
+          <button type="submit" class="btn-fill">Create Task</button>
         </form>
       } @else {
         <form #taskCreation="ngForm" (ngSubmit)="createTask(taskCreation)">
@@ -48,7 +65,7 @@
           </select>
           <label for="deadline">Deadline</label>
           <input required type="date" name="deadline" id="deadline" ngModel />
-          <button type="submit">Create Task</button>
+          <button type="submit" class="btn-fill">Create Task</button>
         </form>
       }
     </div>
