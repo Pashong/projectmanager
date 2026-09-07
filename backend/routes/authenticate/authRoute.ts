@@ -11,6 +11,4 @@ router.get("/me", authenticateToken, (req , res) => {
 });
 
 
-
-
 export default router;
