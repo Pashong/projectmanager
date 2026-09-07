@@ -1,7 +1,106 @@
-.overview{
-    display: flex;
+.dashboard {
+    padding: 1rem;
+    color: black;
+
+    h2 {
+        color: white;
+    }
+
+    .heading {
+        display: flex;
+        color: black;
+    }
+
+
+    .project {
+
+        .task {
+            border-bottom: 2px solid rgb(from var(--secondary) r g b / 30%);
+            margin-bottom: 1rem;
+        }
+
+    }
 }
 
-.task{
+
+.overview-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+
+// .members {
+//     display: flex;
+
+//     .member {
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+//         background-color: var(--secondary);
+//         color: white;
+//         border-radius: 24px;
+//         height: 20px;
+//         width: 20px;
+//         margin-left: -8px;
+//         box-shadow: 1px 1px 2px var(--accent);
+
+//         &:nth-child(odd) {
+//             background-color: var(--accent);
+//         }
+//     }
+// }
+
+.overview {
+    display: flex;
+    flex-direction: column;
     background-color: var(--main);
+    border-radius: 24px;
+    padding: 1rem;
+    gap: 24px;
+}
+
+.black {
+    color: black;
+}
+
+
+
+.task-heading {
+    gap: 24px;
+}
+
+.task-wrapper {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 24px;
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.project-overview {
+    order: 2;
+}
+
+.task-description {
+    display: none;
+
+    &.open {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.task-title {
+    display: flex;
+    min-width: fit-content;
+}
+
+
+
+:host {
+    padding: 1rem;
 }
