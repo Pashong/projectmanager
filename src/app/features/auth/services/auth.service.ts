@@ -60,4 +60,23 @@ export class AuthService {
       return false;
     }
   }
+
+
+  async logout(){
+    try{
+      const response = await fetch('http://localhost:3030/logout', {
+        method: "post",
+        credentials: 'include',
+      });
+
+      if(!response.ok){
+        throw new Error(`Logout failed: ${response.status}`);
+      }
+
+      this.isLoggedIn.set(false);
+
+    }catch(error){
+      console.error("Failed to logout", error);
+    }
+  }
 }
