@@ -4,10 +4,11 @@ import { TaskService } from '../../../tasks/service/task.service';
 import { Tasks } from '../../../tasks/tasks';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectModel } from '../../model/project.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-project',
-  imports: [Tasks],
+  imports: [Tasks, DatePipe],
   templateUrl: './project.html',
   styleUrl: './project.scss',
 })

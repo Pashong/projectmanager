@@ -4,10 +4,10 @@ import { TaskService } from '../tasks/service/task.service';
 import { UpdateTask } from '../tasks/components/update-task/update-task';
 import { TaskModel } from '../tasks/model/task.model';
 import { OpenUpdateTask } from "../tasks/components/open-update-task/open-update-task";
-
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-dashboard',
-  imports: [UpdateTask, OpenUpdateTask],
+  imports: [UpdateTask, OpenUpdateTask, DatePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -18,6 +18,8 @@ export class Dashboard {
   tasks = this.tasksService.tasks;
   changeTask = signal<TaskModel | null>(null);
   sortedTasks: TaskModel[] | null = null;
+
+  taskDetails = signal<number | null>(null);
 
   openChangeTask(task: TaskModel) {
     if (task) {
@@ -36,5 +38,12 @@ export class Dashboard {
     this.projects.set(projectsData);
     this.tasks.set(tasksData);
     this.sortedTasks = [...tasksData].sort((a,b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
+  }
+
+
+  openTaskDetails(task: TaskModel){
+      this.taskDetails.update((currentId) =>
+        currentId === task.id ? null : task.id,
+      );
   }
 }
