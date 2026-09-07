@@ -10,15 +10,16 @@ export class AuthService {
   async logIn(form: NgForm) {
     try {
       const response = await fetch('http://localhost:3030/login/', {
+        credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form.value),
       });
       if (!response.ok) {
-        console.error('Login failed');
-      } else {
-        this.isLoggedIn.set(true);
+        throw Error('Login failed!');
       }
+
+      this.isLoggedIn.set(true);
     } catch (error) {
       console.error('Something went wrong while signing in', error);
     }
@@ -32,13 +33,50 @@ export class AuthService {
         body: JSON.stringify(form.value),
       });
 
-      if(!reponse.ok){
-        console.error("Couldnt register");
+      if (!reponse.ok) {
+        console.error('Couldnt register');
         return;
       }
-      console.log("Registration successful");
     } catch (error) {
       console.error('Something went wrong while registering', error);
+    }
+  }
+
+  async checkAuth() {
+    try {
+      const response = await fetch('http://localhost:3030/auth/me', {
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        this.isLoggedIn.set(false);
+        return false;
+      }
+
+      this.isLoggedIn.set(true);
+      return true;
+    } catch (error) {
+      this.isLoggedIn.set(false);
+      return false;
+    }
+  }
+
+
+  async logout(){
+    try{
+      const response = await fetch('http://localhost:3030/logout', {
+        method: "post",
+        credentials: 'include',
+      });
+
+      if(!response.ok){
+        throw new Error(`Logout failed: ${response.status}`);
+      }
+
+      this.isLoggedIn.set(false);
+
+    }catch(error){
+      console.error("Failed to logout", error);
     }
   }
 }

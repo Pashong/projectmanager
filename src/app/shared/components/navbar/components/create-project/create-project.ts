@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ProjectsService } from '../../../../../features/projects/service/projects.service';
+import { MemberModel } from '../../../../models/member.model';
 
 @Component({
   selector: 'app-create-project',
@@ -9,15 +10,32 @@ import { ProjectsService } from '../../../../../features/projects/service/projec
   styleUrl: './create-project.scss',
 })
 export class CreateProject {
-  private projectService = inject(ProjectsService);
+  private projectsService = inject(ProjectsService);
 
+  projects = this.projectsService.projects;
+  selectedMemberIds: number[] = [];
+  users = signal<MemberModel[]>([]); 
+  
   async createProject(form: NgForm) {
     try {
-      const result = await this.projectService.createProject(form.value);
-      this.projectService.newProject.set(false);
-      this.projectService.projectId = result.projectId;
+      const newProject = await this.projectsService.createProject(form.value);
+
+      this.projects.update((projects) => [newProject, ...projects]);
+
+      this.projectsService.newProject.set(false);
     } catch (error) {
-      console.log('Something went wrong during the creation', error);
+      console.error('Something went wrong during the project creation', error);
+    }
+  }
+
+  async ngOnInit() {
+    try {
+      const users = await this.projectsService.getUsers();
+
+      this.users.set(users);
+     
+    } catch (error) {
+      console.log('Users data failed', error);
     }
   }
 }
