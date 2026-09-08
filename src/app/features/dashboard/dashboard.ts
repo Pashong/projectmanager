@@ -4,10 +4,11 @@ import { TaskService } from '../tasks/service/task.service';
 import { TaskModel } from '../tasks/model/task.model';
 import { DatePipe } from '@angular/common';
 import { Tasks } from '../tasks/tasks';
+import { UpdateProject } from '../projects/components/update-project/update-project';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [Tasks, DatePipe],
+  imports: [ UpdateProject,Tasks, DatePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -27,7 +28,6 @@ export class Dashboard {
   taskDetails = signal<{ taskId: number; source: 'tasks' | 'projects' } | null>(
     null,
   );
-
 
   openChangeTask(task: TaskModel) {
     if (task) {

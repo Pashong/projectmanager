@@ -33,8 +33,6 @@ export class UpdateTask {
         project_id: this.currentTask()?.project_id,
       };
 
-      console.log('Current task', currentTask);
-
       if (
         this.task?.title === currentTask.title &&
         this.task?.description === currentTask.description &&
@@ -56,6 +54,8 @@ export class UpdateTask {
       const members = projectMembers.filter((member) =>
         data.members.includes(member.id),
       );
+
+      this.closeChangeMenu.emit();
 
       this.tasks.update((tasks) =>
         tasks.map((task) =>
