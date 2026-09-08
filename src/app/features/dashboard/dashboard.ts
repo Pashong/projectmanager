@@ -5,6 +5,7 @@ import { UpdateTask } from '../tasks/components/update-task/update-task';
 import { TaskModel } from '../tasks/model/task.model';
 import { OpenUpdateTask } from "../tasks/components/open-update-task/open-update-task";
 import { DatePipe } from '@angular/common';
+import { ProjectModel } from '../projects/model/project.model';
 @Component({
   selector: 'app-dashboard',
   imports: [UpdateTask, OpenUpdateTask, DatePipe],
@@ -19,7 +20,7 @@ export class Dashboard {
   changeTask = signal<TaskModel | null>(null);
   sortedTasks: TaskModel[] | null = null;
 
-  taskDetails = signal<number | null>(null);
+  taskDetails = signal<{taskId: number, source: 'tasks' | 'projects'} | null>(null);
 
   openChangeTask(task: TaskModel) {
     if (task) {
@@ -41,9 +42,9 @@ export class Dashboard {
   }
 
 
-  openTaskDetails(task: TaskModel){
-      this.taskDetails.update((currentId) =>
-        currentId === task.id ? null : task.id,
+  openTaskDetails(task: TaskModel, source: 'tasks' | 'projects'){
+      this.taskDetails.update((current) =>
+        current?.taskId === task.id && current?.source === source ? null : {taskId: task.id, source: source},
       );
   }
 }

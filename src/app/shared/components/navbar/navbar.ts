@@ -2,7 +2,8 @@ import { Component, inject, input, signal } from '@angular/core';
 import { MenuTab } from './components/menu-tab/menu-tab';
 import { Menu } from './models/menu';
 import { AuthService } from '../../../features/auth/services/auth.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -19,31 +20,29 @@ export class Navbar {
   menuTabs: Menu[] = [
     {
       menuName: 'Main Menu',
-      menuTabNames: [
-        'Dashboard',
-        'Projects',
-      ],
+      menuTabNames: ['Dashboard', 'Projects'],
     },
   ];
 
-  async logout(){
-    try{
+  async logout() {
+    try {
       await this.authService.logout();
       this.router.navigate(['/login']);
-    }
-    catch(error){
+    } catch (error) {
       console.log(error);
     }
   }
 
-  toggleNavbar(el?: string){
-
-    if(el){
+  toggleNavbar(el?: string) {
+    if (el) {
       this.isOpen.update((value) => !value);
       return;
     }
-    
-    this.navbar.update(value => !value);
+
+    this.navbar.update((value) => !value);
   }
 
+  ngOnInit() {
+    this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(() => this.isOpen.set(false));
+  }
 }
