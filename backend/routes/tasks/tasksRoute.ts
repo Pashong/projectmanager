@@ -184,12 +184,12 @@ router.put('/update-task', authenticateToken, async (req, res) => {
     }
 
 
-    const taskMembersResult = await pool.query(
-      `SELECT user_id
-   FROM task_users
-   WHERE task_id = $1`,
-      [id],
-    );
+      const taskMembersResult = await pool.query(
+        `SELECT user_id
+    FROM task_users
+    WHERE task_id = $1`,
+        [id],
+      );
 
     const taskMembers = taskMembersResult.rows.map((row) => row.user_id);
 

@@ -119,4 +119,33 @@ export class ProjectsService {
       console.error('fetching users failed', error);
     }
   }
+
+  async updateProject(form: NgForm, projectId: number){
+    try{
+
+      const project = {
+        ...form.value,
+        id: projectId
+      }
+
+      console.log(project);
+        const response = await fetch(`${environment.apiUrl}/projects/update-project`, {
+        method: 'put',
+        credentials: 'include',
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify(project)
+      });
+
+      if(!response.ok){
+        throw new Error("Failed updating the project " + response.status);
+      }
+
+      const data = await response.json();
+
+      return data;
+    }
+    catch(error){
+      console.error("Updating project failed", error)
+    }
+  }
 }
