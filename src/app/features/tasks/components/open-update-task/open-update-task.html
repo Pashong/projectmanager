@@ -1,10 +1,11 @@
-<button (click)="toggleChangeTask()" class="open-change-task-btn"><i class="fa-solid fa-pen"></i></button>
-@if (changeTask(); as selectedTask) {
-
-  @if (changeTask()) {
-    <app-update-task
-      [currentTask]="currentTask()"
-      [currentProject]="currentProject()">
-    </app-update-task>
-  }
+<button (click)="toggleChangeTask()" class="open-change-task-btn">
+  <i class="fa-solid fa-pen"></i>
+</button>
+@if (changeTask()) {
+  <app-update-task
+    [currentTask]="currentTask()"
+    [currentProject]="currentProject()"
+    (closeChangeMenu)="changeTask.set(false)"
+  >
+  </app-update-task>
 }

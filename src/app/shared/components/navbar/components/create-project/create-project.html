@@ -1,6 +1,8 @@
 <div class="creation overlay">
   <div class="creation-wrapper">
-    <h2>Create a project</h2>
+    <div class="create-heading">
+      <h2>Create a project</h2>
+    </div>
     <form #projectCreation="ngForm" (ngSubmit)="createProject(projectCreation)">
       <label for="projectName">Projectname:</label>
       <input required type="text" name="projectName" id="projectName" ngModel />
@@ -23,7 +25,12 @@
       <label for="deadline">Deadline</label>
       <!-- maybe add current date as base value -->
       <input required type="date" name="deadline" id="deadline" ngModel />
-      <button type="submit" class="btn-fill">Create Project</button>
+      <div class="btn-wrapper">
+        <button type="button" (click)="closeCreateMenu.emit()" class="btn-hollow">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <button type="submit" class="btn-fill">Create Project</button>
+      </div>
     </form>
   </div>
 </div>
