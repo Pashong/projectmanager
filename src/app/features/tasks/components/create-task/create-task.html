@@ -3,7 +3,9 @@
 @if (taskCreation()) {
   <div class="creation overlay">
     <div class="creation-wrapper">
-      <h2>Create Task</h2>
+      <div class="create-wrapper">
+        <h2>Create Task</h2>
+      </div>
       @if (status()) {
         <p>Status: {{ status() }}</p>
         <form
@@ -41,7 +43,12 @@
             <label for="deadline">Deadline</label>
             <input required type="date" name="deadline" id="deadline" ngModel />
           </div>
-          <button type="submit" class="btn-fill">Create Task</button>
+          <div class="btn-wrapper">
+            <button type="button" (click)="openCreateTask()" class="btn-hollow">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+            <button type="submit" class="btn-fill">Create Task</button>
+          </div>
         </form>
       } @else {
         <form #taskCreation="ngForm" (ngSubmit)="createTask(taskCreation)">
@@ -65,7 +72,12 @@
           </select>
           <label for="deadline">Deadline</label>
           <input required type="date" name="deadline" id="deadline" ngModel />
-          <button type="submit" class="btn-fill">Create Task</button>
+          <div class="btn-wrapper">
+            <button  type="button" (click)="openCreateTask()" class="btn-hollow">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+            <button type="submit" class="btn-fill">Create Task</button>
+          </div>
         </form>
       }
     </div>

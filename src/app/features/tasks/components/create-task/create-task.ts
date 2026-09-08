@@ -16,7 +16,6 @@ export class CreateTask {
   status = input<string>();
   taskCreation = signal<boolean>(false);
   currentProject = input<ProjectModel | null>();
-
   selectedMemberIds: number[] = [];
 
   openCreateTask() {
