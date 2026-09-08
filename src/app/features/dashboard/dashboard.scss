@@ -1,7 +1,88 @@
-.overview{
+.dashboard {
+    padding: 0 1rem;
+    color: black;
+
+
+    .heading {
+        display: flex;
+        color: black;
+        margin-bottom: 24px;
+    }
+
+}
+
+
+.overview-wrapper {
     display: flex;
 }
 
 .task{
     background-color: var(--main);
+    border-radius: 24px;
+    padding: 1rem;
+    gap: 24px;
+}
+
+.black {
+    color: black;
+}
+
+.white{
+    color: white;
+}
+
+.task-heading {
+    gap: 24px;
+}
+
+.task-wrapper {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 24px;
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.project-overview {
+    order: 2;
+}
+
+.task-description {
+    display: none;
+
+    &.open {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.task-title {
+    display: flex;
+    min-width: fit-content;
+}
+
+
+
+:host {
+    padding: 1rem;
+}
+
+
+.task-fill{
+    padding: 1rem;
+    border-radius: 24px;
+    background-color: white;
+}
+
+.tasks{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.task{
+    padding: 1rem;
 }
