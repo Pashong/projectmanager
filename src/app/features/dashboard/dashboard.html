@@ -1,11 +1,11 @@
 <div class="dashboard">
   <div class="heading">
-    <h1>Dashboard</h1>
+    <h2>Dashboard</h2>
   </div>
   <div class="overview-wrapper">
     <div class="overview project-overview">
-      <h2>Project Overview</h2>
-      @for (project of projects(); track project.id) {
+      <h3 class="white">Project Overview</h3>
+      @for (project of projectsWithTasks(); track project.id) {
         <div class="project">
           <div class="project-heading">
             <h3>{{ project.title }}</h3>
@@ -30,54 +30,14 @@
               </div>
             </div>
           </div>
+          @if(project.tasks.length > 0){
+            <h4>Tasks</h4>
+          }
           <div class="tasks">
             @for (task of tasks(); track task.id) {
               @if (task.project_id === project.id) {
                 <div class="task">
-                  <div class="task-heading">
-                    <!-- <app-open-update-task
-                      [currentProject]="project"
-                      [currentTask]="task"
-                    ></app-open-update-task> -->
-                    <div class="task-title">
-                      <button
-                        (click)="openTaskDetails(task, 'projects')"
-                        class="chevron-down"
-                        [class.open]="taskDetails()?.taskId === task.id && taskDetails()?.source === 'projects'"
-                      >
-                        <i class="fa-solid fa-chevron-down"></i>
-                      </button>
-                      <h4>{{ task.title }}</h4>
-                    </div>
-                    <div class="stats">
-                      <div class="status">
-                        <p>Status</p>
-                        <p class="black">{{ task.status }}</p>
-                      </div>
-                      <div class="deadline">
-                        <p>Deadline</p>
-                        <p class="black">
-                          {{ task.deadline | date: "yyyy-MM-dd" }}
-                        </p>
-                      </div>
-                      <div class="members-wrapper">
-                        <p>Members</p>
-                        <div class="members">
-                          @for (member of task.members; track member.id) {
-                            <div class="member">
-                              <p>{{ member.firstName[0] }}</p>
-                            </div>
-                          }
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  @if (taskDetails()?.taskId === task.id && taskDetails()?.source === 'projects') {
-                    <div class="task-description" [class.open]="taskDetails()">
-                      <p>Taskdescription</p>
-                      <p class="black">{{ task.description }}</p>
-                    </div>
-                  }
+                  <app-tasks [task]="task" ></app-tasks>
                 </div>
               }
             }
@@ -86,56 +46,11 @@
       }
     </div>
     <div class="overview task-overview">
-      <h2>Task Deadlines:</h2>
+      <h3 class="white">Task Deadlines:</h3>
       <div class="tasks">
         @for (task of sortedTasks; track task.id) {
-          <div class="task-wrapper">
-            <div class="task">
-              <div class="task-heading">
-                <!-- <app-open-update-task
-                        [currentProject]="project"
-                        [currentTask]="task"
-                      ></app-open-update-task> -->
-                <div class="task-title">
-                  <button
-                    (click)="openTaskDetails(task, 'tasks')"
-                    class="chevron-down"
-                    [class.open]="taskDetails()?.taskId === task.id && taskDetails()?.source === 'tasks'"
-                  >
-                    <i class="fa-solid fa-chevron-down"></i>
-                  </button>
-                  <h4>{{ task.title }}</h4>
-                </div>
-                <div class="stats">
-                  <div class="status">
-                    <p>Status</p>
-                    <p class="black">{{ task.status }}</p>
-                  </div>
-                  <div class="deadline">
-                    <p>Deadline</p>
-                    <p class="black">
-                      {{ task.deadline | date: "yyyy-MM-dd" }}
-                    </p>
-                  </div>
-                  <div class="members-wrapper">
-                    <p>Members</p>
-                    <div class="members">
-                      @for (member of task.members; track member.id) {
-                        <div class="member">
-                          <p>{{ member.firstName[0] }}</p>
-                        </div>
-                      }
-                    </div>
-                  </div>
-                </div>
-              </div>
-              @if (taskDetails()?.taskId === task.id && taskDetails()?.source === 'tasks') {
-                <div class="task-description" [class.open]="taskDetails()">
-                  <p>Taskdescription</p>
-                  <p class="black">{{ task.description }}</p>
-                </div>
-              }
-            </div>
+          <div class="task-fill">
+            <app-tasks [task]="task"></app-tasks>
           </div>
         }
       </div>

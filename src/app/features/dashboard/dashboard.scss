@@ -1,25 +1,14 @@
 .dashboard {
-    padding: 1rem;
+    padding: 0 1rem;
     color: black;
 
-    h2 {
-        color: white;
-    }
 
     .heading {
         display: flex;
         color: black;
+        margin-bottom: 24px;
     }
 
-
-    .project {
-
-        .task {
-            border-bottom: 2px solid rgb(from var(--secondary) r g b / 30%);
-            margin-bottom: 1rem;
-        }
-
-    }
 }
 
 
@@ -64,7 +53,9 @@
     color: black;
 }
 
-
+.white{
+    color: white;
+}
 
 .task-heading {
     gap: 24px;
@@ -102,5 +93,22 @@
 
 
 :host {
+    padding: 1rem;
+}
+
+
+.task-fill{
+    padding: 1rem;
+    border-radius: 24px;
+    background-color: white;
+}
+
+.tasks{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.task{
     padding: 1rem;
 }

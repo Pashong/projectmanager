@@ -5,10 +5,28 @@ import { Tasks } from '../../../tasks/tasks';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectModel } from '../../model/project.model';
 import { DatePipe } from '@angular/common';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList,
+  moveItemInArray,
+  transferArrayItem,
+  CdkDragPlaceholder,
+  CdkDropListGroup,
+} from '@angular/cdk/drag-drop';
+import { TaskModel } from '../../../tasks/model/task.model';
+import { CreateTask } from '../../../tasks/components/create-task/create-task';
 
 @Component({
   selector: 'app-project',
-  imports: [Tasks, DatePipe],
+  imports: [
+    CreateTask,
+    Tasks,
+    DatePipe,
+    CdkDropList,
+    CdkDrag,
+    CdkDropListGroup,
+  ],
   templateUrl: './project.html',
   styleUrl: './project.scss',
 })
@@ -16,21 +34,47 @@ export class Project {
   private projectService = inject(ProjectsService);
   private tasksService = inject(TaskService);
   route = inject(ActivatedRoute);
+  taskStatus = this.tasksService.taskStatus;
 
   tasks = this.tasksService.tasks;
   project = this.projectService.project;
 
   async ngOnInit() {
     try {
+
       const projectId = await this.route.snapshot.paramMap.get('id');
       if (!projectId) {
         return;
       }
       const resultProject = await this.projectService.getProject(projectId);
+      
+      const data = await this.tasksService.getTasks(projectId!);
 
+      this.tasks.set(data);
       this.project.set(resultProject);
     } catch (error) {
       console.error(error);
     }
+  }
+
+  async drop(event: CdkDragDrop<TaskModel[]>) {
+    const task = event.item.data as TaskModel;
+    const newStatus = event.container.id.replace('-', ' ');
+
+    if (newStatus !== task.status) {
+      task.status = newStatus;
+      await this.tasksService.updateTask(task);
+    }
+
+    this.tasks.update((tasks) =>
+      tasks.map((currentTask) =>
+        currentTask.id === task.id
+          ? {
+              ...currentTask,
+              status: newStatus,
+            }
+          : currentTask,
+      ),
+    );
   }
 }

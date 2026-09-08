@@ -17,17 +17,16 @@
 
 .task-title {
     align-items: center;
+    gap: 12px;
 }
 
 .task-title-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 }
 
-
-.task-status-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
+.task-description{
+    padding: 0 1rem;
 }
