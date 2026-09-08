@@ -1,6 +1,7 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { TaskService } from '../../service/task.service';
+import { ProjectModel } from '../../../projects/model/project.model';
 
 @Component({
   selector: 'app-create-task',
@@ -14,9 +15,11 @@ export class CreateTask {
   tasks = this.tasksService.tasks;
   status = input<string>();
   taskCreation = signal<boolean>(false);
+  currentProject = input<ProjectModel | null>();
+  selectedMemberIds: number[] = [];
 
   openCreateTask() {
-    this.taskCreation.set(true);
+    this.taskCreation.update((value) => !value);
   }
 
   async createTask(form: NgForm, status?: string) {

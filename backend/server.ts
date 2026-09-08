@@ -6,6 +6,9 @@ import registerRoute from "./routes/user/registerRoute";
 import loginRoute from "./routes/user/loginRoute";
 import projectsRoute from "./routes/projects/projectsRoute";
 import tasksRoute from "./routes/tasks/tasksRoute";
+import authRoute from "./routes/authenticate/authRoute";
+import logoutRoute from "./routes/user/logoutRoute";
+import userRoute from "./routes/user/usersRoute";
 
 
 const app = express();
@@ -23,6 +26,9 @@ app.use("/login", loginRoute);
 app.use("/register", registerRoute);
 app.use("/projects", projectsRoute);
 app.use("/tasks", tasksRoute);
+app.use("/auth", authRoute)
+app.use("/logout", logoutRoute);
+app.use("/users", userRoute);
 
 
 app.listen(3030, () =>{

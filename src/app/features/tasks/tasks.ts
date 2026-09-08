@@ -28,6 +28,9 @@ export class Tasks {
   changeTask = signal<TaskModel | null>(null);
   project = this.projectService.project;
 
+  taskDetails = signal<number | null>(null);
+  deleteMember = signal<{taskId: number, userId: number }| null>(null);
+
   async deleteTask(currentTask: TaskModel) {
     try {
       await this.tasksService.deleteTask(currentTask);
@@ -66,6 +69,16 @@ export class Tasks {
   }
 
 
+
+  openDeleteMember(id: number, taskId: number){
+    this.deleteMember.update((current) => current?.taskId === taskId && current.userId === id ? null : {taskId: taskId, userId: id});
+  }
+
+  openTaskDetails(task: TaskModel) {
+    this.taskDetails.update((currentId) =>
+      currentId === task.id ? null : task.id,
+    );
+  }
 
   openDeleteMember(id: number, taskId: number){
     this.deleteMember.update((current) => current?.taskId === taskId && current.userId === id ? null : {taskId: taskId, userId: id});

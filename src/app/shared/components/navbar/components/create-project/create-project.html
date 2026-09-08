@@ -1,19 +1,36 @@
-<div class="project-creation overlay">
-    <div class="project-creation-wrapper">
+<div class="creation overlay">
+  <div class="creation-wrapper">
+    <div class="create-heading">
       <h2>Create a project</h2>
-      <form #projectCreation="ngForm" (ngSubmit)="createProject(projectCreation)">
-        <label for="projectName">Projectname:</label>
-        <input required type="text" name="projectName" id="projectName" ngModel>
-        <label for="description">Description:</label>
-        <input required type="text" name="description" id="description" ngModel>
-        <label for="status">Status</label>
-        <input type="text" name="status" id="status" ngModel>
-        <label for="members">Add Members</label>
-        <input type="text" name="members" id="members" ngModel>
-        <label for="deadline">Deadline</label>
-        <!-- maybe add current date as base value -->
-        <input required type="date" name="deadline" id="deadline" ngModel>
-        <button type="submit">Create Project</button>
-      </form>
     </div>
+    <form #projectCreation="ngForm" (ngSubmit)="createProject(projectCreation)">
+      <label for="projectName">Projectname:</label>
+      <input required type="text" name="projectName" id="projectName" ngModel />
+      <label for="description">Description:</label>
+      <input required type="text" name="description" id="description" ngModel />
+      <label for="status">Status</label>
+      <input type="text" name="status" id="status" ngModel />
+      <div class="input-wrapper">
+        <label for="members">Add Members</label>
+        <select name="members" multiple [(ngModel)]="selectedMemberIds">
+          @for (user of users(); track user.id) {
+            @if (user.id !== currentUser?.id) {
+              <option [ngValue]="user">
+                {{ user.firstName }} {{ user.lastName }}
+              </option>
+            }
+          }
+        </select>
+      </div>
+      <label for="deadline">Deadline</label>
+      <!-- maybe add current date as base value -->
+      <input required type="date" name="deadline" id="deadline" ngModel />
+      <div class="btn-wrapper">
+        <button type="button" (click)="closeCreateMenu.emit()" class="btn-hollow">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <button type="submit" class="btn-fill">Create Project</button>
+      </div>
+    </form>
+  </div>
 </div>

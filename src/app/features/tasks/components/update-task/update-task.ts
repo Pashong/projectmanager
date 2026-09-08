@@ -22,6 +22,8 @@ export class UpdateTask {
   selectedMemberIds: number[] = [];
   currentTask = input<TaskModel | null>();
   currentProject = input<ProjectModel | null>();
+  
+  closeChangeMenu = output<void>();
 
   async taskUpdating(form: NgForm, taskId?: number) {
     try {
