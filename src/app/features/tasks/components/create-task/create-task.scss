@@ -1,6 +1,6 @@
 .creation-wrapper {
     position: absolute;
-    z-index: 2;
+    z-index: 101;
     background: var(--main);
     min-width: 335px;
     height: fit-content;
@@ -17,17 +17,10 @@
         margin-bottom: 24px;
     }
 
-    form {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        gap: 12px;
 
-        .input-wrapper {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            gap: 4px;
-        }
-    }
+}
+
+.create-wrapper{
+    display: flex;
+    justify-content: center;
 }

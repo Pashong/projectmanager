@@ -1,7 +1,7 @@
 .creation-wrapper {
     position: absolute;
     z-index: 2;
-    background: var(--secondary);
+    background: var(--main);
     min-width: 335px;
     height: fit-content;
     transform: translateX(-50%);
@@ -30,4 +30,9 @@
             gap: 4px;
         }
     }
+}
+
+.create-heading{
+    display: flex;
+    justify-content: center;
 }
