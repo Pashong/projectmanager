@@ -1,14 +1,13 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { ProjectsService } from '../projects/service/projects.service';
 import { TaskService } from '../tasks/service/task.service';
-import { UpdateTask } from '../tasks/components/update-task/update-task';
 import { TaskModel } from '../tasks/model/task.model';
-import { OpenUpdateTask } from "../tasks/components/open-update-task/open-update-task";
 import { DatePipe } from '@angular/common';
-import { ProjectModel } from '../projects/model/project.model';
+import { Tasks } from '../tasks/tasks';
+
 @Component({
   selector: 'app-dashboard',
-  imports: [UpdateTask, OpenUpdateTask, DatePipe],
+  imports: [Tasks, DatePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -19,6 +18,15 @@ export class Dashboard {
   tasks = this.tasksService.tasks;
   changeTask = signal<TaskModel | null>(null);
   sortedTasks: TaskModel[] | null = null;
+  projectsWithTasks = computed(() => {
+    return this.projects().map((project) => ({
+      ...project,
+      tasks: this.tasks().filter((task) => task.project_id === project.id),
+    }));
+  });
+  taskDetails = signal<{ taskId: number; source: 'tasks' | 'projects' } | null>(
+    null,
+  );
 
   taskDetails = signal<{taskId: number, source: 'tasks' | 'projects'} | null>(null);
 
@@ -38,7 +46,17 @@ export class Dashboard {
     console.log(tasksData);
     this.projects.set(projectsData);
     this.tasks.set(tasksData);
-    this.sortedTasks = [...tasksData].sort((a,b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
+    this.sortedTasks = [...tasksData].sort(
+      (a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime(),
+    );
+  }
+
+  openTaskDetails(task: TaskModel, source: 'tasks' | 'projects') {
+    this.taskDetails.update((current) =>
+      current?.taskId === task.id && current?.source === source
+        ? null
+        : { taskId: task.id, source: source },
+    );
   }
 
 

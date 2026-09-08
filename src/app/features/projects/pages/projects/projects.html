@@ -5,13 +5,14 @@
   </div>
 
   <div class="projects-title">
-    <h1>Projects</h1>
+    <h2>Projects</h2>
+    <h1>Projects Overview</h1>
   </div>
   <div class="projects-list-wrapper">
     @if (projects().length > 0) {
-      <button (click)="startNewProject()" class="btn-fill">+ Project</button>
+      <button (click)="startNewProject()" class="btn-fill">+</button>
       @if (newProject()) {
-        <app-create-project></app-create-project>
+        <app-create-project (closeCreateMenu)="startNewProject()"></app-create-project>
       }
 
       @for (project of projects(); track project.id) {
