@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ProjectsService } from '../../../../../features/projects/service/projects.service';
 import { MemberModel } from '../../../../models/member.model';
@@ -18,6 +18,7 @@ export class CreateProject {
   selectedMemberIds: number[] = [];
   users = signal<MemberModel[]>([]); 
   currentUser = this.authService.currentUser();
+  closeCreateMenu = output<void>();
   
   async createProject(form: NgForm) {
     try {
