@@ -12,9 +12,11 @@
         <label for="members">Add Members</label>
         <select name="members" multiple [(ngModel)]="selectedMemberIds">
           @for (user of users(); track user.id) {
-            <option [ngValue]="user">
-              {{ user.firstName }} {{ user.lastName }}
-            </option>
+            @if (user.id !== currentUser?.id) {
+              <option [ngValue]="user">
+                {{ user.firstName }} {{ user.lastName }}
+              </option>
+            }
           }
         </select>
       </div>

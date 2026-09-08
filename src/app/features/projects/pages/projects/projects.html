@@ -53,40 +53,5 @@
         </td>
       </tr>
     }
-
-    <!-- <table>
-        <thead>
-          <tr>
-            <th scope="col">Projectname</th>
-            <th scope="col">Open Tasks</th>
-            <th scope="col">Status</th>
-            <th scope="col">Deadline</th>
-          </tr>
-        </thead>
-        <tbody>
-          @if (projects().length > 0) {
-            @for (project of projects(); track project.id) {
-              <tr scope="row" [routerLink]="['/projects', project.id]">
-                <th>{{ project.title }}</th>
-                <td>{{ project.description }}</td>
-                <td>{{ project.status }}</td>
-                <td>{{ project.deadline }}</td>
-                <td><button (click)="deleteProject(project)">Delete</button></td>
-              </tr>
-            }
-          } @else {
-            <tr>
-              <td colspan="4">
-                <button (click)="startNewProject()">
-                  Start a new project now!
-                </button>
-              </td>
-            </tr>
-          }
-          @if (newProject()) {
-            <app-create-project></app-create-project>
-          }
-        </tbody>
-      </table> -->
   </div>
 </div>
