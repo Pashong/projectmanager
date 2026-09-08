@@ -6,7 +6,7 @@
       </div>
       <div class="tab-links">
         @for (tab of menu()?.menuTabNames; track $index) {
-            <a>{{tab}}</a>
+            <a [routerLink]="[tab.toLocaleLowerCase()]" (click)="closeMenu.emit()">{{tab}}</a>
         }
       </div>
   </div>

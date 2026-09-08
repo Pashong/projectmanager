@@ -114,7 +114,7 @@ router.post('/create-project', authenticateToken, async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: 'Project was created', project: result.rows[0] });
+      .json({ message: 'Project was created', project: result.rows[0]});
   } catch (error) {
     console.error('Creating a project failed', error);
     res.status(500).json({ message: 'error creating the project' });

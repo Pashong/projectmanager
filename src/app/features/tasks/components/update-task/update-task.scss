@@ -1,0 +1,29 @@
+.update-task-wrapper {
+    position: relative;
+    z-index: 101;
+
+    background-color: var(--main);
+    width: 100%;
+    height: fit-content;
+    border-radius: 24px;
+    padding: 1rem;
+    color: white;
+
+    form{
+        display: flex;
+        flex-direction: column;
+
+        button{
+            margin-top: 24px;
+        }
+    }
+
+}
+
+
+
+.change-heading{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}

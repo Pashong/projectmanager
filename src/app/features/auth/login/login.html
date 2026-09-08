@@ -1,13 +1,15 @@
 <div class="login-wrapper">
-    <form #logInForm="ngForm" (ngSubmit)="login(logInForm)">
-        <label for="email">Email:</label>
-        <input required id ="email" type="email" name="email" ngModel>
-        <label for="password">Password:</label>
-        <input required type="password" name="password" ngModel>
-        <button type="submit">Log in</button>
-    </form>
-    <div class="register-link">
-    <p>No account yet? <a [routerLink]="['/register']">Register here</a></p>
-
+  <h1>Login</h1>
+  <form #logInForm="ngForm" (ngSubmit)="login(logInForm)">
+    <div class="form-content-wrapper">
+      <label for="email">Email:</label>
+      <input required id="email" type="email" name="email" ngModel />
+      <label for="password">Password:</label>
+      <input required type="password" name="password" ngModel />
     </div>
+    <button type="submit" class="btn-fill">Log in</button>
+  </form>
+  <div class="register-link">
+    <p>No account yet? <a [routerLink]="['/register']">Register here</a></p>
+  </div>
 </div>

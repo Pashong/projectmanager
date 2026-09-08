@@ -4,6 +4,8 @@ import { Register } from './features/auth/register/register';
 import { Projects } from './features/projects/pages/projects/projects';
 import { Project } from './features/projects/pages/project/project';
 import { Dashboard } from './features/dashboard/dashboard';
+import { authGuard } from './core/guards/auth/auth-guard';
+import { loggedInGuard } from './core/guards/auth/loggedIn/logged-in-guard';
 
 export const routes: Routes = [
   {
@@ -15,21 +17,26 @@ export const routes: Routes = [
   {
     path: 'login',
     component: Login,
+    canActivate: [loggedInGuard]
   },
   {
     path: 'register',
     component: Register,
+    canActivate: [loggedInGuard]
   },
   {
     path: 'projects',
     component: Projects,
+    canActivate: [authGuard]
   },
   {
     path: 'projects/:id',
-    component: Project
+    component: Project,
+    canActivate: [authGuard]
   },
   {
     path: 'dashboard',
-    component: Dashboard
+    component: Dashboard,
+    canActivate: [authGuard]
   }
 ];

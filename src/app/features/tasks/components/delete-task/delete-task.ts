@@ -11,7 +11,6 @@ import { TaskModel } from '../../model/task.model';
 export class DeleteTask {
   private tasksService = inject(TaskService);
   tasks = this.tasksService.tasks;
-
   task = input.required<TaskModel>();
 
   async deleteTask(currentTask: TaskModel) {

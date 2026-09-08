@@ -1,9 +1,13 @@
-.tasks-wrapper{
+.task-wrapper {
     display: flex;
-    background-color: var(--secondary);
+    flex-direction: column;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 24px;
 }
-.task-wrapper{
-    width: 40%; 
+
+#status {
+    margin-bottom: 24px;
 }
 
 .task {
