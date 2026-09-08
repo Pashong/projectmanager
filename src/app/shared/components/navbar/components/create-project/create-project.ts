@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ProjectsService } from '../../../../../features/projects/service/projects.service';
 import { MemberModel } from '../../../../models/member.model';
+import { AuthService } from '../../../../../features/auth/services/auth.service';
 
 @Component({
   selector: 'app-create-project',
@@ -11,14 +12,18 @@ import { MemberModel } from '../../../../models/member.model';
 })
 export class CreateProject {
   private projectsService = inject(ProjectsService);
+  private authService = inject(AuthService);
 
   projects = this.projectsService.projects;
   selectedMemberIds: number[] = [];
   users = signal<MemberModel[]>([]); 
+  currentUser = this.authService.currentUser();
   
   async createProject(form: NgForm) {
     try {
       const newProject = await this.projectsService.createProject(form.value);
+
+      newProject.members = [...form.value.members, this.currentUser];
 
       this.projects.update((projects) => [newProject, ...projects]);
 
@@ -31,7 +36,6 @@ export class CreateProject {
   async ngOnInit() {
     try {
       const users = await this.projectsService.getUsers();
-
       this.users.set(users);
      
     } catch (error) {
