@@ -1,0 +1,90 @@
+<button (click)="toggleChangeProject()" class="open-change-task-btn">
+  <i class="fa-solid fa-pen"></i>
+</button>
+
+@if (changeProject()) {
+  <div class="overlay">
+    <div class="update-task-wrapper">
+      <div class="change-heading">
+        <h3>Edit: {{ currentProject()?.title }}</h3>
+      </div>
+      <form
+        #updateProject="ngForm"
+        (ngSubmit)="projectUpdating(updateProject, currentProject()!)"
+      >
+        <div class="input-wrapper">
+          <label for="taskName">Task:</label>
+          <input
+            required
+            type="text"
+            name="title"
+            id="taskName"
+            [ngModel]="currentProject()?.title"
+            ;
+          />
+        </div>
+        <div class="input-wrapper">
+          <label for="description">Description:</label>
+          <input
+            required
+            type="text"
+            name="description"
+            id="description"
+            [ngModel]="currentProject()?.description"
+            ;
+          />
+        </div>
+        <!-- replace with a dropdown with autocomplete  -->
+        <div class="input-wrapper">
+          <label for="members">Add Members</label>
+          <select name="members" multiple [(ngModel)]="selectedMemberIds">
+            @for (member of currentProject()?.members ?? []; track member.id) {
+              @if (member.id !== currentUser?.id) {
+                <option [ngValue]="member">
+                  {{ member.firstName }} {{ member.lastName }}
+                </option>
+              }
+            }
+          </select>
+        </div>
+        <div class="input-wrapper">
+          <label for="status">Status</label>
+          <select name="status" [ngModel]="currentProject()?.status">
+            @for (status of tasksStatus; track status) {
+              @if (status === currentProject()?.status) {
+                <option [value]="status" selected>
+                  {{ status.toUpperCase() }}
+                </option>
+              } @else {
+                <option [value]="status">{{ status.toUpperCase() }}</option>
+              }
+            }
+          </select>
+        </div>
+        <div class="input-wrapper">
+          <label for="deadline">Deadline</label>
+          <input
+            required
+            type="date"
+            name="deadline"
+            id="deadline"
+            [ngModel]="currentProject()?.deadline"
+          />
+        </div>
+        @if (noChanges()) {
+          <p class="warning">No changes made to the project</p>
+        }
+        <div class="btn-wrapper">
+          <button
+            type="button"
+            (click)="toggleChangeProject()"
+            class="btn-hollow"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <button type="submit" class="btn-fill">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

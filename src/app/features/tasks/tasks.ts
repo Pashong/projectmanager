@@ -69,7 +69,6 @@ export class Tasks {
   }
 
 
-
   openDeleteMember(id: number, taskId: number){
     this.deleteMember.update((current) => current?.taskId === taskId && current.userId === id ? null : {taskId: taskId, userId: id});
   }
