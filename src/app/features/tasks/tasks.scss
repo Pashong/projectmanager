@@ -7,5 +7,22 @@
 }
 
 .task {
-    background-color: black;
+    border-bottom: 2px solid rgb(from var(--secondary) r g b / 30%);
+    margin-bottom: 1rem;
+}
+
+.task-title {
+    align-items: center;
+    gap: 12px;
+}
+
+.task-title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.task-description{
+    padding: 0 1rem;
 }

@@ -1,35 +1,19 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal, input } from '@angular/core';
 import { TaskModel } from './model/task.model';
 import { TaskService } from './service/task.service';
-import { NgForm } from '@angular/forms';
-import { CreateTask } from './components/create-task/create-task';
-import { UpdateTask } from './components/update-task/update-task';
 import { ProjectsService } from '../projects/service/projects.service';
-import { MemberModel } from '../../shared/models/member.model';
 import { ActivatedRoute } from '@angular/router';
 import { DeleteTask } from './components/delete-task/delete-task';
-import {
-  CdkDrag,
-  CdkDragDrop,
-  CdkDropList,
-  moveItemInArray,
-  transferArrayItem,
-  CdkDragPlaceholder,
-  CdkDropListGroup,
-} from '@angular/cdk/drag-drop';
+import { DatePipe } from '@angular/common';
 import { OpenUpdateTask } from "./components/open-update-task/open-update-task";
 
 @Component({
   selector: 'app-tasks',
-  imports: [DeleteTask,OpenUpdateTask,
-    CreateTask,
-    UpdateTask,
-    CdkDropList,
-    CdkDrag,
-    CdkDragPlaceholder,
-    CdkDropListGroup,
-    OpenUpdateTask
-],
+  imports: [DatePipe,
+    DeleteTask,
+    OpenUpdateTask,
+    OpenUpdateTask,
+  ],
   templateUrl: './tasks.html',
   styleUrl: './tasks.scss',
 })
@@ -38,9 +22,9 @@ export class Tasks {
   private projectService = inject(ProjectsService);
   private route = inject(ActivatedRoute);
 
-  taskStatus = this.tasksService.taskStatus;
+
   tasks = this.tasksService.tasks;
-  task = this.tasksService.task;
+  task = input.required<TaskModel>();
   changeTask = signal<TaskModel | null>(null);
   project = this.projectService.project;
 
@@ -52,16 +36,6 @@ export class Tasks {
       );
     } catch (error) {
       console.error('Task deletion error: ', error);
-    }
-  }
-
-  async ngOnInit() {
-    try {
-      const projectId = await this.route.snapshot.paramMap.get('id');
-      const data = await this.tasksService.getTasks(projectId!);
-      this.tasks.set(data);
-    } catch (error) {
-      console.error(error);
     }
   }
 
@@ -91,24 +65,15 @@ export class Tasks {
     }
   }
 
-  async drop(event: CdkDragDrop<TaskModel[]>) {
-    const task = event.item.data as TaskModel;
-    const newStatus = event.container.id.replace('-', ' ');
 
-    if(newStatus !== task.status){
-          task.status = newStatus;
-          await this.tasksService.updateTask(task);
-    }
 
-    this.tasks.update((tasks) =>
-      tasks.map((currentTask) =>
-        currentTask.id === task.id
-          ? {
-              ...currentTask,
-              status: newStatus,
-            }
-          : currentTask,
-      ),
+  openDeleteMember(id: number, taskId: number){
+    this.deleteMember.update((current) => current?.taskId === taskId && current.userId === id ? null : {taskId: taskId, userId: id});
+  }
+
+  openTaskDetails(task: TaskModel) {
+    this.taskDetails.update((currentId) =>
+      currentId === task.id ? null : task.id,
     );
   }
 }

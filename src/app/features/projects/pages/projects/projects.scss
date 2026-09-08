@@ -1,0 +1,47 @@
+.project-navbar {
+    display: none;
+}
+
+.projects-wrapper {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.projects-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background-color: var(--main);
+    padding: 0.6rem;
+    padding-top: 2rem;
+    border-radius: 24px;
+    color: black;
+    position: relative;
+    button{
+        &:first-child{
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            min-width: 50px;
+        }
+    }
+}
+
+.projects-title {
+    color: black;
+}
+
+.delete-btn{
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.project-heading{
+    h3{
+        cursor:pointer;
+    }
+}
