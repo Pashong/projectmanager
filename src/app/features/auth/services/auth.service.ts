@@ -1,11 +1,13 @@
 import { Injectable, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { MemberModel } from '../../../shared/models/member.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   isLoggedIn = signal<boolean>(false);
+  currentUser = signal<MemberModel | null>(null);
 
   async logIn(form: NgForm) {
     try {
@@ -53,7 +55,18 @@ export class AuthService {
         return false;
       }
 
+      const data = await response.json();
+
+      const user = {
+        id: data.user.id,
+        firstName: data.user.first_name,
+        lastName: data.user.last_name,
+        email: data.user.email
+      }
+
+      this.currentUser.set(user);
       this.isLoggedIn.set(true);
+
       return true;
     } catch (error) {
       this.isLoggedIn.set(false);
