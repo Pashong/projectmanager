@@ -28,8 +28,6 @@ export class Dashboard {
     null,
   );
 
-  taskDetails = signal<{taskId: number, source: 'tasks' | 'projects'} | null>(null);
-
   openChangeTask(task: TaskModel) {
     if (task) {
       task.deadline = task.deadline.split('T')[0];
@@ -57,12 +55,5 @@ export class Dashboard {
         ? null
         : { taskId: task.id, source: source },
     );
-  }
-
-
-  openTaskDetails(task: TaskModel, source: 'tasks' | 'projects'){
-      this.taskDetails.update((current) =>
-        current?.taskId === task.id && current?.source === source ? null : {taskId: task.id, source: source},
-      );
   }
 }
