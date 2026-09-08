@@ -41,9 +41,9 @@
                     ></app-open-update-task> -->
                     <div class="task-title">
                       <button
-                        (click)="openTaskDetails(task)"
+                        (click)="openTaskDetails(task, 'projects')"
                         class="chevron-down"
-                        [class.open]="taskDetails() === task.id"
+                        [class.open]="taskDetails()?.taskId === task.id && taskDetails()?.source === 'projects'"
                       >
                         <i class="fa-solid fa-chevron-down"></i>
                       </button>
@@ -72,7 +72,7 @@
                       </div>
                     </div>
                   </div>
-                  @if (taskDetails() === task.id) {
+                  @if (taskDetails()?.taskId === task.id && taskDetails()?.source === 'projects') {
                     <div class="task-description" [class.open]="taskDetails()">
                       <p>Taskdescription</p>
                       <p class="black">{{ task.description }}</p>
@@ -98,9 +98,9 @@
                       ></app-open-update-task> -->
                 <div class="task-title">
                   <button
-                    (click)="openTaskDetails(task)"
+                    (click)="openTaskDetails(task, 'tasks')"
                     class="chevron-down"
-                    [class.open]="taskDetails() === task.id"
+                    [class.open]="taskDetails()?.taskId === task.id && taskDetails()?.source === 'tasks'"
                   >
                     <i class="fa-solid fa-chevron-down"></i>
                   </button>
@@ -129,7 +129,7 @@
                   </div>
                 </div>
               </div>
-              @if (taskDetails() === task.id) {
+              @if (taskDetails()?.taskId === task.id && taskDetails()?.source === 'tasks') {
                 <div class="task-description" [class.open]="taskDetails()">
                   <p>Taskdescription</p>
                   <p class="black">{{ task.description }}</p>
