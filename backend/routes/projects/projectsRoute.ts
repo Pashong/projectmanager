@@ -114,22 +114,23 @@ router.post('/create-project', authenticateToken, async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: 'Project was created', project: result.rows[0]});
+      .json({ message: 'Project was created', project: result.rows[0] });
   } catch (error) {
     console.error('Creating a project failed', error);
     res.status(500).json({ message: 'error creating the project' });
   }
 });
 
-router.put('/update-status', authenticateToken, async (req, res) => {
+router.put('/update-project', authenticateToken, async (req, res) => {
   try {
-    const { projectId, name, description, status, deadline } = req.body;
 
-    if (!status || !projectId) return;
+    const { id, title, description, status, deadline, members } = req.body;
+
+    if (!status || !id) return;
 
     const result = await pool.query(
-      `update projects set title = $1, description = $2, status = $3, deadline = $4 where id = $5;`,
-      [name, description, status, deadline, projectId],
+      `update projects set title = $1, description = $2, status = $3, deadline = $4 where id = $5 returning id, title, description, status, deadline`,
+      [title, description, status, deadline, id],
     );
 
     if (result.rowCount === 0) {
@@ -138,7 +139,25 @@ router.put('/update-status', authenticateToken, async (req, res) => {
         .json({ message: 'Updating the project status failed' });
     }
 
-    return res.json({ projects: result.rows });
+    if (members.length > 0) {
+      for (let i = 0; i < members.length; i++) {
+        await pool.query(
+          'insert into project_users (project_id, user_id) values ($1, $2) ON CONFLICT (project_id, user_id) DO NOTHING',
+          [id, members[i].id],
+        );
+      }
+    }
+
+    const projectMembersResult = await pool.query(
+      `SELECT user_id
+    FROM project_users
+    WHERE project_id = $1`,
+      [id],
+    );
+
+    const projectMembers = projectMembersResult.rows.map((row) => row.user_id);
+
+    return res.json({ project: result.rows[0], members: projectMembers });
   } catch (error) {
     console.error('Failed to update the status', error);
     res.status(500).json({ message: 'Internal server error' });
