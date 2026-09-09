@@ -13,9 +13,6 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    background-color: var(--main);
-    padding: 0.6rem;
-    padding-top: 2rem;
     border-radius: 24px;
     color: black;
     position: relative;
@@ -30,8 +27,10 @@
     }
 }
 
-.projects-title {
-    color: black;
+.projects-title{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
 .delete-btn{
@@ -43,5 +42,20 @@
 .project-heading{
     h3{
         cursor:pointer;
+    }
+}
+
+.add-project-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: fit-content;
+    align-items: center;
+    gap: 8px;
+    .btn-fill{
+        height: 40px;
+        min-width: 40px;
+        width: 80px;
+        border-radius: 8px;
     }
 }

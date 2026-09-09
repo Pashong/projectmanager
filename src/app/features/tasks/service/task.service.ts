@@ -8,7 +8,7 @@ import { ProjectsService } from '../../projects/service/projects.service';
   providedIn: 'root',
 })
 export class TaskService {
-  taskStatus: string[] = ['in progress', 'open', 'in review', 'done'];
+  taskStatus: string[] = ['in progress', 'active', 'in review', 'closed', 'inactive'];
   private projectService = inject(ProjectsService);
   project = this.projectService.project;
   tasks = signal<TaskModel[]>([]);

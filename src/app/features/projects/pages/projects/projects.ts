@@ -4,10 +4,11 @@ import { ProjectModel } from '../../model/project.model';
 import { CreateProject } from '../../../../shared/components/navbar/components/create-project/create-project';
 import { RouterLink } from "@angular/router";
 import { DatePipe } from '@angular/common';
+import { UpdateProject } from "../../components/update-project/update-project";
 
 @Component({
   selector: 'app-projects',
-  imports: [CreateProject, RouterLink, DatePipe],
+  imports: [CreateProject, RouterLink, DatePipe, UpdateProject],
   templateUrl: './projects.html',
   styleUrl: './projects.scss',
 })

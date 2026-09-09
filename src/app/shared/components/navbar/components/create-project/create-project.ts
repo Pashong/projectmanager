@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { ProjectsService } from '../../../../../features/projects/service/projects.service';
 import { MemberModel } from '../../../../models/member.model';
 import { AuthService } from '../../../../../features/auth/services/auth.service';
+import { status } from '../../../../status/status';
 
 @Component({
   selector: 'app-create-project',
@@ -13,7 +14,7 @@ import { AuthService } from '../../../../../features/auth/services/auth.service'
 export class CreateProject {
   private projectsService = inject(ProjectsService);
   private authService = inject(AuthService);
-
+  status = status;
   projects = this.projectsService.projects;
   selectedMemberIds: number[] = [];
   users = signal<MemberModel[]>([]); 
