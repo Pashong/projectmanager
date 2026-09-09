@@ -21,18 +21,21 @@ nav {
             display: flex;
             flex-direction: column;
             position: absolute;
-            border-top: 2px solid var(--secondary);
             border-bottom: 2px solid var(--secondary);
-            background-color: var(--main);
-            top: 70px;
+            background-color: #0f172a;
+            color: var(--text-muted);
+            top: 65px;
             left: -17px;
             width: 100%;
             z-index: 2;
             gap: 24px;
         }
-
     }
 
+    h1{
+        color: white;
+    }
+    
 }
 
 
@@ -44,11 +47,11 @@ nav {
     cursor: pointer;
     span{
         display: block;
-        height: 6px;
+        height: 4px;
         width: 30px;
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.2rem;
         border-radius: 24px;
-        background-color: white;
+        background-color: var(--gray);
     }
 }
 

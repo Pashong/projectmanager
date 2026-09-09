@@ -1,31 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
+
+    --background: #F2F2F2;
+
     --main: rgb(79, 79, 212);
+    --main-hover: #5B5BD7;
+
     --secondary: rgb(79, 146, 212);
+
+    --border: #4F92D440;
+
     --accent: rgb(146, 79, 212);
+    --accent-hover: #AB78DE;
+
+
+    --text-primary: #3B3B3B;
+    --text-secondary: #5E5E5E;
+    --text-muted: #BDBDBD;
 
     --text: rgb(244, 244, 244);
     --text_paragraph: rgb(0, 0, 0);
 
-
-
-    --text2: rgb(244, 244, 244);
-    --text_paragraph2: rgb(175, 175, 175);
-
-    font-family: "Commissioner", sans-serif;
+    font-family: "Gabarito", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+
+    --gray: #f5f5f5;
 }
+
+// @media (prefers-color-scheme: dark) {
+//     :root {
+//         --main: #181818;
+//         --secondary: #242424;
+//         --text: #ffffff;
+//         --border: #3a3a3a;
+//     }
+// }
+
 
 body {
     box-sizing: border-box;
     margin: 0;
     min-height: 100vh;
-    color: var(--text);
+    background-color: var(--background);
+    color: var(--text-primary);
 
     p {
-        color: var(--text_paragraph);
+        color: var(--text-secondary);
         margin: 0.2rem 0;
         font-size: 16px;
     }
@@ -41,8 +63,8 @@ body {
 
     h2 {
         font-size: 28px;
-        font-weight: 800;
         margin: 0.4rem 0;
+        color: var(--main);
     }
 
     h3 {
@@ -57,7 +79,7 @@ body {
 
     h5 {
         margin: 0.4rem 0;
-        font-weight: 600;
+        color: var(--text-secondary);
     }
 
 
@@ -65,9 +87,12 @@ body {
 
 .navbar {
     padding: 1rem;
-    background-color: var(--main);
+    background-color: #0f172a;
 }
 
+.primary {
+    color: var(--main);
+}
 
 :host {
     display: flex;
@@ -91,29 +116,25 @@ body {
     border: none;
     border-radius: 24px;
     height: 40px;
-    color: white;
-    font-size: 20px;
-    transition: all 2s;
-    min-width: 200px;
-
-    &:hover {
-        background-color: var(--secondary);
-    }
-}
-
-.btn-hollow {
-    background: none;
-    border: 2px solid var(--secondary);
-    border-radius: 24px;
-    height: 40px;
-    color: var(--secondary);
+    color: var(--gray);
     font-size: 20px;
     transition: all 2s;
     min-width: 120px;
 
     &:hover {
-        background-color: var(--secondary);
+        background-color: var(--accent-hover);
     }
+}
+
+.btn-hollow {
+    position: absolute;
+    left: 24px;
+    border: none;
+    background: none;
+    width: 40px;
+    color: black;
+    font-size: 20px;
+    transition: all 0.5s;
 }
 
 .chevron-down {
@@ -121,7 +142,6 @@ body {
     border: none;
     cursor: pointer;
     font-size: 16px;
-    font-weight: 700;
 
     &.open {
         rotate: 180deg;
@@ -132,10 +152,11 @@ body {
 // projects
 
 .project {
-    background-color: white;
+    background-color: var(--gray);
 
     padding: 1rem;
     border-radius: 24px;
+    border: 2px solid var(--border);
 
     .project-heading {
         display: flex;
@@ -159,12 +180,11 @@ body {
         align-items: center;
         justify-content: center;
         background-color: var(--secondary);
-        color: white;
+        color: var(--gray);
         border-radius: 24px;
         height: 20px;
         width: 20px;
         margin-left: -8px;
-        box-shadow: 1px 1px 2px var(--accent);
 
         &:nth-child(odd) {
             background-color: var(--accent);
@@ -177,20 +197,20 @@ body {
 .members-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
 
     p {
         margin: 0.2rem 0;
         font-size: 12px;
 
         &:first-of-type {
-            color: var(--text_paragraph2);
+            color: var(--text-muted);
         }
     }
 }
 
 .members {
     flex-direction: row-reverse;
+    margin: 0.2rem;
 }
 
 .stats {
@@ -209,10 +229,13 @@ body {
 }
 
 .task-wrapper {
+    display: flex;
+    flex-direction: column;
     padding: 1rem;
-    background-color: white;
+    background-color: var(--gray);
     border-radius: 24px;
     margin-bottom: 1.5rem;
+    border: 2px solid var(--border);
 
     &:last-child {
         margin-bottom: 0;
@@ -239,7 +262,7 @@ body {
 
 .add-task-btn {
     background: var(--accent);
-    color: white;
+    color: var(--gray);
     height: 30px;
     width: 100px;
     border-radius: 24px;
@@ -259,12 +282,14 @@ body {
     &.open {
         display: block;
         position: absolute;
-        height: 20px;
-        width: 20px;
+        height: 40px;
+        width: 60px;
         background: var(--secondary);
+        border-radius: 8px;
         border: none;
-        top: -28px;
-        color: white;
+        top: -50px;
+        color: var(--gray);
+        box-shadow: 2px 2px 2px var(--text-muted);
 
         &::after {
             content: "";
@@ -283,12 +308,13 @@ body {
 
 input {
     height: 32px;
-    border-radius: 24px;
+    border-radius: 8px;
+    // border: 2px solid var(--border);
     border: none;
     padding: 0 1rem;
 
     &:focus {
-        outline: 2px solid var(--accent);
+        outline: 2px solid var(--border);
     }
 }
 
@@ -316,7 +342,7 @@ form {
 .no-btn {
     border: none;
     background: none;
-    color: white;
+    color: var(--gray);
 
     i {
         font-size: 20px;
@@ -351,4 +377,85 @@ form {
 
 .warning {
     color: red;
+}
+
+.heading-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+}
+
+.active {
+    color: #24AA18;
+}
+
+.progress {
+    color: #1237CD;
+}
+
+.review {
+    color: #FFB20C;
+}
+
+.closed {
+    color: #BD153F;
+}
+
+select {
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 0.5rem;
+    min-height: 40px;
+
+    &:focus {
+        outline: 2px solid var(--border);
+    }
+}
+
+
+.page-title {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+
+.update-wrapper {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 101;
+    background: var(--gray);
+    width: 100%;
+    height: 100%;
+    padding: 2rem 1rem;
+    color: black;
+    justify-content: space-between;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-evenly;
+
+        button {
+            margin-top: 24px;
+        }
+    }
+
+    .change-heading {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+    }
+
+    pointer-events: auto;
+}
+
+i{
+    color: var(--text-muted);
 }

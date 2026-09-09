@@ -5,10 +5,11 @@ import { TaskModel } from '../tasks/model/task.model';
 import { DatePipe } from '@angular/common';
 import { Tasks } from '../tasks/tasks';
 import { UpdateProject } from '../projects/components/update-project/update-project';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ UpdateProject,Tasks, DatePipe],
+  imports: [RouterLink,UpdateProject,Tasks, DatePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })

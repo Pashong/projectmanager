@@ -1,15 +1,28 @@
 <div class="creation overlay">
-  <div class="creation-wrapper">
-    <div class="create-heading">
+  <div class="update-wrapper">
+    <div class="change-heading">
+      <button type="button" (click)="closeCreateMenu.emit()" class="btn-hollow">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
       <h2>Create a project</h2>
     </div>
     <form #projectCreation="ngForm" (ngSubmit)="createProject(projectCreation)">
-      <label for="projectName">Projectname:</label>
-      <input required type="text" name="projectName" id="projectName" ngModel />
-      <label for="description">Description:</label>
-      <input required type="text" name="description" id="description" ngModel />
-      <label for="status">Status</label>
-      <input type="text" name="status" id="status" ngModel />
+      <div class="input-wrapper">
+        <label for="projectName">Projectname:</label>
+        <input required type="text" name="projectName" id="projectName" ngModel />
+      </div>
+      <div class="input-wrapper">
+        <label for="description">Description:</label>
+        <input required type="text" name="description" id="description" ngModel />
+      </div>
+      <div class="input-wrapper">
+        <label for="status">Status</label>
+        <select name="status" ngModel>
+          @for (status of status; track status) {
+            <option [value]="status">{{ status.toUpperCase() }}</option>
+          }
+        </select>
+      </div>
       <div class="input-wrapper">
         <label for="members">Add Members</label>
         <select name="members" multiple [(ngModel)]="selectedMemberIds">
@@ -22,14 +35,13 @@
           }
         </select>
       </div>
-      <label for="deadline">Deadline</label>
-      <!-- maybe add current date as base value -->
-      <input required type="date" name="deadline" id="deadline" ngModel />
+      <div class="input-wrapper">
+        <label for="deadline">Deadline</label>
+        <!-- maybe add current date as base value -->
+        <input required type="date" name="deadline" id="deadline" ngModel />
+      </div>
       <div class="btn-wrapper">
-        <button type="button" (click)="closeCreateMenu.emit()" class="btn-hollow">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-        <button type="submit" class="btn-fill">Create Project</button>
+        <button type="submit" class="btn-fill">Create project</button>
       </div>
     </form>
   </div>
