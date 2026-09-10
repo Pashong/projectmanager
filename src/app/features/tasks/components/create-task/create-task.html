@@ -12,7 +12,7 @@
       @if (status()) {
         <div class="status-wrapper">
           <h3>Status:</h3>
-          <h3 class="{{status()}}">{{ status() }}</h3>
+          <h3 class="{{ status() }}">{{ status() }}</h3>
         </div>
         <form
           #taskCreation="ngForm"
@@ -54,31 +54,42 @@
           </div>
         </form>
       } @else {
-        <form #taskCreation="ngForm" (ngSubmit)="createTask(taskCreation)">
-          <label for="taskName">Task:</label>
-          <input required type="text" name="task" id="taskName" ngModel />
-          <label for="description">Description:</label>
-          <input
-            required
-            type="text"
-            name="description"
-            id="description"
-            ngModel
-          />
-          <label for="members">Add Members</label>
-          <input type="text" name="members" id="members" ngModel />
-          <label for="status">Status</label>
-          <select name="status" ngModel>
-            <option value="open">Open</option>
-            <option value="in progress">In Progress</option>
-            <option value="assigned">Assigned</option>
-          </select>
-          <label for="deadline">Deadline</label>
-          <input required type="date" name="deadline" id="deadline" ngModel />
+        <form
+          #taskCreation="ngForm"
+          (ngSubmit)="createTask(taskCreation, status()!)"
+        >
+          <div class="input-wrapper">
+            <label for="taskName">Task:</label>
+            <input required type="text" name="name" id="taskName" ngModel />
+          </div>
+          <div class="input-wrapper">
+            <label for="description">Description:</label>
+            <input
+              required
+              type="text"
+              name="description"
+              id="description"
+              ngModel
+            />
+          </div>
+          <div class="input-wrapper">
+            <label for="members">Add Members</label>
+            <select name="members" multiple [(ngModel)]="selectedMemberIds">
+              @for (
+                member of currentProject()?.members ?? [];
+                track member.id
+              ) {
+                <option [ngValue]="member">
+                  {{ member.firstName }} {{ member.lastName }}
+                </option>
+              }
+            </select>
+          </div>
+          <div class="input-wrapper">
+            <label for="deadline">Deadline</label>
+            <input required type="date" name="deadline" id="deadline" ngModel />
+          </div>
           <div class="btn-wrapper">
-            <button type="button" (click)="openCreateTask()" class="btn-hollow">
-              <i class="fa-solid fa-xmark"></i>
-            </button>
             <button type="submit" class="btn-fill">Create Task</button>
           </div>
         </form>
