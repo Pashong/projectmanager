@@ -1,7 +1,11 @@
 <div class="project">
   <div class="project-heading">
-    <h3>{{ project()?.title }}</h3>
-    <app-update-project [currentProject]="project()"></app-update-project>
+    <div class="project-title">
+      <h3 [routerLink]="[`/projects/${project()?.id}`]">
+        {{ project()?.title }}
+      </h3>
+      <app-update-project [currentProject]="project()"></app-update-project>
+    </div>
     <div class="stats">
       <div class="status">
         <p>Status</p>
@@ -21,10 +25,13 @@
           }
         </div>
       </div>
+      <button (click)="deleteProject(project()!)" class="delete-btn">
+        <i class="fa-solid fa-trash-can"></i>
+      </button>
     </div>
   </div>
   @if (tasksCount()! > 0) {
-    <h4>Tasks</h4>
+    <h5>Tasks</h5>
     <div class="tasks">
       @for (task of tasks(); track task.id) {
         @if (task.project_id === project()?.id) {
