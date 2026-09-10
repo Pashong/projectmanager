@@ -1,14 +1,20 @@
 <div class="project-page-wrapper">
-  <h2>Project</h2>
+  <div class="page-title">
+    <app-route-back></app-route-back>
+    <h2>Project</h2>
+  </div>
   <div class="project-wrapper">
     @if (project(); as project) {
       <div class="project">
-        <h4>{{ project.title }}</h4>
+        <div class="heading-wrapper">
+          <h4>{{ project.title }}</h4>
+          <app-update-project [currentProject]="project"></app-update-project>
+        </div>
         <div class="stats-wrapper">
           <div class="stats">
             <div class="status">
               <p>Status</p>
-              <p class="black">{{ project.status }}</p>
+              <p [class]="project.status">{{ project.status }}</p>
             </div>
             <div class="deadline">
               <p>Deadline</p>

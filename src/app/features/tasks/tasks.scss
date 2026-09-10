@@ -1,10 +1,3 @@
-.task-wrapper {
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    padding: 1rem;
-    border-radius: 24px;
-}
 
 #status {
     margin-bottom: 24px;
@@ -27,6 +20,26 @@
     cursor: pointer;
 }
 
-.task-description{
-    padding: 0 1rem;
+@media (min-width: 712px){
+    .task-heading{
+        display: flex;
+        justify-content: space-between;
+    }
+    .task-title{
+        display: flex;
+        order: 2;
+    }
+
+    .task{
+        display: flex;
+    }
+
+
+    .task-title-wrapper{
+        position: relative;
+        gap: 12px;
+        button{
+            order: 1;
+        }
+    }
 }

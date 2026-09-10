@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MemberModel } from '../../../shared/models/member.model';
+import { environment } from '../../../../environments/environments';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class AuthService {
 
   async logIn(form: NgForm) {
     try {
-      const response = await fetch('http://localhost:3030/login/', {
+      const response = await fetch(`${environment.apiUrl}/login/`, {
         credentials: 'include',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -29,7 +30,7 @@ export class AuthService {
 
   async register(form: NgForm) {
     try {
-      const reponse = await fetch('http://localhost:3030/register', {
+      const reponse = await fetch(`${environment.apiUrl}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form.value),
@@ -46,7 +47,7 @@ export class AuthService {
 
   async checkAuth() {
     try {
-      const response = await fetch('http://localhost:3030/auth/me', {
+      const response = await fetch(`${environment.apiUrl}/auth/me`, {
         credentials: 'include',
       });
 
@@ -77,7 +78,7 @@ export class AuthService {
 
   async logout(){
     try{
-      const response = await fetch('http://localhost:3030/logout', {
+      const response = await fetch(`${environment.apiUrl}/logout`, {
         method: "post",
         credentials: 'include',
       });

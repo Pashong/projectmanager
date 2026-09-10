@@ -5,10 +5,11 @@ import { TaskModel } from '../tasks/model/task.model';
 import { DatePipe } from '@angular/common';
 import { Tasks } from '../tasks/tasks';
 import { UpdateProject } from '../projects/components/update-project/update-project';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ UpdateProject,Tasks, DatePipe],
+  imports: [RouterLink,UpdateProject,Tasks, DatePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -47,7 +48,7 @@ export class Dashboard {
     this.tasks.set(tasksData);
     this.sortedTasks = [...tasksData].sort(
       (a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime(),
-    );
+    ).filter((task) => task.status !== "closed");
   }
 
   openTaskDetails(task: TaskModel, source: 'tasks' | 'projects') {

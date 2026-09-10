@@ -160,7 +160,7 @@ router.put('/update-task', authenticateToken, async (req, res) => {
       members,
     } = req.body;
 
-    if (!id || !title || !description || !project_id) {
+    if (!id || !title || !project_id) {
       return res.status(404).json({ message: 'Not a valid task' });
     }
 

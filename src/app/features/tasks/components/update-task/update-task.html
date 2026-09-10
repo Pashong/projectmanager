@@ -1,9 +1,13 @@
 <div class="overlay">
-  <div class="update-task-wrapper">
+  <div class="update-wrapper" (click)="$event.stopPropagation()">
     <div class="change-heading">
+      <button type="button" (click)="closeChangeMenu.emit()" class="btn-hollow">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
       <h3>Edit: {{ currentTask()?.title }}</h3>
     </div>
     <form
+    id="updateTask"
       #updateTask="ngForm"
       (ngSubmit)="taskUpdating(updateTask, currentTask()?.id)"
     >
@@ -68,9 +72,6 @@
         <p>No changes made to the task</p>
       }
       <div class="btn-wrapper">
-        <button type="button" (click)="closeChangeMenu.emit()" class="btn-hollow">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
         <button type="submit" class="btn-fill">Update</button>
       </div>
     </form>
