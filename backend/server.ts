@@ -32,5 +32,4 @@ app.use("/users", userRoute);
 
 app.listen(3030, '0.0.0.0',() =>{
     console.log("Backend is running on port 3030");
-    console.log(process.env.network);
 });

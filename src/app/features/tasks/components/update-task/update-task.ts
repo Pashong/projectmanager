@@ -33,9 +33,6 @@ export class UpdateTask {
         project_id: this.currentTask()?.project_id,
       };
 
-      console.log(taskId);
-      console.log(form.value);
-
       if (
         this.task?.title === currentTask.title &&
         this.task?.description === currentTask.description &&

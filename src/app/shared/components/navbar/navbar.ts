@@ -29,7 +29,7 @@ export class Navbar {
       await this.authService.logout();
       this.router.navigate(['/login']);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
