@@ -18,9 +18,6 @@
     --text-secondary: #5E5E5E;
     --text-muted: #BDBDBD;
 
-    --text: rgb(244, 244, 244);
-    --text_paragraph: rgb(0, 0, 0);
-
     font-family: "Gabarito", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
@@ -31,15 +28,57 @@
     box-sizing: border-box;
 }
 
-// @media (prefers-color-scheme: dark) {
-//     :root {
-//         --main: #181818;
-//         --secondary: #242424;
-//         --text: #ffffff;
-//         --border: #3a3a3a;
-//     }
+@media (prefers-color-scheme: dark) {
+    :root {
+        --main: rgb(79, 79, 212);
+        --secondary: rgb(79, 146, 212);
+        --border: #4F92D440;
+    }
+}
+
+
+// ::view-transition-old(root) {
+//     animation: slide-out 500ms ease-in;
 // }
 
+.navbar {
+    view-transition-name: navbar;
+}
+
+::view-transition-old(navbar),
+::view-transition-new(navbar) {
+    animation: none;
+}
+
+::view-transition-old(root) {
+    animation: page-out 180ms ease-out;
+}
+
+::view-transition-new(root) {
+    animation: page-in 220ms ease-out;
+}
+
+@keyframes page-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes page-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 body {
 
@@ -56,6 +95,9 @@ body {
 
     a {
         color: inherit;
+        &.active{
+            color: var(--main);
+        }
     }
 
     h1 {
@@ -95,6 +137,60 @@ body {
 .primary {
     color: var(--main);
 }
+
+.delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+
+// auth
+.login-register-wrapper {
+    position: absolute;
+    display: flex;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    background-color: var(--main);
+    border-radius: 24px;
+    padding: 1rem;
+    align-items: center;
+    gap: 24px;
+    min-width: 320px;
+    color: var(--background);
+
+    p {
+        color: white;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 24px;
+
+        .form-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            input {
+                height: 40px;
+                border: none;
+                border-radius: 24px;
+                padding-left: 1rem;
+
+                &:focus {
+                    outline: solid 2px var(--accent);
+                }
+            }
+        }
+    }
+}
+
+
 
 :host {
     display: flex;
@@ -187,6 +283,7 @@ body {
         height: 20px;
         width: 20px;
         margin-left: -8px;
+        cursor: pointer;
 
         &:nth-child(odd) {
             background-color: var(--accent);
@@ -264,18 +361,24 @@ body {
 }
 
 .add-task-btn {
+    content: "+";
     background: var(--accent);
     color: var(--gray);
     height: 30px;
     width: 100px;
     border-radius: 24px;
     border: none;
+    transition: 0.5s all ease-in;
+
+    &:hover {
+        background: var(--accent-hover);
+    }
 }
 
 .open-change-task-btn {
     background: none;
     border: none;
-    color: var(--text_paragraph2);
+    color: var(--text-secondary);
 }
 
 
@@ -482,8 +585,16 @@ i {
             justify-content: space-between;
         }
     }
-}
 
+
+    .login-register-wrapper {
+        box-sizing: border-box;
+        padding: 1rem 2rem;
+        max-width: fit-content;
+        min-width: 400px;
+
+    }
+}
 
 
 @media (min-width: 1280px) {
@@ -519,6 +630,10 @@ i {
 
         h4 {
             font-size: 24px;
+            font-weight: 400;
+        }
+        h5{
+            font-size: 20px;
         }
     }
 
@@ -541,65 +656,22 @@ i {
         width: 100%;
         box-sizing: border-box;
     }
-}
 
 
 
+    .update-wrapper {
+        position: absolute;
+        width: 50%;
+        height: fit-content;
+        border-radius: 24px;
+        box-shadow: 2px 2px 2px var(--background);
+        padding: 1rem 2rem;
+        min-width: 450px;
 
-// auth
-.login-register-wrapper {
-    position: absolute;
-    display: flex;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    flex-direction: column;
-    background-color: var(--main);
-    border-radius: 24px;
-    padding: 1rem;
-    align-items: center;
-    gap: 24px;
-    min-width: 320px;
-    color: var(--background);
+        .change-heading {
+            flex-direction: row-reverse;
 
-    p {
-        color: white;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        gap: 24px;
-
-        .form-content-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-
-            input {
-                height: 40px;
-                border: none;
-                border-radius: 24px;
-                padding-left: 1rem;
-
-                &:focus {
-                    outline: solid 2px var(--accent);
-                }
-            }
         }
     }
-}
 
-
-
-@media (min-width: 712px) {
-
-    .login-register-wrapper {
-        box-sizing: border-box;
-        padding: 1rem 2rem;
-        max-width: fit-content;
-        min-width: 400px;
-
-    }
 }

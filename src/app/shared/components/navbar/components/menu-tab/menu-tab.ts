@@ -1,10 +1,10 @@
 import { Component, input, output, signal } from '@angular/core';
 import { Menu } from '../../models/menu';
-import { RouterLink } from "@angular/router";
+import { RouterLink, RouterLinkActive } from "@angular/router";
 
 @Component({
   selector: 'app-menu-tab',
-  imports: [RouterLink],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './menu-tab.html',
   styleUrl: './menu-tab.scss',
 })
