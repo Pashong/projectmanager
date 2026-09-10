@@ -127,7 +127,6 @@ export class ProjectsService {
         id: projectId
       }
 
-      console.log(project);
         const response = await fetch(`${environment.apiUrl}/projects/update-project`, {
         method: 'put',
         credentials: 'include',

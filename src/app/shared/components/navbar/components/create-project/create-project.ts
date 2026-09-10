@@ -41,7 +41,7 @@ export class CreateProject {
       this.users.set(users);
      
     } catch (error) {
-      console.log('Users data failed', error);
+      console.error('Users data failed', error);
     }
   }
 }

@@ -14,10 +14,11 @@ import { TaskModel } from '../../../tasks/model/task.model';
 import { CreateTask } from '../../../tasks/components/create-task/create-task';
 import { UpdateProject } from "../../components/update-project/update-project";
 import { RouteBack } from '../../../../shared/components/route-back/route-back';
+import { ProjectComponent } from '../../components/project-component/project-component';
 
 @Component({
   selector: 'app-project',
-  imports: [RouteBack,
+  imports: [ProjectComponent,RouteBack,
     CreateTask,
     Tasks,
     DatePipe,
