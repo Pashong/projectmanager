@@ -1,15 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ProjectsService } from '../../service/projects.service';
-import { ProjectModel } from '../../model/project.model';
+
 import { CreateProject } from '../../../../shared/components/navbar/components/create-project/create-project';
-import { RouterLink } from "@angular/router";
-import { DatePipe } from '@angular/common';
-import { UpdateProject } from "../../components/update-project/update-project";
+
 import { ProjectComponent } from '../../components/project-component/project-component';
 
 @Component({
   selector: 'app-projects',
-  imports: [ProjectComponent,CreateProject, RouterLink, DatePipe, UpdateProject],
+  imports: [ProjectComponent,CreateProject],
   templateUrl: './projects.html',
   styleUrl: './projects.scss',
 })
