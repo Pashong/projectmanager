@@ -59,3 +59,34 @@ button i{
     margin-right: 12px;
 }
 
+
+@media (min-width: 1280px) {
+    .mobile-menu{
+        display: none;
+    }
+
+    nav{
+        min-height: 100vh;
+        flex-direction: column;
+        max-width: 300px;
+        height: 100%;
+        align-items: stretch;
+        justify-content: stretch;
+        .nav-links{
+            display: block;
+
+            color: var(--text-muted);
+            
+        }
+
+        .log-out{
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            transform: translateY(-50%);
+            width: 100%;
+        }
+    }
+
+   
+}

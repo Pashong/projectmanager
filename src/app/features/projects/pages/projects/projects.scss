@@ -59,3 +59,27 @@
         border-radius: 8px;
     }
 }
+
+
+
+@media (min-width: 1280px){
+    .projects-wrapper{
+        width: 100%;
+        padding: 2rem;
+        box-sizing: border-box;
+    }
+
+    .projects-list-wrapper{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        // flex-direction: row;
+        // flex-wrap: wrap;
+        height: 100%;
+        width: 100%;
+    }
+
+    :host{
+        width: 90%;
+        box-sizing: border-box;
+    }
+}

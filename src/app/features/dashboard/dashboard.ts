@@ -48,7 +48,7 @@ export class Dashboard {
     this.tasks.set(tasksData);
     this.sortedTasks = [...tasksData].sort(
       (a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime(),
-    );
+    ).filter((task) => task.status !== "closed");
   }
 
   openTaskDetails(task: TaskModel, source: 'tasks' | 'projects') {
