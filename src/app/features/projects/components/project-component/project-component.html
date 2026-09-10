@@ -1,0 +1,38 @@
+<div class="project">
+  <div class="project-heading">
+    <h3>{{ project()?.title }}</h3>
+    <app-update-project [currentProject]="project()"></app-update-project>
+    <div class="stats">
+      <div class="status">
+        <p>Status</p>
+        <p [class]="project()?.status">{{ project()?.status }}</p>
+      </div>
+      <div class="deadline">
+        <p>Deadline</p>
+        <p class="black">{{ project()?.deadline | date: "yyyy-MM-dd" }}</p>
+      </div>
+      <div class="members-wrapper">
+        <p>Members</p>
+        <div class="members">
+          @for (member of project()?.members; track member.id) {
+            <div class="member">
+              <p>{{ member.firstName[0] }}</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  @if (tasksCount()! > 0) {
+    <h4>Tasks</h4>
+    <div class="tasks">
+      @for (task of tasks(); track task.id) {
+        @if (task.project_id === project()?.id) {
+          <div class="task">
+            <app-tasks [task]="task"></app-tasks>
+          </div>
+        }
+      }
+    </div>
+  }
+</div>

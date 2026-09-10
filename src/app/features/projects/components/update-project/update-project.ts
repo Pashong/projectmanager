@@ -46,7 +46,7 @@ export class UpdateProject {
       );
 
       const projectMembers = this.currentProject()?.members ?? [];
-      console.log(data.members);
+      
       const members = projectMembers.filter((member) =>
         data.members.includes(member.id));
 
