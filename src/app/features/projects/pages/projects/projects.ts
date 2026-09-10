@@ -5,10 +5,11 @@ import { CreateProject } from '../../../../shared/components/navbar/components/c
 import { RouterLink } from "@angular/router";
 import { DatePipe } from '@angular/common';
 import { UpdateProject } from "../../components/update-project/update-project";
+import { ProjectComponent } from '../../components/project-component/project-component';
 
 @Component({
   selector: 'app-projects',
-  imports: [CreateProject, RouterLink, DatePipe, UpdateProject],
+  imports: [ProjectComponent,CreateProject, RouterLink, DatePipe, UpdateProject],
   templateUrl: './projects.html',
   styleUrl: './projects.scss',
 })
@@ -36,17 +37,4 @@ async getProjects(){
   }
 }
 
-async deleteProject(currentProject: ProjectModel){
-  
-  try{
-     await this.projectsService.deleteProject(currentProject.id);
-
-    this.projects.update((projects) =>
-      projects.filter((project) => project.id !== currentProject.id),
-    );
-  }
-  catch(error){
-    console.error(error);
-  }
-}
 }
