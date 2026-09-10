@@ -2,12 +2,18 @@
 
 @if (taskCreation()) {
   <div class="creation overlay">
-    <div class="creation-wrapper">
-      <div class="create-wrapper">
+    <div class="update-wrapper">
+      <div class="change-heading">
+        <button type="button" (click)="openCreateTask()" class="btn-hollow">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
         <h2>Create Task</h2>
       </div>
       @if (status()) {
-        <p>Status: {{ status() }}</p>
+        <div class="status-wrapper">
+          <h3>Status:</h3>
+          <h3 class="{{status()}}">{{ status() }}</h3>
+        </div>
         <form
           #taskCreation="ngForm"
           (ngSubmit)="createTask(taskCreation, status()!)"
@@ -44,9 +50,6 @@
             <input required type="date" name="deadline" id="deadline" ngModel />
           </div>
           <div class="btn-wrapper">
-            <button type="button" (click)="openCreateTask()" class="btn-hollow">
-              <i class="fa-solid fa-xmark"></i>
-            </button>
             <button type="submit" class="btn-fill">Create Task</button>
           </div>
         </form>
@@ -73,7 +76,7 @@
           <label for="deadline">Deadline</label>
           <input required type="date" name="deadline" id="deadline" ngModel />
           <div class="btn-wrapper">
-            <button  type="button" (click)="openCreateTask()" class="btn-hollow">
+            <button type="button" (click)="openCreateTask()" class="btn-hollow">
               <i class="fa-solid fa-xmark"></i>
             </button>
             <button type="submit" class="btn-fill">Create Task</button>

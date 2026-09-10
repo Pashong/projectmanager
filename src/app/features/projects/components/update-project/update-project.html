@@ -4,8 +4,15 @@
 
 @if (changeProject()) {
   <div class="overlay">
-    <div class="update-task-wrapper">
+    <div class="update-wrapper">
       <div class="change-heading">
+        <button
+          type="button"
+          (click)="toggleChangeProject()"
+          class="btn-hollow"
+        >
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
         <h3>Edit: {{ currentProject()?.title }}</h3>
       </div>
       <form
@@ -75,13 +82,6 @@
           <p class="warning">No changes made to the project</p>
         }
         <div class="btn-wrapper">
-          <button
-            type="button"
-            (click)="toggleChangeProject()"
-            class="btn-hollow"
-          >
-            <i class="fa-solid fa-xmark"></i>
-          </button>
           <button type="submit" class="btn-fill">Update</button>
         </div>
       </form>

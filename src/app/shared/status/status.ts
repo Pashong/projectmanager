@@ -1,0 +1,1 @@
+export const status: string[] = ['active', 'in progress', 'in review', 'closed', 'inactive'];

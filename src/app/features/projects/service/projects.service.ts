@@ -1,7 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environments';
 import { NgForm } from '@angular/forms';
-import { ProjectCreationModel } from '../../../shared/components/navbar/components/create-project/model/project-creation.model';
 import { ProjectModel } from '../model/project.model';
 import { MemberModel } from '../../../shared/models/member.model';
 
@@ -53,7 +52,7 @@ export class ProjectsService {
     }
   }
 
-  async createProject(values: ProjectCreationModel) {
+  async createProject(values: ProjectModel) {
     try {
       const response = await fetch(
         `${environment.apiUrl}/projects/create-project`,

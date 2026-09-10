@@ -1,6 +1,7 @@
 .tab-heading{
     display: flex;
     font-weight: 600;
+    margin-bottom: 12px;
     button{
         display: none;
     }
@@ -10,7 +11,12 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    padding-left: 12px;
+    transition: 0.5s all ease-in;
     a{
         text-decoration: none;
+        &:hover{
+            color: var(--main);
+        }
     }
 }

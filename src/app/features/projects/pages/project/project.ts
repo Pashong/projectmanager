@@ -3,30 +3,29 @@ import { ProjectsService } from '../../service/projects.service';
 import { TaskService } from '../../../tasks/service/task.service';
 import { Tasks } from '../../../tasks/tasks';
 import { ActivatedRoute } from '@angular/router';
-import { ProjectModel } from '../../model/project.model';
 import { DatePipe } from '@angular/common';
 import {
   CdkDrag,
   CdkDragDrop,
   CdkDropList,
-  moveItemInArray,
-  transferArrayItem,
-  CdkDragPlaceholder,
   CdkDropListGroup,
 } from '@angular/cdk/drag-drop';
 import { TaskModel } from '../../../tasks/model/task.model';
 import { CreateTask } from '../../../tasks/components/create-task/create-task';
+import { UpdateProject } from "../../components/update-project/update-project";
+import { RouteBack } from '../../../../shared/components/route-back/route-back';
 
 @Component({
   selector: 'app-project',
-  imports: [
+  imports: [RouteBack,
     CreateTask,
     Tasks,
     DatePipe,
     CdkDropList,
     CdkDrag,
     CdkDropListGroup,
-  ],
+    UpdateProject
+],
   templateUrl: './project.html',
   styleUrl: './project.scss',
 })
