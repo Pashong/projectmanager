@@ -2,14 +2,13 @@ import { Component, inject, signal, computed } from '@angular/core';
 import { ProjectsService } from '../projects/service/projects.service';
 import { TaskService } from '../tasks/service/task.service';
 import { TaskModel } from '../tasks/model/task.model';
-import { DatePipe } from '@angular/common';
 import { Tasks } from '../tasks/tasks';
-import { UpdateProject } from '../projects/components/update-project/update-project';
 import { RouterLink } from '@angular/router';
+import { ProjectComponent } from '../projects/components/project-component/project-component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterLink,UpdateProject,Tasks, DatePipe],
+  imports: [ ProjectComponent, Tasks, RouterLink],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -41,9 +40,7 @@ export class Dashboard {
   async ngOnInit() {
     const projectsData = await this.projectService.getProjects();
     const tasksData = await this.tasksService.getProjectsTasks();
-
-    console.log(projectsData);
-    console.log(tasksData);
+    
     this.projects.set(projectsData);
     this.tasks.set(tasksData);
     this.sortedTasks = [...tasksData].sort(
