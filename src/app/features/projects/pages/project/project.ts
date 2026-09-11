@@ -8,6 +8,7 @@ import {
   CdkDragDrop,
   CdkDropList,
   CdkDropListGroup,
+  CdkDragHandle
 } from '@angular/cdk/drag-drop';
 import { TaskModel } from '../../../tasks/model/task.model';
 import { CreateTask } from '../../../tasks/components/create-task/create-task';
@@ -20,7 +21,6 @@ import { ProjectComponent } from '../../components/project-component/project-com
     CreateTask,
     Tasks,
     CdkDropList,
-    CdkDrag,
     CdkDropListGroup,
 ],
   templateUrl: './project.html',

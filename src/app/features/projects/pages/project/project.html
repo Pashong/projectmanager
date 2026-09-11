@@ -27,7 +27,7 @@
             <div class="tasks">
               @for (task of tasks(); track task.id) {
                 @if (task.status === status) {
-                  <div class="task" cdkDrag [cdkDragData]="task">
+                  <div class="task">
                     <app-tasks [task]="task"></app-tasks>
                   </div>
                 }

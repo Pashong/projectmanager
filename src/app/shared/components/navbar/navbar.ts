@@ -4,6 +4,7 @@ import { Menu } from './models/menu';
 import { AuthService } from '../../../features/auth/services/auth.service';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -43,6 +44,17 @@ export class Navbar {
   }
 
   ngOnInit() {
-    this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe(() => this.isOpen.set(false));
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe(() => this.isOpen.set(false));
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+
+    if (!target.closest('nav')) {
+      this.isOpen.set(false);
+    }
   }
 }

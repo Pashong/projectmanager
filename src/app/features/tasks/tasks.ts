@@ -10,10 +10,18 @@ import { FormsModule } from '@angular/forms';
 import { TaskItemModel } from './model/task-item.model';
 import { ProjectModel } from '../projects/model/project.model';
 import { TaskItemService } from './components/task-items/service/task-item.service';
+import { CdkDrag } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-tasks',
-  imports: [FormsModule, DatePipe, DeleteTask, OpenUpdateTask, OpenUpdateTask],
+  imports: [
+    CdkDrag,
+    FormsModule,
+    DatePipe,
+    DeleteTask,
+    OpenUpdateTask,
+    OpenUpdateTask,
+  ],
   templateUrl: './tasks.html',
   styleUrl: './tasks.scss',
 })
