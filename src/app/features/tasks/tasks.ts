@@ -1,19 +1,17 @@
-import { Component, inject, signal, input } from '@angular/core';
+import { Component, inject, signal, input, computed } from '@angular/core';
 import { TaskModel } from './model/task.model';
 import { TaskService } from './service/task.service';
 import { ProjectsService } from '../projects/service/projects.service';
 import { ActivatedRoute } from '@angular/router';
 import { DeleteTask } from './components/delete-task/delete-task';
 import { DatePipe } from '@angular/common';
-import { OpenUpdateTask } from "./components/open-update-task/open-update-task";
+import { OpenUpdateTask } from './components/open-update-task/open-update-task';
+import { FormsModule } from '@angular/forms';
+import { TaskItemModel } from './model/task-item.model';
 
 @Component({
   selector: 'app-tasks',
-  imports: [DatePipe,
-    DeleteTask,
-    OpenUpdateTask,
-    OpenUpdateTask,
-  ],
+  imports: [FormsModule, DatePipe, DeleteTask, OpenUpdateTask, OpenUpdateTask],
   templateUrl: './tasks.html',
   styleUrl: './tasks.scss',
 })
@@ -22,14 +20,17 @@ export class Tasks {
   private projectService = inject(ProjectsService);
   private route = inject(ActivatedRoute);
 
+  progress = signal(0);
 
   tasks = this.tasksService.tasks;
   task = input.required<TaskModel>();
   changeTask = signal<TaskModel | null>(null);
   project = this.projectService.project;
 
+  taskItems = signal<TaskItemModel[]>([]);
+
   taskDetails = signal<number | null>(null);
-  deleteMember = signal<{taskId: number, userId: number }| null>(null);
+  deleteMember = signal<{ taskId: number; userId: number } | null>(null);
 
   async deleteTask(currentTask: TaskModel) {
     try {
@@ -42,12 +43,12 @@ export class Tasks {
     }
   }
 
-  openChangeTask(task: TaskModel) {
-    if (task) {
-      task.deadline = task.deadline.split('T')[0];
+  openChangeTask(currentTask: TaskModel) {
+    if (currentTask) {
+      currentTask.deadline = currentTask.deadline.split('T')[0];
     }
-    this.tasksService.task.set(task);
-    this.changeTask.set(task);
+    this.tasksService.task.set(currentTask);
+    this.changeTask.set(currentTask);
   }
 
   async removeUser(taskId: number, userId: number) {
@@ -68,9 +69,12 @@ export class Tasks {
     }
   }
 
-
-  openDeleteMember(id: number, taskId: number){
-    this.deleteMember.update((current) => current?.taskId === taskId && current.userId === id ? null : {taskId: taskId, userId: id});
+  openDeleteMember(id: number, taskId: number) {
+    this.deleteMember.update((current) =>
+      current?.taskId === taskId && current.userId === id
+        ? null
+        : { taskId: taskId, userId: id },
+    );
   }
 
   openTaskDetails(task: TaskModel) {
@@ -78,4 +82,18 @@ export class Tasks {
       currentId === task.id ? null : task.id,
     );
   }
+
+  onCheckboxChange() {
+    const items = this.task().task_items;
+
+    if (items) {
+      const checkedAmount = items.filter((item) => item.completed).length;
+
+      const progress =
+        items.length > 0 ? (checkedAmount / items.length) * 100 : 0;
+
+      this.progress.set(progress);
+    }
+  }
+
 }

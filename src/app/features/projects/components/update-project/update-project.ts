@@ -1,9 +1,10 @@
-import { Component, input, signal, inject } from '@angular/core';
+import { Component, input, signal, inject, computed } from '@angular/core';
 import { ProjectModel } from '../../model/project.model';
 import { FormsModule, NgForm } from '@angular/forms';
 import { TaskService } from '../../../tasks/service/task.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { ProjectsService } from '../../service/projects.service';
+import { MemberModel } from '../../../../shared/models/member.model';
 
 @Component({
   selector: 'app-update-project',
@@ -21,7 +22,13 @@ export class UpdateProject {
   noChanges = signal<boolean>(false);
   selectedMemberIds: number[] = [];
   tasksStatus = this.tasksService.taskStatus;
-
+  users = signal<MemberModel[]>([]);
+  projectMembers = computed(() => 
+  {
+    const projectMembers = this.currentProject()?.members;
+    
+    return this.users().filter( user => !projectMembers?.some(projectMember => projectMember.id === user.id));
+  });
   toggleChangeProject() {
     this.changeProject.update((value) => !value);
   }
@@ -45,10 +52,9 @@ export class UpdateProject {
         currentProject.id,
       );
 
-      const projectMembers = this.currentProject()?.members ?? [];
-      
-      const members = projectMembers.filter((member) =>
-        data.members.includes(member.id));
+      const members = this.users().filter((member) =>
+        data.members.includes(member.id),
+      );
 
       this.changeProject.set(false);
 
@@ -61,6 +67,15 @@ export class UpdateProject {
       );
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async ngOnInit() {
+    try {
+      const users = await this.projectService.getUsers();
+      this.users.set(users);
+    } catch (error) {
+      console.error('Users data failed', error);
     }
   }
 }

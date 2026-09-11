@@ -14,7 +14,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: ['http://localhost:4200', `http://${process.env.network}:4200`],
+    origin: ['http://localhost:4200', `http://${process.env.network}:4200`, 'https://proman.portfolio-hg.de', 'https://portfolio-hg.de'],
     credentials: true,
   }),
 );

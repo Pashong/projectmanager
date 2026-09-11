@@ -45,7 +45,7 @@
         <div class="input-wrapper">
           <label for="members">Add Members</label>
           <select name="members" multiple [(ngModel)]="selectedMemberIds">
-            @for (member of currentProject()?.members ?? []; track member.id) {
+            @for (member of projectMembers(); track member.id) {
               @if (member.id !== currentUser?.id) {
                 <option [ngValue]="member">
                   {{ member.firstName }} {{ member.lastName }}

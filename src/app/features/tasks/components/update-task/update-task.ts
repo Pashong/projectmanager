@@ -1,4 +1,11 @@
-import { Component, inject, input, signal, output } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  signal,
+  output,
+  computed,
+} from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { TaskService } from '../../service/task.service';
 import { ProjectsService } from '../../../projects/service/projects.service';
@@ -22,7 +29,13 @@ export class UpdateTask {
   selectedMemberIds: number[] = [];
   currentTask = input<TaskModel | null>();
   currentProject = input<ProjectModel | null>();
-  
+  taskMembers = computed(() => {
+    const projectMembers = this.currentProject()?.members ?? [];
+    const taskMembers = this.currentTask()?.members ?? [];
+
+    return projectMembers.filter(projectMember => !taskMembers.some(taskMember => taskMember.id === projectMember.id));
+  });
+
   closeChangeMenu = output<void>();
 
   async taskUpdating(form: NgForm, taskId?: number) {
@@ -55,18 +68,19 @@ export class UpdateTask {
         data?.members.includes(member.id),
       );
 
-      this.closeChangeMenu.emit();
-
       this.tasks.update((tasks) =>
         tasks.map((task) =>
           task.id === data.task.id
             ? {
+                ...task,
                 ...data?.task,
                 members,
               }
             : task,
         ),
       );
+
+      this.closeChangeMenu.emit();
     } catch (error) {
       console.error(error);
     }

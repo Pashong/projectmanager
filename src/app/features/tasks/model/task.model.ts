@@ -1,4 +1,5 @@
 import { MemberModel } from "../../../shared/models/member.model"
+import { TaskItemModel } from "./task-item.model"
 
 export interface TaskModel {
     id: number,
@@ -7,5 +8,7 @@ export interface TaskModel {
     description: string,
     status: string,
     deadline: string,
-    members: MemberModel[]
+    members: MemberModel[],
+    task_items: TaskItemModel[],
+    checkedAmount: number
 }

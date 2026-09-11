@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { TaskService } from '../../service/task.service';
 import { TaskModel } from '../../model/task.model';
 
@@ -12,6 +12,9 @@ export class DeleteTask {
   private tasksService = inject(TaskService);
   tasks = this.tasksService.tasks;
   task = input.required<TaskModel>();
+  acceptDelete = signal<boolean>(false);
+
+  
 
   async deleteTask(currentTask: TaskModel) {
     try {

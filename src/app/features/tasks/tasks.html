@@ -49,5 +49,23 @@
   <div class="task-description" [class.open]="taskDetails()">
     <h5>Taskdescription</h5>
     <p class="black">{{ task().description }}</p>
+    @if (task().task_items.length > 0) {
+      @for (task_item of task().task_items; track task_item.id) {
+        <div class="task-item">
+          <label class="container">
+            <input
+              type="checkbox"
+              name="task-item"
+              [(ngModel)]="task_item.completed"
+              (change)="onCheckboxChange()" />
+            {{ task_item.description }}
+            <span class="checkmark"></span
+          ></label>
+        </div>
+      }
+    }
+    <div class="progress-bar-wrapper">
+      <div class="progress-bar" [style.width.%]="progress()"></div>
+    </div>
   </div>
 }

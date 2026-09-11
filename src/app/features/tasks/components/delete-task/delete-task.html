@@ -1,1 +1,23 @@
-<button (click)="deleteTask(task())"><i class="fa-solid fa-trash-can"></i></button>
+<!-- <button (click)="deleteTask(task())"><i class="fa-solid fa-trash-can"></i></button> -->
+<button class="delete" (click)="acceptDelete.set(true)">
+  <i class="fa-solid fa-trash-can"></i>
+</button>
+
+@if (acceptDelete()) {
+  <div class="overlay">
+    <div class="update-wrapper">
+      <h2 class="closed">Delete</h2>
+      <span>Are you sure you want to delete</span>
+      <h3>{{ task().title }}</h3>
+
+      <div class="delete-btn-wrapper">
+        <button id="cancel" class="btn-fill" (click)="acceptDelete.set(false)">
+          Cancel
+        </button>
+        <button id="delete" class="btn-fill" (click)="deleteTask(task())">
+          Yes! <i class="fa-solid fa-trash-can"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+}

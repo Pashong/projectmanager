@@ -7,7 +7,7 @@ const router = Router();
 router.post('/', authenticateToken, (req , res ) => {
     res.clearCookie('token', {
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: 'lax',
     })
 
