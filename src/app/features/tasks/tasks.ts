@@ -113,12 +113,17 @@ export class Tasks {
 
     if (items) {
       this.onTaskItemChange();
-      const checkedAmount = items.filter((item) => item.completed).length;
-
-      const progress =
-        items.length > 0 ? (checkedAmount / items.length) * 100 : 0;
-
-      this.progress.set(progress);
+      this.calculateProgress(items);
     }
+  }
+
+  calculateProgress(items: TaskItemModel[]) {
+    const checkedAmount = items.filter((item) => item.completed).length;
+    const progress =
+      items.length > 0 ? (checkedAmount / items.length) * 100 : 0;
+    this.progress.set(progress);
+  }
+  ngOnInit() {
+    this.calculateProgress(this.task().task_items);
   }
 }

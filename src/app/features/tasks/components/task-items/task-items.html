@@ -7,11 +7,13 @@
   />
   <button type="button" class="btn-fill" (click)="addTaskItem()">Add</button>
 </div>
-@for (taskItem of taskItems(); track $index) {
-  <span class="task-item"
-    >{{ taskItem }}
-    <button type="button" class="no-btn" (click)="removeTask(taskItem, $index)">
-      X
-    </button>
-  </span>
-}
+<div class="task-items-wrapper">
+  @for (taskItem of taskItems(); track $index) {
+    <span class="task-item"
+      >{{ taskItem }}
+      <button type="button" class="no-btn" (click)="removeTask(taskItem, $index)">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </span>
+  }
+</div>

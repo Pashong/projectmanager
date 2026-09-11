@@ -18,12 +18,16 @@
     }
 }
 
+.task-items-wrapper{
+    padding: 0 1rem; 
+    font-size: 16px;
+}
 
 .task-item {
     display: flex;
     gap: 4px;
     align-items: center;
-
+    margin-top: 0.5rem;
     button {
         height: 20px;
         min-width: 30px;
