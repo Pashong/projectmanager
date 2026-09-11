@@ -17,12 +17,25 @@ export class CreateProject {
   status = status;
   projects = this.projectsService.projects;
   selectedMemberIds: number[] = [];
-  users = signal<MemberModel[]>([]); 
+  users = signal<MemberModel[]>([]);
   currentUser = this.authService.currentUser();
+  noStatus = signal<boolean>(false);
+  noDeadline = signal<boolean>(false);
   closeCreateMenu = output<void>();
-  
+
   async createProject(form: NgForm) {
     try {
+      if (!form.value.status) {
+        this.noStatus.set(true);
+        return;
+      }
+      this.noStatus.set(false);
+
+      if (!form.value.deadline || !form.value.title) {
+        this.noDeadline.set(true);
+        return;
+      }
+
       const newProject = await this.projectsService.createProject(form.value);
 
       newProject.members = [...form.value.members, this.currentUser];
@@ -39,7 +52,6 @@ export class CreateProject {
     try {
       const users = await this.projectsService.getUsers();
       this.users.set(users);
-     
     } catch (error) {
       console.error('Users data failed', error);
     }
