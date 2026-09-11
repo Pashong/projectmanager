@@ -9,7 +9,7 @@
         @for (project of projectsWithTasks(); track project.id) {
           <app-project-component
             [project]="project"
-            [tasks]="sortedTasks"
+            [tasks]="tasks()"
             [tasksCount]="project.tasks.length"
           ></app-project-component>
         }
@@ -24,10 +24,10 @@
     <div class="overview task-overview">
       <h3 class="gray">Task Deadlines:</h3>
       <div class="tasks">
-        @if (sortedTasks) {
-          @for (task of sortedTasks; track task.id) {
+        @if (sortedTasks()) {
+          @for (task of sortedTasks(); track task.id) {
             <div class="task-fill task">
-              <app-tasks [task]="task"></app-tasks>
+              <app-tasks [task]="task" [sorted]="true"></app-tasks>
             </div>
           }
         } @else {

@@ -18,7 +18,7 @@ export class Dashboard {
   projects = this.projectService.projects;
   tasks = this.tasksService.tasks;
   changeTask = signal<TaskModel | null>(null);
-  sortedTasks: TaskModel[] | null = null;
+  sortedTasks = this.tasksService.sortedTasks;
   projectsWithTasks = computed(() => {
     return this.projects().map((project) => ({
       ...project,
@@ -43,12 +43,14 @@ export class Dashboard {
 
       if (tasksData) {
         this.tasks.set(tasksData);
-        this.sortedTasks = [...tasksData]
+        const sorted = [...tasksData]
           .sort(
             (a, b) =>
               new Date(a.deadline).getTime() - new Date(b.deadline).getTime(),
           )
           .filter((task) => task.status !== 'closed');
+
+          this.sortedTasks.set(sorted);
       }
     } catch (error) {
       console.log('Dashboard: ', error);
