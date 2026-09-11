@@ -1,0 +1,19 @@
+<div class="task-item-wrapper">
+  <input
+    type="text"
+    name="taskItems"
+    placeholder="Add subtask..."
+    [(ngModel)]="newTaskItem"
+  />
+  <button type="button" class="btn-fill" (click)="addTaskItem()">Add</button>
+</div>
+@for (taskItem of taskItems(); track $index) {
+  <span class="task-item"
+    >{{ taskItem }}
+    @if (source() !== 'update') {
+      <button type="button" class="no-btn" (click)="removeTask(taskItem)">
+        X
+      </button>
+    }
+  </span>
+}

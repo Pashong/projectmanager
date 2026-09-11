@@ -11,10 +11,12 @@ import { TaskService } from '../../service/task.service';
 import { ProjectsService } from '../../../projects/service/projects.service';
 import { TaskModel } from '../../model/task.model';
 import { ProjectModel } from '../../../projects/model/project.model';
+import { TaskItems } from '../task-items/task-items';
+import { viewChild } from '@angular/core';
 
 @Component({
   selector: 'app-update-task',
-  imports: [FormsModule],
+  imports: [TaskItems,FormsModule],
   templateUrl: './update-task.html',
   styleUrl: './update-task.scss',
 })
@@ -33,17 +35,25 @@ export class UpdateTask {
     const projectMembers = this.currentProject()?.members ?? [];
     const taskMembers = this.currentTask()?.members ?? [];
 
-    return projectMembers.filter(projectMember => !taskMembers.some(taskMember => taskMember.id === projectMember.id));
+    return projectMembers.filter(
+      (projectMember) =>
+        !taskMembers.some((taskMember) => taskMember.id === projectMember.id),
+    );
   });
+
+  taskItemsComponent = viewChild(TaskItems)
 
   closeChangeMenu = output<void>();
 
   async taskUpdating(form: NgForm, taskId?: number) {
     try {
+      const taskItems = this.taskItemsComponent()?.taskItems() ?? [];
+
       const currentTask = {
         ...form.value,
         id: taskId,
         project_id: this.currentTask()?.project_id,
+        taskItems: taskItems
       };
 
       if (
@@ -75,6 +85,7 @@ export class UpdateTask {
                 ...task,
                 ...data?.task,
                 members,
+                task_items: data.taskItems
               }
             : task,
         ),
@@ -85,4 +96,7 @@ export class UpdateTask {
       console.error(error);
     }
   }
+
+
+
 }

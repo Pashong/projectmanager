@@ -33,6 +33,9 @@
             />
           </div>
           <div class="input-wrapper">
+            <app-task-items></app-task-items>
+          </div>
+          <div class="input-wrapper">
             <label for="members">Add Members</label>
             <select name="members" multiple [(ngModel)]="selectedMemberIds">
               @for (

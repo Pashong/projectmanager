@@ -33,14 +33,20 @@
           ;
         />
       </div>
+      <div class="input-wrapper">
+        <div class="task-item-wrapper">
+        <app-task-items [initialItems]="currentTask()?.task_items ?? []" [source]="'update'"></app-task-items>
+        </div>
+      </div>
+
       <!-- replace with a dropdown with autocomplete  -->
       <div class="input-wrapper">
         <label for="members">Add Members</label>
         <select name="members" multiple [(ngModel)]="selectedMemberIds">
           @for (member of taskMembers(); track member.id) {
-              <option [ngValue]="member">
-                {{ member.firstName }} {{ member.lastName }}
-              </option>
+            <option [ngValue]="member">
+              {{ member.firstName }} {{ member.lastName }}
+            </option>
           }
         </select>
       </div>
