@@ -19,7 +19,7 @@
           (ngSubmit)="createTask(taskCreation, status()!)"
         >
           <div class="input-wrapper">
-            <label for="taskName">Task:</label>
+            <label for="taskName">Taskname:</label>
             <input required type="text" name="name" id="taskName" ngModel />
           </div>
           <div class="input-wrapper">
@@ -49,6 +49,9 @@
             <label for="deadline">Deadline</label>
             <input required type="date" name="deadline" id="deadline" ngModel />
           </div>
+          @if (!requiredFields()) {
+            <p class="closed">Please enter a name, description and deadline!</p>
+          }
           <div class="btn-wrapper">
             <button type="submit" class="btn-fill">Create Task</button>
           </div>
@@ -89,6 +92,9 @@
             <label for="deadline">Deadline</label>
             <input required type="date" name="deadline" id="deadline" ngModel />
           </div>
+          @if (requiredFields()) {
+            <p class="closed">Please enter a name, description and deadline!</p>
+          }
           <div class="btn-wrapper">
             <button type="submit" class="btn-fill">Create Task</button>
           </div>

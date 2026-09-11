@@ -20,12 +20,20 @@ export class CreateTask {
   taskCreation = signal<boolean>(false);
   currentProject = input<ProjectModel | null>();
   selectedMemberIds: number[] = [];
+  requiredFields = signal<boolean>(true);
 
   openCreateTask() {
     this.taskCreation.update((value) => !value);
   }
 
   async createTask(form: NgForm, status?: string) {
+
+    if(!form.value.title || !form.value.description || !form.value.deadline){
+      this.requiredFields.set(false);
+      return;
+    }
+
+    this.requiredFields.set(true);
 
     const data = await this.tasksService.createTask(form, status);
     const taskMembers = [
