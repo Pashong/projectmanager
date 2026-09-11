@@ -7,7 +7,7 @@
       <h3>Edit: {{ currentTask()?.title }}</h3>
     </div>
     <form
-    id="updateTask"
+      id="updateTask"
       #updateTask="ngForm"
       (ngSubmit)="taskUpdating(updateTask, currentTask()?.id)"
     >
@@ -37,10 +37,10 @@
       <div class="input-wrapper">
         <label for="members">Add Members</label>
         <select name="members" multiple [(ngModel)]="selectedMemberIds">
-          @for (member of currentProject()?.members ?? []; track member.id) {
-            <option [ngValue]="member">
-              {{ member.firstName }} {{ member.lastName }}
-            </option>
+          @for (member of taskMembers(); track member.id) {
+              <option [ngValue]="member">
+                {{ member.firstName }} {{ member.lastName }}
+              </option>
           }
         </select>
       </div>

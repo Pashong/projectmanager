@@ -4,18 +4,34 @@
   </div>
   <div class="overview-wrapper">
     <div class="overview project-overview">
-      <h3 class="gray" [routerLink]="['/projects']" >Projects Overview</h3>
-      @for (project of projectsWithTasks(); track project.id) {
-        <app-project-component [project]="project" [tasks]="sortedTasks" [tasksCount]="project.tasks.length"></app-project-component>
+      <h3 class="gray" [routerLink]="['/projects']">Projects Overview</h3>
+      @if (tasks()) {
+        @for (project of projectsWithTasks(); track project.id) {
+          <app-project-component
+            [project]="project"
+            [tasks]="sortedTasks"
+            [tasksCount]="project.tasks.length"
+          ></app-project-component>
+        }
+      } @else {
+        @for (project of projects(); track project.id) {
+          <app-project-component
+            [project]="project"
+          ></app-project-component>
+        }
       }
     </div>
     <div class="overview task-overview">
       <h3 class="gray">Task Deadlines:</h3>
       <div class="tasks">
-        @for (task of sortedTasks; track task.id) {
-          <div class="task-fill task">
-            <app-tasks [task]="task"></app-tasks>
-          </div>
+        @if (sortedTasks) {
+          @for (task of sortedTasks; track task.id) {
+            <div class="task-fill task">
+              <app-tasks [task]="task"></app-tasks>
+            </div>
+          }
+        } @else {
+          <h4 class="review">No tasks available</h4>
         }
       </div>
     </div>

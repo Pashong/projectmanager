@@ -8,7 +8,7 @@ import { ProjectComponent } from '../projects/components/project-component/proje
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ ProjectComponent, Tasks, RouterLink],
+  imports: [ProjectComponent, Tasks, RouterLink],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -22,30 +22,37 @@ export class Dashboard {
   projectsWithTasks = computed(() => {
     return this.projects().map((project) => ({
       ...project,
-      tasks: this.tasks().filter((task) => task.project_id === project.id),
+      tasks: this.tasks()?.filter((task) => task.project_id === project.id),
     }));
   });
+
   taskDetails = signal<{ taskId: number; source: 'tasks' | 'projects' } | null>(
     null,
   );
 
-  openChangeTask(task: TaskModel) {
-    if (task) {
-      task.deadline = task.deadline.split('T')[0];
-    }
-    this.tasksService.task.set(task);
-    this.changeTask.set(task);
-  }
-
+  
   async ngOnInit() {
-    const projectsData = await this.projectService.getProjects();
-    const tasksData = await this.tasksService.getProjectsTasks();
-    
-    this.projects.set(projectsData);
-    this.tasks.set(tasksData);
-    this.sortedTasks = [...tasksData].sort(
-      (a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime(),
-    ).filter((task) => task.status !== "closed");
+    try {
+      const projectsData = await this.projectService.getProjects();
+      const tasksData =
+        (await this.tasksService.getProjectsTasks()) as TaskModel[];
+
+      if (projectsData) {
+        this.projects.set(projectsData);
+      }
+
+      if (tasksData) {
+        this.tasks.set(tasksData);
+        this.sortedTasks = [...tasksData]
+          .sort(
+            (a, b) =>
+              new Date(a.deadline).getTime() - new Date(b.deadline).getTime(),
+          )
+          .filter((task) => task.status !== 'closed');
+      }
+    } catch (error) {
+      console.log('Dashboard: ', error);
+    }
   }
 
   openTaskDetails(task: TaskModel, source: 'tasks' | 'projects') {

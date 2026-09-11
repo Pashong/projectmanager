@@ -39,7 +39,7 @@
                 member of currentProject()?.members ?? [];
                 track member.id
               ) {
-                <option [ngValue]="member">
+                <option [ngValue]="member.id">
                   {{ member.firstName }} {{ member.lastName }}
                 </option>
               }

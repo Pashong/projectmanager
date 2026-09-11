@@ -1,4 +1,45 @@
-button{
+.delete {
     background: none;
     border: none;
+}
+
+.update-wrapper {
+    align-items: center;
+    max-width: 320px;
+    max-height: 320px;
+    gap: 24px;
+    border-radius: 24px;
+    box-shadow: 2px 2px 2px var(--background);
+}
+
+.delete-btn-wrapper {
+    display: flex;
+    gap: 24px;
+    width: 100%;
+    justify-content: space-between;
+
+    #cancel {
+        background: var(--main);
+        color: var(--background);
+        padding: 0 1rem;
+        cursor: pointer;
+        transition: all 0.5s ease-in;
+
+        &:hover {
+            background-color: var(--main-hover);
+        }
+
+    }
+}
+
+
+@media (min-width: 1280px) {
+    .update-wrapper {
+        align-items: center;
+        max-width: 320px;
+        min-height: 240px;
+        gap: 24px;
+
+    }
+
 }

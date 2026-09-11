@@ -1,18 +1,16 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, signal} from '@angular/core';
 import { ProjectsService } from '../../service/projects.service';
 import { TaskService } from '../../../tasks/service/task.service';
 import { Tasks } from '../../../tasks/tasks';
 import { ActivatedRoute } from '@angular/router';
-import { DatePipe } from '@angular/common';
 import {
-  CdkDrag,
+  CdkDrag, 
   CdkDragDrop,
   CdkDropList,
   CdkDropListGroup,
 } from '@angular/cdk/drag-drop';
 import { TaskModel } from '../../../tasks/model/task.model';
 import { CreateTask } from '../../../tasks/components/create-task/create-task';
-import { UpdateProject } from "../../components/update-project/update-project";
 import { RouteBack } from '../../../../shared/components/route-back/route-back';
 import { ProjectComponent } from '../../components/project-component/project-component';
 
@@ -21,11 +19,9 @@ import { ProjectComponent } from '../../components/project-component/project-com
   imports: [ProjectComponent,RouteBack,
     CreateTask,
     Tasks,
-    DatePipe,
     CdkDropList,
     CdkDrag,
     CdkDropListGroup,
-    UpdateProject
 ],
   templateUrl: './project.html',
   styleUrl: './project.scss',
@@ -38,6 +34,7 @@ export class Project {
 
   tasks = this.tasksService.tasks;
   project = this.projectService.project;
+
 
   async ngOnInit() {
     try {
