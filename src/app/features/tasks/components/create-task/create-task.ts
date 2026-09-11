@@ -32,7 +32,6 @@ export class CreateTask {
 
   async createTask(form: NgForm, status?: string) {
 
-    console.log(form.value);
     if(!form.value.name || !form.value.description || !form.value.deadline){
       this.requiredFields.set(false);
       return;
@@ -53,8 +52,6 @@ export class CreateTask {
       members: members,
       task_items: [...data.taskItems]
     }
-
-    console.log(newTask);
 
     this.tasks.update((tasks) => [...tasks, newTask]);
 

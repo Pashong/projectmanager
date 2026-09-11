@@ -6,22 +6,41 @@ import { TaskItemModel } from '../../../model/task-item.model';
   providedIn: 'root',
 })
 export class TaskItemService {
+  async deleteTaskItem(taskItem: TaskItemModel) {
+    try {
+      const response = await fetch(
+        `${environment.apiUrl}/task-items/${taskItem.id}`,
+        {
+          method: 'delete',
+          credentials: 'include',
+        },
+      );
 
-
-async deleteTaskItem(taskItem: TaskItemModel){
-  try{
-    const response = await fetch(`${environment.apiUrl}/task-items/${taskItem.id}`,{
-      method: 'delete',
-      credentials: 'include'
-    });
-
-    if(!response.ok){
-      throw new Error("Reponse status: "+response.status);
+      if (!response.ok) {
+        throw new Error('Reponse status: ' + response.status);
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
-  catch(error){ 
-    console.error(error);
+
+  async updateTaskItem(taskItems: TaskItemModel[]) {
+    try {
+      const response = await fetch(
+        `${environment.apiUrl}/task-items/update-items/`,
+        {
+          method: 'put',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({taskItems: taskItems}),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('Reponse status: ' + response.status);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
-}
-  
 }
