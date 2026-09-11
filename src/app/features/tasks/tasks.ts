@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { OpenUpdateTask } from './components/open-update-task/open-update-task';
 import { FormsModule } from '@angular/forms';
 import { TaskItemModel } from './model/task-item.model';
+import { ProjectModel } from '../projects/model/project.model';
 
 @Component({
   selector: 'app-tasks',
@@ -17,20 +18,18 @@ import { TaskItemModel } from './model/task-item.model';
 })
 export class Tasks {
   private tasksService = inject(TaskService);
-  private projectService = inject(ProjectsService);
-  private route = inject(ActivatedRoute);
-
-  progress = signal(0);
 
   tasks = this.tasksService.tasks;
+
+  project = input<ProjectModel| null>(null);
+  sorted = input<boolean>();
   task = input.required<TaskModel>();
-  changeTask = signal<TaskModel | null>(null);
-  project = this.projectService.project;
 
+  progress = signal(0);
   taskItems = signal<TaskItemModel[]>([]);
-
   taskDetails = signal<number | null>(null);
   deleteMember = signal<{ taskId: number; userId: number } | null>(null);
+  changeTask = signal<TaskModel | null>(null);
 
   async deleteTask(currentTask: TaskModel) {
     try {
@@ -95,5 +94,4 @@ export class Tasks {
       this.progress.set(progress);
     }
   }
-
 }

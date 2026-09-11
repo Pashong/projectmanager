@@ -14,6 +14,7 @@ export class TaskService {
   tasks = signal<TaskModel[]>([]);
   task = signal<TaskModel | null>(null);
   changeTask = signal(false);
+  sortedTasks = signal<TaskModel[]>([]);
 
   async getTasks(projectId?: string) {
     try {
