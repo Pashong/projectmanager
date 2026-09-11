@@ -95,7 +95,8 @@ body {
 
     a {
         color: inherit;
-        &.active{
+
+        &.active {
             color: var(--main);
         }
     }
@@ -129,7 +130,7 @@ body {
 
 }
 
-main{
+main {
     padding: 1rem 2.5rem;
 }
 
@@ -432,6 +433,10 @@ button i {
     cursor: pointer;
 }
 
+#status {
+
+    font-weight: 700;
+}
 
 
 form {
@@ -570,6 +575,10 @@ i {
     color: var(--text-muted);
 }
 
+
+
+
+
 @media (min-width: 712px) {
     .stats {
         justify-content: space-between;
@@ -636,7 +645,8 @@ i {
             font-size: 24px;
             font-weight: 400;
         }
-        h5{
+
+        h5 {
             font-size: 20px;
         }
     }

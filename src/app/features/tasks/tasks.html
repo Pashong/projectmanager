@@ -1,5 +1,10 @@
 <div class="task-heading">
-  <div class="task-title-wrapper" cdkDrag [cdkDragData]="task()" (click)="openTaskDetails(task())">
+  <div
+    class="task-title-wrapper"
+    cdkDrag
+    [cdkDragData]="task()"
+    (click)="openTaskDetails(task())"
+  >
     <div class="task-title">
       <h4>{{ task().title }}</h4>
       @if (!sorted()) {
@@ -66,6 +71,7 @@
         </div>
       }
     }
+    <p>Progress</p>
     <div class="progress-bar-wrapper">
       <div class="progress-bar" [style.width.%]="progress()"></div>
     </div>
