@@ -49,7 +49,6 @@ router.get('/', authenticateToken, async (req, res) => {
       [userId],
     );
 
-
     // muss noch call in frontend machen und service für tasks und ein task model erstellen
     return res
       .status(200)
@@ -121,6 +120,7 @@ router.post('/create-task', authenticateToken, async (req, res) => {
       status = 'active',
       deadline,
       members = [],
+      taskItems = [],
     } = req.body;
 
     const result = await pool.query(
@@ -138,7 +138,6 @@ router.post('/create-task', authenticateToken, async (req, res) => {
       [result.rows[0].id, req.user?.id],
     );
 
-
     if (members.length > 0) {
       for (let i = 0; i < members.length; i++) {
         const memberResult = await pool.query(
@@ -150,10 +149,25 @@ router.post('/create-task', authenticateToken, async (req, res) => {
       }
     }
 
+    const taskItemsResult = [];
+
+    for (const taskItem of taskItems) {
+      const taskItemResult = await pool.query(
+        `INSERT INTO task_items
+     (task_id, description)
+     VALUES ($1, $2)
+     RETURNING id, task_id, description, completed`,
+        [result.rows[0].id, taskItem],
+      );
+
+      taskItemsResult.push(taskItemResult.rows[0]);
+    }
+
     return res.status(200).json({
       message: 'Task was created',
       task: result.rows[0],
       members: membersResult,
+      taskItems: taskItemsResult,
     });
   } catch (error) {
     console.error('Task creation failed: ', error);
@@ -179,7 +193,7 @@ router.delete('/delete-task/:taskId', authenticateToken, async (req, res) => {
 
 router.put('/update-task', authenticateToken, async (req, res) => {
   try {
-    const { project_id, id, title, description, status, deadline, members } =
+    const { project_id, id, title, description, status, deadline, members, taskItems} =
       req.body;
 
     if (!id || !title || !project_id) {
@@ -213,10 +227,25 @@ router.put('/update-task', authenticateToken, async (req, res) => {
 
     const taskMembers = taskMembersResult.rows.map((row) => row.user_id);
 
+    const taskItemsResult = [];
+
+    for (const taskItem of taskItems) {
+      const taskItemResult = await pool.query(
+        `INSERT INTO task_items
+     (task_id, description)
+     VALUES ($1, $2)
+     RETURNING id, task_id, description, completed`,
+        [result.rows[0].id, taskItem],
+      );
+
+      taskItemsResult.push(taskItemResult.rows[0]);
+    }
+
     return res.status(200).json({
       message: 'Task was successfully updated',
       task: result.rows[0],
       members: taskMembers,
+      taskItems: taskItemsResult
     });
   } catch (error) {
     console.error('Couldnt update task', error);

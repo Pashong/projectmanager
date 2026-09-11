@@ -11,3 +11,35 @@
 .btn-fill{
     width: 100%;
 }
+
+.task-item-wrapper{
+    display: flex;
+    position: relative;
+    align-items: center;
+    input{
+        width: 100%;
+    }
+    button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 18px;
+        height: 32px;
+        margin: 0;
+        border-radius: 8px;
+    }
+}
+
+.task-item{
+    display: flex;
+    gap: 4px;
+    align-items: center;
+
+    button{
+        height: 20px;
+        min-width: 30px;
+        color: var(--text-primary);
+        margin: 0;
+        cursor: pointer;
+    }
+}

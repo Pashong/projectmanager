@@ -9,6 +9,7 @@ import { OpenUpdateTask } from './components/open-update-task/open-update-task';
 import { FormsModule } from '@angular/forms';
 import { TaskItemModel } from './model/task-item.model';
 import { ProjectModel } from '../projects/model/project.model';
+import { TaskItemService } from './components/task-items/service/task-item.service';
 
 @Component({
   selector: 'app-tasks',
@@ -18,10 +19,12 @@ import { ProjectModel } from '../projects/model/project.model';
 })
 export class Tasks {
   private tasksService = inject(TaskService);
+  private taskItemService = inject(TaskItemService);
+  private saveTimeout: ReturnType<typeof setTimeout> | undefined;
 
   tasks = this.tasksService.tasks;
 
-  project = input<ProjectModel| null>(null);
+  project = input<ProjectModel | null>(null);
   sorted = input<boolean>();
   task = input.required<TaskModel>();
 
@@ -76,16 +79,32 @@ export class Tasks {
     );
   }
 
-  openTaskDetails(task: TaskModel) {
+  async openTaskDetails(task: TaskModel) {
     this.taskDetails.update((currentId) =>
       currentId === task.id ? null : task.id,
     );
+    if (!this.taskDetails()) {
+      await this.taskItemService.updateTaskItem(task.task_items ?? []);
+    }
+  }
+
+  onTaskItemChange() {
+    clearTimeout(this.saveTimeout);
+
+    this.saveTimeout = setTimeout(() => {
+      this.updateTaskItems();
+    }, 1000);
+  }
+
+  async updateTaskItems() {
+    await this.taskItemService.updateTaskItem(this.task().task_items);
   }
 
   onCheckboxChange() {
     const items = this.task().task_items;
 
     if (items) {
+      this.onTaskItemChange();
       const checkedAmount = items.filter((item) => item.completed).length;
 
       const progress =

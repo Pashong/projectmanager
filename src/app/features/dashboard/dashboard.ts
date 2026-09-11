@@ -53,7 +53,7 @@ export class Dashboard {
           this.sortedTasks.set(sorted);
       }
     } catch (error) {
-      console.log('Dashboard: ', error);
+      console.error('Dashboard: ', error);
     }
   }
 

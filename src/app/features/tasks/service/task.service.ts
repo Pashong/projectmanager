@@ -55,12 +55,13 @@ export class TaskService {
     }
   }
 
-  async createTask(form: NgForm, status?: string) {
+  async createTask(form: NgForm, taskItems: string[], status?: string) {
     try {
       const task = {
         ...form.value,
         projectId: this.project()?.id,
         status: status ?? form.value.status,
+        taskItems: [...taskItems]
       };
 
       const response = await fetch(`${environment.apiUrl}/tasks/create-task`, {
