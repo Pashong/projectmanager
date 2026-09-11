@@ -35,7 +35,7 @@
       </div>
       <div class="input-wrapper">
         <div class="task-item-wrapper">
-        <app-task-items [initialItems]="currentTask()?.task_items ?? []" [source]="'update'"></app-task-items>
+        <app-task-items [initialItems]="currentTask()?.task_items ?? []" [source]="'update'" [currentTask]="currentTask()!"></app-task-items>
         </div>
       </div>
 

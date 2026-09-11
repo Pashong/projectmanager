@@ -10,10 +10,8 @@
 @for (taskItem of taskItems(); track $index) {
   <span class="task-item"
     >{{ taskItem }}
-    @if (source() !== 'update') {
-      <button type="button" class="no-btn" (click)="removeTask(taskItem)">
-        X
-      </button>
-    }
+    <button type="button" class="no-btn" (click)="removeTask(taskItem, $index)">
+      X
+    </button>
   </span>
 }

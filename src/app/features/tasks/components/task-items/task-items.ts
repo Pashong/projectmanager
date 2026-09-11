@@ -1,6 +1,9 @@
-import { Component, signal, input, effect } from '@angular/core';
+import { Component, signal, input, effect, inject } from '@angular/core';
 import { TaskItemModel } from '../../model/task-item.model';
 import { FormsModule } from '@angular/forms';
+import { TaskModel } from '../../model/task.model';
+import { TaskItemService } from './service/task-item.service';
+import { TaskService } from '../../service/task.service';
 
 @Component({
   selector: 'app-task-items',
@@ -9,32 +12,49 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './task-items.scss',
 })
 export class TaskItems {
+  private taskItemService = inject(TaskItemService);
+  private taskService = inject(TaskService);
 
   taskItems = signal<string[]>([]);
   initialItems = input<TaskItemModel[]>([]);
   source = input<'update' | 'create'>();
+  currentTask = input<TaskModel>();
 
-  constructor(){
+  constructor() {
     effect(() => {
-      this.taskItems.set(this.initialItems().map(item => item.description) ?? []);
-    })
+      this.taskItems.set(
+        this.initialItems().map((item) => item.description) ?? [],
+      );
+    });
   }
 
   newTaskItem = '';
 
   addTaskItem() {
-    console.log("in here");
     const item = this.newTaskItem.trim();
-    console.log(item);
     if (!item) return;
     this.taskItems.update((items) => [...items, item]);
-    console.log(this.taskItems());
     this.newTaskItem = '';
   }
 
-  removeTask(task: string) {
-    this.taskItems.update((items) => items.filter((item) => item !== task));
-    console.log(this.taskItems());
+  async removeTask(description: string, index: number) {
+    this.taskItems.update((items) =>
+      items.filter((item) => item !== description),
+    );
+    if (this.source() === 'update') {
+      const taskItem = this.currentTask()?.task_items.at(index)!;
+      try {
+        await this.taskItemService.deleteTaskItem(taskItem);
+        this.taskService.tasks.update((tasks) =>
+          tasks.map((task) => (
+            task.id === this.currentTask()?.id ?{
+            ...task,
+            task_items: task.task_items.filter((_, i) => i !== index),
+          }: task)),
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
-
 }
