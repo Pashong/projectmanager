@@ -1,5 +1,5 @@
 <div class="task-heading">
-  <div class="task-title-wrapper" (click)="openTaskDetails(task())">
+  <div class="task-title-wrapper" cdkDrag [cdkDragData]="task()" (click)="openTaskDetails(task())">
     <div class="task-title">
       <h4>{{ task().title }}</h4>
       @if (!sorted()) {
