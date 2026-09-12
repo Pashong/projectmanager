@@ -1,9 +1,9 @@
 import { Component, inject, output, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { ProjectsService } from '../../../../../features/projects/service/projects.service';
-import { MemberModel } from '../../../../models/member.model';
-import { AuthService } from '../../../../../features/auth/services/auth.service';
-import { status } from '../../../../status/status';
+import { ProjectsService } from '../../service/projects.service';
+import { MemberModel } from '../../../../shared/models/member.model';
+import { AuthService } from '../../../auth/services/auth.service';
+import { status } from '../../../../shared/status/status';
 
 @Component({
   selector: 'app-create-project',
