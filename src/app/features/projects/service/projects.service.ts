@@ -1,13 +1,16 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environments';
 import { NgForm } from '@angular/forms';
 import { ProjectModel } from '../model/project.model';
 import { MemberModel } from '../../../shared/models/member.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectsService {
+  private route = inject(ActivatedRoute);
+
   newProject = signal<boolean>(false);
   projects = signal<ProjectModel[]>([]);
   project = signal<ProjectModel | null>(null);
@@ -100,50 +103,76 @@ export class ProjectsService {
         credentials: 'include',
       });
 
-      if(!response.ok){
-        throw new Error("Something went wrong fetching users");
+      if (!response.ok) {
+        throw new Error('Something went wrong fetching users');
       }
 
       const data = await response.json();
 
-      
-      return data.users.map((user: any): MemberModel => ({
-        id: user.id,
-        firstName: user.first_name,
-        lastName: user.last_name,
-        email: user.email
-      }));
-
+      return data.users.map(
+        (user: any): MemberModel => ({
+          id: user.id,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          email: user.email,
+        }),
+      );
     } catch (error) {
       console.error('fetching users failed', error);
     }
   }
 
-  async updateProject(form: NgForm, projectId: number){
-    try{
-
+  async updateProject(form: NgForm, projectId: number) {
+    try {
       const project = {
         ...form.value,
-        id: projectId
-      }
+        id: projectId,
+      };
 
-        const response = await fetch(`${environment.apiUrl}/projects/update-project`, {
-        method: 'put',
-        credentials: 'include',
-        headers: { "Content-Type": "application/json"},
-        body: JSON.stringify(project)
-      });
+      const response = await fetch(
+        `${environment.apiUrl}/projects/update-project`,
+        {
+          method: 'put',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(project),
+        },
+      );
 
-      if(!response.ok){
-        throw new Error("Failed updating the project " + response.status);
+      if (!response.ok) {
+        throw new Error('Failed updating the project ' + response.status);
       }
 
       const data = await response.json();
 
       return data;
+    } catch (error) {
+      console.error('Updating project failed', error);
     }
-    catch(error){
-      console.error("Updating project failed", error)
+  }
+
+  async removeMember(member: MemberModel, projectId: number) {
+    try {
+      const response = await fetch(
+        `${environment.apiUrl}/projects/delete-project/${projectId}/member/${member.id}`,
+        {
+          method: 'delete',
+          credentials: 'include',
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`Reponse error ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Something went wrong deleting your project', error);
+    }
+  }
+
+  ngOnInit() {
+    const projectId = this.route.snapshot.paramMap.get('id');
+    if (projectId) {
+      this.getProject(projectId);
     }
   }
 }

@@ -1,0 +1,25 @@
+<div class="members" (click)="openRemoveMember()">
+  @for (member of members(); track member.id) {
+    <div class="member">
+      <p>{{ member.firstName[0] }}</p>
+      @if (removeAvailable()) {
+        @if (removeOpen()) {
+          <app-remove-member
+            [members]="members()"
+            (memberToRemove)="onRemove($event)"
+          ></app-remove-member>
+        }
+      }
+      <!-- <button
+        class="delete-member"
+        (click)="onRemove()"
+        [class.open]="
+          deleteMember()?.userId === member.id &&
+          deleteMember()?.taskId === task().id
+        "
+      >
+        <i class="fa-solid fa-user-xmark"></i>
+      </button> -->
+    </div>
+  }
+</div>

@@ -36,17 +36,7 @@
             <app-task-items></app-task-items>
           </div>
           <div class="input-wrapper">
-            <label for="members">Add Members</label>
-            <select name="members" multiple [(ngModel)]="selectedMemberIds">
-              @for (
-                member of currentProject()?.members ?? [];
-                track member.id
-              ) {
-                <option [ngValue]="member.id">
-                  {{ member.firstName }} {{ member.lastName }}
-                </option>
-              }
-            </select>
+            <app-add-member [members]="currentProject()?.members"></app-add-member>
           </div>
           <div class="input-wrapper">
             <label for="deadline">Deadline</label>

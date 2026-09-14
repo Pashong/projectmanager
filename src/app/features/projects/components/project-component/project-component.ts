@@ -6,10 +6,12 @@ import { Tasks } from '../../../tasks/tasks';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from "@angular/router";
 import { ProjectsService } from '../../service/projects.service';
+import { Members } from '../../../../shared/components/members/members';
+import { MemberModel } from '../../../../shared/models/member.model';
 
 @Component({
   selector: 'app-project-component',
-  imports: [DatePipe, Tasks, UpdateProject, RouterLink],
+  imports: [Members,DatePipe, Tasks, UpdateProject, RouterLink],
   templateUrl: './project-component.html',
   styleUrl: './project-component.scss',
 })
@@ -29,6 +31,17 @@ export class ProjectComponent {
         projects.filter((project) => project.id !== currentProject.id),
       );
     } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async removeMemberFromProject(currentMember: MemberModel, projectId: number){
+    try{
+      this.projectsService.removeMember(currentMember, projectId);
+
+      this.projects.update((projects) => projects.map(project => project.id === projectId ? {...project, members: project.members.filter(member => member.id !== currentMember.id)} : project));
+    }
+    catch(error){
       console.error(error);
     }
   }

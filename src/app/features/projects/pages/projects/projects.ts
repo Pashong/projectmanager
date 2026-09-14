@@ -1,8 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ProjectsService } from '../../service/projects.service';
-
-import { CreateProject } from '../../../../shared/components/navbar/components/create-project/create-project';
-
+import { CreateProject } from '../../components/create-project/create-project';
 import { ProjectComponent } from '../../components/project-component/project-component';
 
 @Component({

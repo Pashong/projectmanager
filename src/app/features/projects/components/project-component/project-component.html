@@ -17,13 +17,7 @@
       </div>
       <div class="members-wrapper">
         <p>Members</p>
-        <div class="members">
-          @for (member of project()?.members; track member.id) {
-            <div class="member">
-              <p>{{ member.firstName[0] }}</p>
-            </div>
-          }
-        </div>
+          <app-members  [removeAvailable]="true" [members]="project()?.members" (removeMember)="removeMemberFromProject($event, project()?.id!)" [project]="project()"></app-members>
       </div>
       <button (click)="deleteProject(project()!)" class="delete-btn">
         <i class="fa-solid fa-trash-can"></i>
