@@ -18,7 +18,7 @@ router.delete('/:id', async (req, res) => {
 
     res.status(200).json({ message: 'Taskitem delted' });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 

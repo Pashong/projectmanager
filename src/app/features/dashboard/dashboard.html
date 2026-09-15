@@ -15,17 +15,25 @@
         }
       } @else {
         @for (project of projects(); track project.id) {
-          <app-project-component
-            [project]="project"
-          ></app-project-component>
+          <app-project-component [project]="project"></app-project-component>
         }
       }
     </div>
     <div class="overview task-overview">
-      <h3 class="gray">Task Deadlines:</h3>
+      <div class="task-overview-heading">
+        <h3 class="gray">Task Deadlines:</h3>
+        <div class="list-length">
+          <p>Amount</p>
+          <select (change)="setTaskListLength($any($event.target).value)">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
+        </div>
+      </div>
       <div class="tasks">
         @if (sortedTasks()) {
-          @for (task of sortedTasks(); track task.id) {
+          @for (task of sortedTasks().slice(0, taskListLength); track task.id) {
             <div class="task-fill task">
               <app-tasks [task]="task" [sorted]="true"></app-tasks>
             </div>

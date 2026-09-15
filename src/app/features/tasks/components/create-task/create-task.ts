@@ -54,7 +54,6 @@ export class CreateTask {
     const members = this.currentProject()?.members.filter((member) => 
     taskMembers.includes(member.id) ?? []);
 
-    console.log(members);
 
     const newTask = {
       ...data.task,
