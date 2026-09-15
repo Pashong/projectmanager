@@ -1,0 +1,16 @@
+<div class="creation overlay">
+  <div class="update-wrapper">
+    <h3>Members</h3>
+    <div class="members-delete-wrapper">
+        @for (member of members(); track member.id) {
+          <div class="member-remove">
+            <div class="member-details">
+              <p>{{ member.firstName }} {{ member.lastName }}</p>
+              <p>{{ member.email }}</p>
+            </div>
+            <button (click)="onRemoveMember(member)"><i class="fa-solid fa-user-xmark"></i></button>
+          </div>
+        }
+    </div>
+  </div>
+</div>

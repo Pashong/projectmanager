@@ -1,0 +1,12 @@
+<div class="add-members">
+    <label for="members">Add Members</label>
+    <select name="members" multiple [(ngModel)]="selectedMemberIds">
+      @for (member of members(); track member.id) {
+        @if(member.id !== currentUser?.id){
+        <option [ngValue]="member.id">
+          {{ member.firstName }} {{ member.lastName }}
+        </option>
+        }
+      }
+    </select>
+</div>

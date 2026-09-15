@@ -9,6 +9,7 @@
       <h4>{{ task().title }}</h4>
       @if (!sorted()) {
         <app-open-update-task
+          cdkDragDisabled
           [currentProject]="project()!"
           [currentTask]="task()"
         ></app-open-update-task>
@@ -31,23 +32,12 @@
     </div>
     <div class="members-wrapper">
       <p>Members</p>
-      <div class="members">
-        @for (member of task().members; track member.id) {
-          <div class="member" (click)="openDeleteMember(member.id, task().id)">
-            <p>{{ member.firstName[0] }}</p>
-            <button
-              class="delete-member"
-              (click)="removeUser(task().id, member.id)"
-              [class.open]="
-                deleteMember()?.userId === member.id &&
-                deleteMember()?.taskId === task().id
-              "
-            >
-              <i class="fa-solid fa-user-xmark"></i>
-            </button>
-          </div>
-        }
-      </div>
+      <app-members
+        cdkDragDisabled
+        (removeMember)="removeMemberFromTask($event, task().id)"
+        [removeAvailable]="true"
+        [members]="task().members"
+      ></app-members>
     </div>
     <app-delete-task [task]="task()"></app-delete-task>
   </div>

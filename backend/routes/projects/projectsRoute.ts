@@ -183,4 +183,26 @@ router.delete('/delete-project/:projectId', async (req, res) => {
   }
 });
 
+router.delete('/delete-project/:projectId/member/:memberId', async (req, res) => {
+  try {
+    const projectId = req.params.projectId;
+    const memberId = req.params.memberId;
+
+    const result = await pool.query(`delete from project_users where project_id = $1 and user_id = $2`, [
+      projectId, memberId
+    ]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    res.status(200).json({ message: 'Project deleted' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+
 export default router;

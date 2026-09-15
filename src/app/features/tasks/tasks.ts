@@ -11,6 +11,8 @@ import { TaskItemModel } from './model/task-item.model';
 import { ProjectModel } from '../projects/model/project.model';
 import { TaskItemService } from './components/task-items/service/task-item.service';
 import { CdkDrag } from '@angular/cdk/drag-drop';
+import { Members } from '../../shared/components/members/members';
+import { MemberModel } from '../../shared/models/member.model';
 
 @Component({
   selector: 'app-tasks',
@@ -21,7 +23,8 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
     DeleteTask,
     OpenUpdateTask,
     OpenUpdateTask,
-  ],
+    Members
+],
   templateUrl: './tasks.html',
   styleUrl: './tasks.scss',
 })
@@ -61,15 +64,15 @@ export class Tasks {
     this.changeTask.set(currentTask);
   }
 
-  async removeUser(taskId: number, userId: number) {
+  async removeMemberFromTask(currentMember: MemberModel, taskId: number) {
     try {
-      await this.tasksService.removeUserFromTask(taskId, userId);
+      await this.tasksService.removeUserFromTask(taskId, currentMember.id);
       this.tasks.update((tasks) =>
         tasks.map((task) =>
           taskId === task.id
             ? {
                 ...task,
-                members: task.members.filter((member) => member.id !== userId),
+                members: task.members.filter((member) => member.id !== currentMember.id),
               }
             : task,
         ),
@@ -126,4 +129,6 @@ export class Tasks {
   ngOnInit() {
     this.calculateProgress(this.task().task_items);
   }
+
+  
 }

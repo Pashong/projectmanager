@@ -3,6 +3,7 @@ import { environment } from '../../../../environments/environments';
 import { NgForm } from '@angular/forms';
 import { TaskModel } from '../model/task.model';
 import { ProjectsService } from '../../projects/service/projects.service';
+import { TaskItemModel } from '../model/task-item.model';
 
 @Injectable({
   providedIn: 'root',
@@ -55,13 +56,13 @@ export class TaskService {
     }
   }
 
-  async createTask(form: NgForm, taskItems: string[], status?: string) {
+  async createTask(form: NgForm, taskItems: TaskItemModel[], status?: string) {
     try {
       const task = {
         ...form.value,
         projectId: this.project()?.id,
         status: status ?? form.value.status,
-        taskItems: [...taskItems]
+        taskItems: [...taskItems.map(item => item.description)]
       };
 
       const response = await fetch(`${environment.apiUrl}/tasks/create-task`, {

@@ -13,47 +13,64 @@ import { TaskModel } from '../../model/task.model';
 import { ProjectModel } from '../../../projects/model/project.model';
 import { TaskItems } from '../task-items/task-items';
 import { viewChild } from '@angular/core';
+import { AddMember } from '../../../../shared/components/members/component/add-member/add-member';
 
 @Component({
   selector: 'app-update-task',
-  imports: [TaskItems,FormsModule],
+  imports: [TaskItems, FormsModule, AddMember],
   templateUrl: './update-task.html',
   styleUrl: './update-task.scss',
 })
 export class UpdateTask {
   private tasksService = inject(TaskService);
   private projectService = inject(ProjectsService);
+
+  membersToAdd = viewChild(AddMember);
+
   task = this.tasksService.task();
   tasks = this.tasksService.tasks;
   tasksStatus = this.tasksService.taskStatus;
   noChanges = signal<boolean>(false);
   project = this.projectService.project;
   selectedMemberIds: number[] = [];
-  currentTask = input<TaskModel | null>();
-  currentProject = input<ProjectModel | null>();
+  currentTask = input<TaskModel>();
+  currentProject = input<ProjectModel>();
   taskMembers = computed(() => {
-    const projectMembers = this.currentProject()?.members ?? [];
+    let projectMembers =
+      this.projectService
+        .projects()
+        .find((project) => this.currentTask()?.project_id === project.id)
+        ?.members ?? this.project()?.members;
     const taskMembers = this.currentTask()?.members ?? [];
 
-    return projectMembers.filter(
+    return projectMembers?.filter(
       (projectMember) =>
         !taskMembers.some((taskMember) => taskMember.id === projectMember.id),
     );
   });
 
-  taskItemsComponent = viewChild(TaskItems)
+  taskItemsComponent = viewChild(TaskItems);
 
   closeChangeMenu = output<void>();
 
   async taskUpdating(form: NgForm, taskId?: number) {
     try {
-      const taskItems = this.taskItemsComponent()?.taskItems() ?? [];
+      const selectedMemberIds = this.membersToAdd()?.selectedMemberIds;
+      const taskItems =
+        this.taskItemsComponent()
+          ?.taskItems()
+          .filter((taskItem) =>
+            taskItem.id === -1,
+          ) ?? [];
+
+      const oldTaskItems = this.taskItemsComponent()?.taskItems().filter(item => item.id !== -1);
+      form.value.members = selectedMemberIds;
 
       const currentTask = {
         ...form.value,
         id: taskId,
         project_id: this.currentTask()?.project_id,
-        taskItems: taskItems
+        taskItems: taskItems.map(item => item.description),
       };
 
       if (
@@ -72,7 +89,7 @@ export class UpdateTask {
       this.noChanges.set(false);
       const data = await this.tasksService.updateTask(currentTask);
 
-      const projectMembers = this.currentProject()?.members ?? [];
+      const projectMembers = this.project()?.members ?? [];
 
       const members = projectMembers.filter((member) =>
         data?.members.includes(member.id),
@@ -85,7 +102,7 @@ export class UpdateTask {
                 ...task,
                 ...data?.task,
                 members,
-                task_items: data.taskItems
+                task_items: [...oldTaskItems ?? [], ...data.taskItems],
               }
             : task,
         ),
@@ -96,7 +113,4 @@ export class UpdateTask {
       console.error(error);
     }
   }
-
-
-
 }

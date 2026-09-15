@@ -213,7 +213,7 @@ router.put('/update-task', authenticateToken, async (req, res) => {
       for (let i = 0; i < members.length; i++) {
         await pool.query(
           'insert into task_users (task_id, user_id) values ($1, $2) ON CONFLICT (task_id, user_id) DO NOTHING',
-          [id, members[i].id],
+          [id, members[i]],
         );
       }
     }
