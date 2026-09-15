@@ -45,7 +45,7 @@ export class CreateTask {
     this.selectedMemberIds = await this.membersToAdd()?.selectedMemberIds ?? [];
     form.value.members = this.selectedMemberIds;
 
-    const taskItems = this.taskItemsComponent()?.taskItems() ?? [];
+    const taskItems = this.taskItemsComponent()?.taskItems().map(item => item) ?? [];
     const data = await this.tasksService.createTask(form, taskItems, status);
     const taskMembers = [
       ...this.selectedMemberIds, this.authService.currentUser()?.id,

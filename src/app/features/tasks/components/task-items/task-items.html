@@ -10,7 +10,7 @@
 <div class="task-items-wrapper">
   @for (taskItem of taskItems(); track $index) {
     <span class="task-item"
-      >{{ taskItem }}
+      >{{ taskItem.description }}
       <button type="button" class="no-btn" (click)="removeTask(taskItem, $index)">
         <i class="fa-solid fa-xmark"></i>
       </button>

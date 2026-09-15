@@ -15,7 +15,7 @@ export class TaskItems {
   private taskItemService = inject(TaskItemService);
   private taskService = inject(TaskService);
 
-  taskItems = signal<string[]>([]);
+  taskItems = signal<TaskItemModel[]>([]);
   initialItems = input<TaskItemModel[]>([]);
   source = input<'update' | 'create'>();
   currentTask = input<TaskModel>();
@@ -23,7 +23,7 @@ export class TaskItems {
   constructor() {
     effect(() => {
       this.taskItems.set(
-        this.initialItems().map((item) => item.description) ?? [],
+        this.initialItems() ?? [],
       );
     });
   }
@@ -33,24 +33,28 @@ export class TaskItems {
   addTaskItem() {
     const item = this.newTaskItem.trim();
     if (!item) return;
-    this.taskItems.update((items) => [...items, item]);
+    this.taskItems.update((items) => [...items, {id: -1, task_id: -1, description: item, completed: false}]);
+    console.log(this.taskItems());
     this.newTaskItem = '';
   }
 
-  async removeTask(description: string, index: number) {
+  async removeTask(currentTaskItem: TaskItemModel, index: number) {
     this.taskItems.update((items) =>
-      items.filter((item) => item !== description),
+      items.filter((item) => item.description !== currentTaskItem.description),
     );
     if (this.source() === 'update') {
       const taskItem = this.currentTask()?.task_items.at(index)!;
       try {
         await this.taskItemService.deleteTaskItem(taskItem);
         this.taskService.tasks.update((tasks) =>
-          tasks.map((task) => (
-            task.id === this.currentTask()?.id ?{
-            ...task,
-            task_items: task.task_items.filter((_, i) => i !== index),
-          }: task)),
+          tasks.map((task) =>
+            task.id === this.currentTask()?.id
+              ? {
+                  ...task,
+                  task_items: task.task_items.filter((_, i) => i !== index),
+                }
+              : task,
+          ),
         );
       } catch (error) {
         console.error(error);

@@ -36,11 +36,12 @@ export class UpdateTask {
   currentTask = input<TaskModel>();
   currentProject = input<ProjectModel>();
   taskMembers = computed(() => {
-    const projectMembers = this.projectService.project()?.members;
+    let projectMembers =
+      this.projectService
+        .projects()
+        .find((project) => this.currentTask()?.project_id === project.id)
+        ?.members ?? this.project()?.members;
     const taskMembers = this.currentTask()?.members ?? [];
-
-    console.log(projectMembers);
-    console.log(taskMembers);
 
     return projectMembers?.filter(
       (projectMember) =>
@@ -55,15 +56,21 @@ export class UpdateTask {
   async taskUpdating(form: NgForm, taskId?: number) {
     try {
       const selectedMemberIds = this.membersToAdd()?.selectedMemberIds;
-      const taskItems = this.taskItemsComponent()?.taskItems() ?? [];
+      const taskItems =
+        this.taskItemsComponent()
+          ?.taskItems()
+          .filter((taskItem) =>
+            taskItem.id === -1,
+          ) ?? [];
 
+      const oldTaskItems = this.taskItemsComponent()?.taskItems().filter(item => item.id !== -1);
       form.value.members = selectedMemberIds;
 
       const currentTask = {
         ...form.value,
         id: taskId,
         project_id: this.currentTask()?.project_id,
-        taskItems: taskItems,
+        taskItems: taskItems.map(item => item.description),
       };
 
       if (
@@ -82,7 +89,7 @@ export class UpdateTask {
       this.noChanges.set(false);
       const data = await this.tasksService.updateTask(currentTask);
 
-      const projectMembers = this.currentProject()?.members ?? [];
+      const projectMembers = this.project()?.members ?? [];
 
       const members = projectMembers.filter((member) =>
         data?.members.includes(member.id),
@@ -95,7 +102,7 @@ export class UpdateTask {
                 ...task,
                 ...data?.task,
                 members,
-                task_items: data.taskItems,
+                task_items: [...oldTaskItems ?? [], ...data.taskItems],
               }
             : task,
         ),
