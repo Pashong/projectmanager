@@ -87,6 +87,17 @@
 }
 
 
+.task-overview-heading{
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-length{
+    p{
+        color: var(--gray);
+        font-size:12px;
+    }}
+
 @media (min-width: 712px) {
 
     .task-overview {

@@ -19,6 +19,7 @@ export class Dashboard {
   tasks = this.tasksService.tasks;
   changeTask = signal<TaskModel | null>(null);
   sortedTasks = this.tasksService.sortedTasks;
+  taskListLength = 5;
   projectsWithTasks = computed(() => {
     return this.projects().map((project) => ({
       ...project,
@@ -63,5 +64,10 @@ export class Dashboard {
         ? null
         : { taskId: task.id, source: source },
     );
+  }
+
+  setTaskListLength(length: number){
+    console.log(length);
+    this.taskListLength = length;
   }
 }

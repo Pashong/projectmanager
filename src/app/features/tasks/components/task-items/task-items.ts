@@ -34,7 +34,6 @@ export class TaskItems {
     const item = this.newTaskItem.trim();
     if (!item) return;
     this.taskItems.update((items) => [...items, {id: -1, task_id: -1, description: item, completed: false}]);
-    console.log(this.taskItems());
     this.newTaskItem = '';
   }
 
