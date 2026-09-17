@@ -17,7 +17,12 @@
       </div>
       <div class="members-wrapper">
         <p>Members</p>
-          <app-members  [removeAvailable]="true" [members]="project()?.members" (removeMember)="removeMemberFromProject($event, project()?.id!)" [project]="project()"></app-members>
+        <app-members
+          [removeAvailable]="true"
+          [members]="project()?.members"
+          (removeMember)="removeMemberFromProject($event, project()?.id!)"
+          [project]="project()"
+        ></app-members>
       </div>
       <button (click)="deleteProject(project()!)" class="delete-btn">
         <i class="fa-solid fa-trash-can"></i>
