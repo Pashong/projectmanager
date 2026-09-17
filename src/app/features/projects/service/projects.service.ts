@@ -169,13 +169,15 @@ export class ProjectsService {
     }
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     try {
       const projectId = this.route.snapshot.paramMap.get('id');
       if (projectId) {
-        this.getProject(projectId);
+       this.getProject(projectId);
       }
-       this.getProjects();
+      await this.getProjects();
+
+
     } catch (error) {
       console.error(error);
     }

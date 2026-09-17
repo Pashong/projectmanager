@@ -37,9 +37,10 @@ export class ProjectComponent {
 
   async removeMemberFromProject(currentMember: MemberModel, projectId: number){
     try{
-      this.projectsService.removeMember(currentMember, projectId);
 
-      this.projects.update((projects) => projects.map(project => project.id === projectId ? {...project, members: project.members.filter(member => member.id !== currentMember.id)} : project));
+      await this.projectsService.removeMember(currentMember, projectId);
+      this.projectsService.projects.update((projects) => projects.map(project => project.id === projectId ? {...project, members: project.members.filter(member => member.id !== currentMember.id)} : project));
+      
     }
     catch(error){
       console.error(error);

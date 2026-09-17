@@ -1,13 +1,44 @@
-.member-details{
+.member-details {
     display: flex;
 }
 
-.member{
+.member {
     box-sizing: border-box;
 }
 
-.members-delete-wrapper{
+.members-delete-wrapper {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    color: var(--text-primary);
+}
+
+.update-wrapper {
+    justify-content: start;
+}
+
+
+.headings {
+    display: grid;
+    gap: auto;
+    grid-template-columns: 1fr 1fr 0.5fr;
+
+    p {
+        color: var(--text-primary);
+    }
+}
+
+.member-remove {
+    gap: auto;
+    width: 100%;
+
+    .member-details {
+        display: grid;
+        gap: auto;
+        grid-template-columns: 1fr 1fr 0.5fr;
+
+        p {
+            color: var(--text-primary);
+        }
+    }
 }

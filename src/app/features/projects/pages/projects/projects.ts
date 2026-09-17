@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { ProjectsService } from '../../service/projects.service';
 import { CreateProject } from '../../components/create-project/create-project';
 import { ProjectComponent } from '../../components/project-component/project-component';
@@ -16,8 +16,43 @@ export class Projects {
 
   newProject = this.projectsService.newProject;
   projects = this.projectsService.projects;
-  searchedProjects = signal<ProjectModel[]>([]);
-  searchInput: string = '';
+
+  searchInput = signal('');
+  sortValue = signal('');
+  searchInputValue = '';
+
+  searchedProjects = computed(() => {
+    let projects = [...this.projects()];
+
+    // Suche
+    const search = this.searchInput().trim().toLowerCase();
+
+    if (search !== '') {
+      projects = projects.filter((project) =>
+        project.title.toLowerCase().includes(search),
+      );
+    }
+
+    // Sortierung
+    const sort = this.sortValue();
+
+    if (sort === 'title') {
+      projects.sort((a, b) => a.title.localeCompare(b.title));
+    }
+
+    if (sort === 'deadline') {
+      projects.sort(
+        (a, b) =>
+          new Date(a.deadline).getTime() - new Date(b.deadline).getTime(),
+      );
+    }
+
+    if (sort === 'status') {
+      projects.sort((a, b) => a.status.localeCompare(b.status));
+    }
+
+    return projects;
+  });
 
   startNewProject() {
     this.projectsService.newProject.update((value) => !value);
@@ -25,7 +60,6 @@ export class Projects {
 
   async ngOnInit() {
     await this.getProjects();
-    this.searchedProjects.set(this.projects());
   }
 
   async getProjects() {
@@ -38,36 +72,11 @@ export class Projects {
   }
 
   searchProject() {
-    const value = this.searchInput;
+    this.searchInput.set(this.searchInputValue);
 
-    if (this.searchInput === '') {
-      this.searchedProjects.set(this.projects());
-      return;
-    }
-
-    this.searchedProjects.set(
-      this.projects().filter((project) =>
-        project.title.toLowerCase().includes(value.toLocaleLowerCase()),
-      ),
-    );
   }
 
-
-  sortProjectsBy(value: string){
-    this.searchedProjects.update(projects => [...projects].sort((a,b) => {
-      if(value === 'title'){
-        return a.title.localeCompare(b.title);
-      }
-
-      if(value === 'deadline'){
-        return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
-      }
-
-      if(value === 'status'){
-        return a.status.localeCompare(b.status);
-      }
-
-      return 0;
-    }))
+  sortProjectsBy(value: string) {
+    this.sortValue.set(value);
   }
 }
