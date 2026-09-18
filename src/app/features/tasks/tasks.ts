@@ -36,7 +36,7 @@ export class Tasks {
   tasks = this.tasksService.tasks;
 
   project = input<ProjectModel | null>(null);
-  sorted = input<boolean>();
+  denyChangingTask = input<boolean>();
   task = input.required<TaskModel>();
 
   progress = signal(0);

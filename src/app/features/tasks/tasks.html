@@ -7,7 +7,7 @@
   >
     <div class="task-title">
       <h4>{{ task().title }}</h4>
-      @if (!sorted()) {
+      @if (!denyChangingTask()) {
         <app-open-update-task
           cdkDragDisabled
           [currentProject]="project()!"

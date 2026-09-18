@@ -35,7 +35,7 @@
         @if (sortedTasks()) {
           @for (task of sortedTasks().slice(0, taskListLength); track task.id) {
             <div class="task-fill task">
-              <app-tasks [task]="task" [sorted]="true"></app-tasks>
+              <app-tasks [task]="task" [denyChangingTask]="true"></app-tasks>
             </div>
           }
         } @else {
