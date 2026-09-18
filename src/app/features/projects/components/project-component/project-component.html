@@ -24,9 +24,7 @@
           [project]="project()"
         ></app-members>
       </div>
-      <button (click)="deleteProject(project()!)" class="delete-btn">
-        <i class="fa-solid fa-trash-can"></i>
-      </button>
+      <app-delete-project [project]="project()!" ></app-delete-project>
     </div>
   </div>
   @if (tasksCount()! > 0) {
