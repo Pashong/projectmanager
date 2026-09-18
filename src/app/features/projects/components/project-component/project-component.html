@@ -33,7 +33,7 @@
       @for (task of tasks(); track task.id) {
         @if (task.project_id === project()?.id) {
           <div class="task">
-            <app-tasks [task]="task"></app-tasks>
+            <app-tasks [denyChangingTask]="true" [task]="task"></app-tasks>
           </div>
         }
       }
