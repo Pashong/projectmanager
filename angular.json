@@ -48,7 +48,7 @@
             },
             "development": {
               "fileReplacements": [{
-                "replace": "src/environments/environment.ts",
+                "replace": "src/environments/environments.ts",
                 "with": "src/environments/environment.development.ts"
               }],
               "optimization": false,

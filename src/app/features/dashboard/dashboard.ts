@@ -67,7 +67,6 @@ export class Dashboard {
   }
 
   setTaskListLength(length: number){
-    console.log(length);
     this.taskListLength = length;
   }
 }

@@ -73,7 +73,6 @@ export class Projects {
 
   searchProject() {
     this.searchInput.set(this.searchInputValue);
-    console.log(this.searchInputValue);
   }
 
   sortProjectsBy(value: string) {
