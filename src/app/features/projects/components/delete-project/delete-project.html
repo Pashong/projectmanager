@@ -1,0 +1,30 @@
+<button (click)="openDeleteConfimration()" class="delete-btn">
+  <i class="fa-solid fa-trash-can"></i>
+</button>
+
+@if (deleteConfirmation()) {
+  <div class="overlay">
+    <div class="update-wrapper">
+      <h2 class="closed">Delete</h2>
+      <span>Are you sure you want to delete</span>
+      <h3>{{ project()?.title }}</h3>
+
+      <div class="delete-btn-wrapper">
+        <button
+          id="cancel"
+          class="btn-fill"
+          (click)="deleteConfirmation.set(false)"
+        >
+          Cancel
+        </button>
+        <button
+          id="delete"
+          class="btn-fill"
+          (click)="deleteProject(project()!)"
+        >
+          Yes! <i class="fa-solid fa-trash-can"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+}
