@@ -28,7 +28,15 @@
               @for (task of tasks(); track task.id) {
                 @if (task.status === status) {
                   <div class="task">
-                    <app-tasks [task]="task"></app-tasks>
+                    <app-tasks
+                      cdkDrag
+                      [cdkDragData]="task"
+                      [cdkDragStartDelay]="{ touch: 1500, mouse: 0 }"
+                      [class.is-dragging]="dragStarted"
+                      (cdkDragStarted)="dragStarted = true"
+                      (cdkDragEnded)="dragStarted = false"
+                      [task]="task"
+                    ></app-tasks>
                   </div>
                 }
               }

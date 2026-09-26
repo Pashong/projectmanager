@@ -22,6 +22,7 @@ import { ProjectComponent } from '../../components/project-component/project-com
     Tasks,
     CdkDropList,
     CdkDropListGroup,
+    CdkDrag
 ],
   templateUrl: './project.html',
   styleUrl: './project.scss',
@@ -29,6 +30,7 @@ import { ProjectComponent } from '../../components/project-component/project-com
 export class Project {
   private projectService = inject(ProjectsService);
   private tasksService = inject(TaskService);
+  dragStarted = false;
   route = inject(ActivatedRoute);
   taskStatus = this.tasksService.taskStatus;
 

@@ -296,6 +296,13 @@ main {
     }
 }
 
+.cdk-drag {
+    cursor: grab;
+    background: color-mix(in srgb, var(--text-muted) 30%, transparent);
+    transition: all 0.5ms ease-in;
+    border-radius: 12px;
+}
+
 .status,
 .deadline,
 .members-wrapper {

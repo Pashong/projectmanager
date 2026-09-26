@@ -1,15 +1,12 @@
 <div class="task-heading">
   <div
     class="task-title-wrapper"
-    cdkDrag
-    [cdkDragData]="task()"
     (click)="openTaskDetails(task())"
   >
     <div class="task-title">
       <h4>{{ task().title }}</h4>
       @if (!denyChangingTask()) {
         <app-open-update-task
-          cdkDragDisabled
           [currentProject]="project()!"
           [currentTask]="task()"
         ></app-open-update-task>
@@ -33,7 +30,6 @@
     <div class="members-wrapper">
       <p>Members</p>
       <app-members
-        cdkDragDisabled
         (removeMember)="removeMemberFromTask($event, task().id)"
         [removeAvailable]="true"
         [members]="task().members"
